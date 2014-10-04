@@ -1,5 +1,6 @@
 package controller;
 
+import controller.TokenFinder.Type;
 import exceptions.ParsingException;
 
 public class Compiler {
@@ -8,11 +9,11 @@ public class Compiler {
    
 	
    
-    private String scanner(String inputBuffer) throws ParsingException {
+    private void scanner(String inputBuffer) throws ParsingException {
 	String[] inputSplit = inputBuffer.split(" ");
 	System.out.println(inputSplit[1]);
-	System.out.println(TokenFinder.tokenize(inputSplit)[1]);
-	return inputBuffer;
+	Type[] tokens=TokenFinder.tokenize(inputSplit);
+	
     }
 
 
