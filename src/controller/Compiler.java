@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import controller.TokenFinder.Type;
@@ -8,17 +10,42 @@ import exceptions.UnbalancedBracketsException;
 
 public class Compiler {
     private static Compiler myCompiler;
+    private List<SymbolTableEntry> symbolTable = new ArrayList<>();
 
     private void scanner(String inputBuffer) throws ParsingException {
 	String[] split = inputBuffer.split(" ");
 	Type[] tokens = TokenFinder.tokenize(split);
+	bracketPairCheck(tokens);
+	symbolTableGeneration(split, tokens);
 	for (int i = 0; i < tokens.length; i++) {
-	    System.out.print(split[i]);
+	    System.out.print(symbolTable.get(i).getType());
 	    System.out.print(" ");
-	    System.out.println(tokens[i]);
+	    System.out.print(symbolTable.get(i).getName());
+	    System.out.print(" ");
+	    System.out.println(symbolTable.get(i).getValue());
 
 	}
-	System.out.println(bracketPairCheck(tokens));
+    }
+
+    private void symbolTableGeneration(String[] split, Type[] tokens) {
+	SymbolTableEntry currentEntry = new SymbolTableEntry(tokens[0],
+		split[0], 0);
+	for (int i = 0; i < split.length; i++) {
+	    switch (tokens[i]) {
+	    case VARIABLE:
+		currentEntry = new SymbolTableEntry(tokens[i], split[i], 0);
+		symbolTable.add(currentEntry);
+		break;
+	    case CONSTANT:
+		currentEntry = new SymbolTableEntry(tokens[i], split[i],
+			Integer.parseInt(split[i]));
+		symbolTable.add(currentEntry);
+		break;
+	    default:
+		break;
+
+	    }
+	}
 
     }
 
@@ -32,7 +59,7 @@ public class Compiler {
 		brackets.push(Type.LIST_START);
 		break;
 	    case LIST_END:
-		if (brackets.peek()!=Type.LIST_START)
+		if (brackets.peek() != Type.LIST_START)
 		    throw new UnbalancedBracketsException();
 		brackets.pop();
 		break;
@@ -40,7 +67,7 @@ public class Compiler {
 		brackets.push(Type.PARENS_START);
 		break;
 	    case PARENS_END:
-		if (brackets.peek()!=Type.PARENS_START)
+		if (brackets.peek() != Type.PARENS_START)
 		    throw new UnbalancedBracketsException();
 		brackets.pop();
 		break;
@@ -53,8 +80,12 @@ public class Compiler {
 	throw new UnbalancedBracketsException();
     }
 
+    private void interpreter() {
+
+    }
+
     public static void main(String[] args) throws Exception {
-	String inputString = "fd 50 [ ( ) ( ) ]";
+	String inputString = ":t 50";
 	myCompiler = new Compiler();
 	myCompiler.scanner(inputString);
     }
