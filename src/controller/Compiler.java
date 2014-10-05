@@ -9,7 +9,10 @@ import exceptions.ParsingException;
 import exceptions.UnbalancedBracketsException;
 
 public class Compiler {
-    private static Compiler myCompiler;
+    public Compiler(){
+	
+    }
+    public static  Compiler myCompiler;
     private List<SymbolTableEntry> symbolTable = new ArrayList<>();
 
     private void scanner(String inputBuffer) throws ParsingException {
@@ -88,6 +91,11 @@ public class Compiler {
 	String inputString = ":t 50";
 	myCompiler = new Compiler();
 	myCompiler.scanner(inputString);
+    }
+
+    public Type[] compile(String input) {
+	// TODO Auto-generated method stub
+	return null;
     }
 
 }
