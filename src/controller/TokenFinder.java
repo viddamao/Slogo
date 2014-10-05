@@ -12,7 +12,7 @@ public class TokenFinder {
      *
      */
     public enum Type {
-	CONSTANT, VARIABLE, COMMAND, LIST, LIST_START, LIST_END, PARENS, PARENS_START, PARENS_END, NOT_RECOGNIZED
+	CONSTANT, VARIABLE, COMMAND, LIST_START, LIST_END, PARENS_START, PARENS_END, NOT_RECOGNIZED
     }
 
     /**
@@ -30,14 +30,10 @@ public class TokenFinder {
 	    return Type.VARIABLE;
 	if (s.matches(regExProperties.getString("COMMAND")))
 	    return Type.COMMAND;
-	if (s.matches(regExProperties.getString("LIST")))
-	    return Type.LIST;
 	if (s.matches(regExProperties.getString("LIST_END")))
 	    return Type.LIST_END;
 	if (s.matches(regExProperties.getString("LIST_START")))
 	    return Type.LIST_START;
-	if (s.matches(regExProperties.getString("PARENS")))
-	    return Type.PARENS;
 	if (s.matches(regExProperties.getString("PARENS_START")))
 	    return Type.PARENS_START;
 	if (s.matches(regExProperties.getString("PARENS_END")))
