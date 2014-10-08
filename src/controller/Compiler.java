@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import simulationObjects.Turtle;
 import commands.Command;
-
 import controller.TokenFinder.Type;
 import exceptions.ParsingException;
 import exceptions.UnbalancedBracketsException;
@@ -89,7 +89,7 @@ public class Compiler {
     }
 
     private void interpreter() {
-
+    	
     }
 
     public static void main(String[] args) throws Exception {
@@ -99,8 +99,16 @@ public class Compiler {
     }
 
     public ArrayList<Command> compile(String input) {
-	// TODO Auto-generated method stub
-	return null;
+    	//"add 20;"
+    	final int val = 20;
+    	ArrayList<Command> ret = new ArrayList<Command>();
+    	ret.add(new Command() {
+			@Override
+			public void apply(Turtle turtle) {
+				turtle.setPos(turtle.getPos().getX()+val, turtle.getPos().getY());
+			}
+    	});
+    	return ret;
     }
 
 }
