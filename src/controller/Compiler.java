@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import commands.Command;
+
 import controller.TokenFinder.Type;
 import exceptions.ParsingException;
 import exceptions.UnbalancedBracketsException;
@@ -96,7 +98,7 @@ public class Compiler {
 	myCompiler.scanner(inputString);
     }
 
-    public Type[] compile(String input) {
+    public ArrayList<Command> compile(String input) {
 	// TODO Auto-generated method stub
 	return null;
     }
