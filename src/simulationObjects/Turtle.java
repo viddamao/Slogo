@@ -3,15 +3,9 @@ package simulationObjects;
 import simulationObjects.Point;
 
 public class Turtle {
-    public static final double DEFAULT_X = 0;
-    public static final double DEFAULT_Y = 0;
-    public static final double DEFAULT_ROT = 90;
-    public static final boolean DEFAULT_VIS = true;
-
-    private double x;
-    private double y;
-    private double rotation;
-    private boolean visible;
+    private Point position = new Point();
+    private double rotation = 90.0;
+    private boolean visible = true;
     
     /**
      * Constructor
@@ -25,7 +19,9 @@ public class Turtle {
      * @param turtle	a Turtle object whose data will be copied to the new Turtle instance.
      */
     public Turtle(Turtle turtle) {
-    	//TODO: Clone me plz.
+    	this.position = turtle.getPosition();
+    	this.rotation = turtle.getRotation();
+    	this.visible = turtle.isVisible();
     }
 
     /**
@@ -33,9 +29,18 @@ public class Turtle {
      * @param x		a double representing the x-coordinate of the turtle
      * @param y		a double representing the y-coordinate of the turtle
      */
-    public void setPos(double x, double y) {
-    	this.x = x;
-		this.y = y;
+    public void setPosition(double x, double y) {
+    	this.position.x = x;
+		this.position.y = y;
+    }
+    
+    /**
+     * Set the position within an x, y coordinate system.
+     * @param position		a Point object representing the position of the turtle
+     * @see		Point
+     */
+    public void setPosition(Point position) {
+    	this.position = position;
     }
 
     /**
@@ -43,8 +48,8 @@ public class Turtle {
      * @return Point 	the turtle location within the x, y coordinate system
      * @see		Point
      */
-    public Point getPos() {
-    	return new Point(x, y);
+    public Point getPosition() {
+    	return position;
     }
 
     /**
