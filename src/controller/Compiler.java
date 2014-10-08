@@ -9,10 +9,11 @@ import exceptions.ParsingException;
 import exceptions.UnbalancedBracketsException;
 
 public class Compiler {
-    public Compiler(){
-	
+    public Compiler() {
+
     }
-    public static  Compiler myCompiler;
+
+    public static Compiler myCompiler;
     private List<SymbolTableEntry> symbolTable = new ArrayList<>();
 
     private void scanner(String inputBuffer) throws ParsingException {
@@ -31,23 +32,25 @@ public class Compiler {
     }
 
     private void symbolTableGeneration(String[] split, Type[] tokens) {
-	SymbolTableEntry currentEntry = new SymbolTableEntry(tokens[0],
-		split[0], 0);
 	for (int i = 0; i < split.length; i++) {
+	    SymbolTableEntry currentEntry = new SymbolTableEntry();
+	    currentEntry.setType(tokens[i]);
+	    currentEntry.setName(split[i]);
+
 	    switch (tokens[i]) {
 	    case VARIABLE:
-		currentEntry = new SymbolTableEntry(tokens[i], split[i], 0);
-		symbolTable.add(currentEntry);
+		currentEntry.setValue(0);
 		break;
 	    case CONSTANT:
-		currentEntry = new SymbolTableEntry(tokens[i], split[i],
-			Integer.parseInt(split[i]));
-		symbolTable.add(currentEntry);
+		currentEntry.setValue(Double.parseDouble(split[i]));
 		break;
 	    default:
 		break;
 
 	    }
+
+	    symbolTable.add(currentEntry);
+
 	}
 
     }

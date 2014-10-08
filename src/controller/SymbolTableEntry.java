@@ -7,15 +7,7 @@ import controller.TokenFinder.Type;
 class SymbolTableEntry {
     private Type myType;
     private String myName;
-    private int myValue;
-
-    @SuppressWarnings("unused")
-    public SymbolTableEntry(Type type, String name, int value) {
-	Type myType = type;
-	String myName = name;
-	int myValue = value;
-	Stack<String> i;
-    }
+    private double myValue;
 
     void setType(Type type) {
 	this.myType = type;
@@ -25,7 +17,7 @@ class SymbolTableEntry {
 	this.myName = name;
     }
 
-    public void setValue(int value) {
+    public void setValue(double value) {
 	this.myValue = value;
     }
 
@@ -37,7 +29,7 @@ class SymbolTableEntry {
 	return this.myName;
     }
 
-    public int getValue() {
+    public double getValue() {
 	return this.myValue;
     }
 
