@@ -75,5 +75,9 @@ public class Turtle {
     public void setVisible(boolean visible) {
 	this.visible = visible;
     }
-
+    
+    public Turtle clone() {
+    	//TODO: Clone me plz.
+		return null;
+    }
 }
