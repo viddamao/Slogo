@@ -1,7 +1,5 @@
 package commands;
 
-import simulationObjects.Turtle;
-
-public interface Command {
-	public void apply(Turtle turtle);
+public interface Command<Params, Result> {
+	public Result run(Params params);
 }
