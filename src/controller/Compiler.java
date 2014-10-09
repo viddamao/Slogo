@@ -101,18 +101,20 @@ public class Compiler {
 	myCompiler.scanner(inputString);
     }
 
-    public ArrayList<Command> compile(String input) throws ParsingException {
+    public ArrayList<Command<Turtle, Void>> compile(String input) throws ParsingException {
 	
 	interpreter(scanner(input),input);
     	//"add 20;"
     	final int val = 20;
-    	ArrayList<Command> ret = new ArrayList<Command>();
-    	ret.add(new Command() {
+    	ArrayList<Command<Turtle, Void>> ret = new ArrayList<Command<Turtle, Void>>();
+    	Command<Turtle, Void> c = new Command<Turtle, Void>() {
 			@Override
-			public void apply(Turtle turtle) {
-				turtle.setPos(turtle.getPos().getX()+val, turtle.getPos().getY());
+			public Void run(Turtle turtle) {
+				turtle.setPosition(turtle.getPosition().x+val, turtle.getPosition().y);
+				return null;
 			}
-    	});
+    	};
+    	ret.add(c);
     	return ret;
     }
 
