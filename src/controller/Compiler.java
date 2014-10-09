@@ -18,7 +18,7 @@ public class Compiler {
     public static Compiler myCompiler;
     private List<SymbolTableEntry> symbolTable = new ArrayList<>();
 
-    private void scanner(String inputBuffer) throws ParsingException {
+    private Type[] scanner(String inputBuffer) throws ParsingException {
 	String[] split = inputBuffer.split(" ");
 	Type[] tokens = TokenFinder.tokenize(split);
 	bracketPairCheck(tokens);
@@ -31,6 +31,8 @@ public class Compiler {
 	    System.out.println(symbolTable.get(i).getValue());
 
 	}
+	
+	return tokens;
     }
 
     private void symbolTableGeneration(String[] split, Type[] tokens) {
@@ -88,8 +90,9 @@ public class Compiler {
 	throw new UnbalancedBracketsException();
     }
 
-    private void interpreter() {
+    private void interpreter(Type[] types, String input) throws ParsingException{
     	
+	
     }
 
     public static void main(String[] args) throws Exception {
@@ -98,7 +101,9 @@ public class Compiler {
 	myCompiler.scanner(inputString);
     }
 
-    public ArrayList<Command> compile(String input) {
+    public ArrayList<Command> compile(String input) throws ParsingException {
+	
+	interpreter(scanner(input),input);
     	//"add 20;"
     	final int val = 20;
     	ArrayList<Command> ret = new ArrayList<Command>();
