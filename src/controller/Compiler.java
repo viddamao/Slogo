@@ -101,11 +101,13 @@ public class Compiler {
 	myCompiler.scanner(inputString);
     }
 
+
     public ArrayList<Command<Turtle, Void>> compile(String input) throws ParsingException {
-	
+
 	interpreter(scanner(input),input);
     	//"add 20;"
     	final int val = 20;
+
     	ArrayList<Command<Turtle, Void>> ret = new ArrayList<Command<Turtle, Void>>();
     	Command<Turtle, Void> c = new Command<Turtle, Void>() {
 			@Override
@@ -115,6 +117,7 @@ public class Compiler {
 			}
     	};
     	ret.add(c);
+
     	return ret;
     }
 

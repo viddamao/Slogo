@@ -13,18 +13,22 @@ public class MainController {
 	private Compiler compiler = new Compiler();
 	private Turtle turtle = new Turtle();
 	private ArrayList<String> history = new ArrayList<String>();
+
 	private Map<String, ArrayList<Command<Turtle, Void>>> cache = new HashMap<String, ArrayList<Command<Turtle, Void>>>();
+
 	
     public void passInput(String input) throws ParsingException,
 	    UnbalancedBracketsException {
     	history.add(input);
     	ArrayList<Command<Turtle, Void>> commands;
+
     	if(cache.containsKey(input)) {
     		commands = cache.get(input);
     	} else {
     		commands = compiler.compile(input);
         	cache.put(input, commands);
     	}
+
     	for(Command<Turtle, Void> c : commands) {
     		c.run(turtle);
     	}
