@@ -1,24 +1,61 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
+import simulationObjects.Turtle;
+import commands.Command;
 import controller.TokenFinder.Type;
 import exceptions.ParsingException;
 import exceptions.UnbalancedBracketsException;
 
 public class Compiler {
-    private static Compiler myCompiler;
+    public Compiler() {
 
-    private void scanner(String inputBuffer) throws ParsingException {
+    }
+
+    public static Compiler myCompiler;
+    private List<SymbolTableEntry> symbolTable = new ArrayList<>();
+
+    private Type[] scanner(String inputBuffer) throws ParsingException {
 	String[] split = inputBuffer.split(" ");
 	Type[] tokens = TokenFinder.tokenize(split);
+	bracketPairCheck(tokens);
+	symbolTableGeneration(split, tokens);
 	for (int i = 0; i < tokens.length; i++) {
-	    System.out.print(split[i]);
+	    System.out.print(symbolTable.get(i).getType());
 	    System.out.print(" ");
-	    System.out.println(tokens[i]);
+	    System.out.print(symbolTable.get(i).getName());
+	    System.out.print(" ");
+	    System.out.println(symbolTable.get(i).getValue());
 
 	}
-	System.out.println(bracketPairCheck(tokens));
+	
+	return tokens;
+    }
+
+    private void symbolTableGeneration(String[] split, Type[] tokens) {
+	for (int i = 0; i < split.length; i++) {
+	    SymbolTableEntry currentEntry = new SymbolTableEntry();
+	    currentEntry.setType(tokens[i]);
+	    currentEntry.setName(split[i]);
+
+	    switch (tokens[i]) {
+	    case VARIABLE:
+		currentEntry.setValue(0);
+		break;
+	    case CONSTANT:
+		currentEntry.setValue(Double.parseDouble(split[i]));
+		break;
+	    default:
+		break;
+
+	    }
+
+	    symbolTable.add(currentEntry);
+
+	}
 
     }
 
@@ -32,7 +69,7 @@ public class Compiler {
 		brackets.push(Type.LIST_START);
 		break;
 	    case LIST_END:
-		if (brackets.peek()!=Type.LIST_START)
+		if (brackets.peek() != Type.LIST_START)
 		    throw new UnbalancedBracketsException();
 		brackets.pop();
 		break;
@@ -40,7 +77,7 @@ public class Compiler {
 		brackets.push(Type.PARENS_START);
 		break;
 	    case PARENS_END:
-		if (brackets.peek()!=Type.PARENS_START)
+		if (brackets.peek() != Type.PARENS_START)
 		    throw new UnbalancedBracketsException();
 		brackets.pop();
 		break;
@@ -53,10 +90,30 @@ public class Compiler {
 	throw new UnbalancedBracketsException();
     }
 
+    private void interpreter(Type[] types, String input) throws ParsingException{
+    	
+	
+    }
+
     public static void main(String[] args) throws Exception {
-	String inputString = "fd 50 [ ( ) ( ) ]";
+	String inputString = ":t 50";
 	myCompiler = new Compiler();
 	myCompiler.scanner(inputString);
+    }
+
+    public ArrayList<Command> compile(String input) throws ParsingException {
+	
+	interpreter(scanner(input),input);
+    	//"add 20;"
+    	final int val = 20;
+    	ArrayList<Command> ret = new ArrayList<Command>();
+    	ret.add(new Command() {
+			@Override
+			public void apply(Turtle turtle) {
+				turtle.setPos(turtle.getPos().getX()+val, turtle.getPos().getY());
+			}
+    	});
+    	return ret;
     }
 
 }
