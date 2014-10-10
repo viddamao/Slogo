@@ -33,7 +33,7 @@ public class GUIScene {
 	
 	public void createScene(Stage s){
 		Scene slogo = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT, Color.AQUA);
-		s.setTitle("SLogo");
+		s.setTitle("SLogo Team 05");
 		s.setScene(slogo);
 		s.show();
 		layout.setTop(getTopToolBar());
@@ -93,6 +93,9 @@ public class GUIScene {
 		return flow;
 	}
 	
+	//TODO I think instead of the getCommand you may need a keyListener 
+	//     such that when you hit enter you pass the commands in the text box
+	//     to MainController	
 	public String getCommand(){	
 		return "";
 	}

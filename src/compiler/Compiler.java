@@ -34,12 +34,9 @@ public class Compiler {
 	System.out.println(tokens.length);
 	for (int i = 0; i < tokens.length; i++) {
 	    if (tokens[i] == Type.CONSTANT)
-		inputBuffer.replaceFirst(split[i],"CONSTANT");
+		inputBuffer=inputBuffer.replaceFirst(split[i],"CONSTANT");
 	    if (tokens[i] == Type.VARIABLE)
-		inputBuffer.replaceFirst(split[i],"VARIABLE");
-	    System.out.println(split[i]);
-	    System.out.println(tokens[i]);
-	    System.out.println(inputBuffer);
+		inputBuffer=inputBuffer.replaceFirst(split[i],"VARIABLE");
 	}
 
 	return inputBuffer;
@@ -190,7 +187,7 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "FD 50";
+	String inputString = "REPEAT 10 [ FD 50 ]";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
