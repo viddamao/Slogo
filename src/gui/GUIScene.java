@@ -22,7 +22,7 @@ public class GUIScene {
 	/**
 	 * Application scene is managed in this class
 	 * @author Steven Pierre
-	 *
+	 * @author Kevin Rhine
 	 */
 	private Text statusText = new Text();
 	public static double SCENE_WIDTH = 1280;
@@ -82,14 +82,52 @@ public class GUIScene {
 		flow.setHgap(4);
 		flow.setPrefWrapLength(WRAP_LENGTH);
 		flow.setStyle("-fx-background-color: DAE6F3");
-		Button color = new Button("color");
+		
+		Button color = new Button("Colors");
+		color.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle (ActionEvent event) {
+				Buttons.changeColor();
+			}
+		});
+		
 		Button gridT = new Button("Grid Toggle");
-		Button turtle= new Button("Turtle Toggle");
-		Button turtim= new Button("Turtle image");
+		gridT.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle (ActionEvent event) {
+				Buttons.gridToggle();
+			}
+		});
+		
+		Button turtleVisibility= new Button("Turtle Toggle");
+		turtleVisibility.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle (ActionEvent event) {
+				Buttons.turtleToggle();
+			}
+		});
+		
+		Button turtleImg= new Button("Choose Turtle Image");
+		turtleImg.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle (ActionEvent event) {
+				Buttons.changeImage();
+			}
+		});
+		
+		Button language= new Button("Choose SLogo Language");
+		language.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle (ActionEvent event) {
+				Buttons.changeLang();
+			}
+		});
+		
 		flow.getChildren().add(color);
 		flow.getChildren().add(gridT);
-		flow.getChildren().add(turtle);
-		flow.getChildren().add(turtim);
+		flow.getChildren().add(turtleVisibility);
+		flow.getChildren().add(turtleImg);
+		flow.getChildren().add(language);
 		return flow;
 	}
 	

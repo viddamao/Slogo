@@ -1,17 +1,21 @@
 package simulationObjects;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import simulationObjects.Point;
 
 public class Turtle {
     private Point position = new Point();
     private double rotation = 90.0;
     private boolean visible = true;
+    private Image myImage = new Image(getClass().getResourceAsStream("properties/turtle.png"), 100, 80, false, true);
+    private ImageView turtImg = new ImageView();
     
     /**
      * Constructor
      */
     public Turtle() {
-    	
+    	turtImg.setImage(myImage);
     }
     
     /**
@@ -22,6 +26,7 @@ public class Turtle {
     	this.position = turtle.getPosition();
     	this.rotation = turtle.getRotation();
     	this.visible = turtle.isVisible();
+    	turtImg.setImage(myImage);
     }
 
     /**
@@ -88,5 +93,9 @@ public class Turtle {
      */
     public void setVisible(boolean visible) {
     	this.visible = visible;
+    }
+    
+    public void changeImage(Image img){
+    	myImage = img;
     }
 }
