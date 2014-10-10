@@ -32,7 +32,7 @@ public class GUIScene {
 	 *
 	 */
 	private Text statusText = new Text();
-	
+	protected String userCommand = new String();
 	public static double SCENE_WIDTH = 1280;
     public static double SCENE_HEIGHT = 720;
     public static double WRAP_LENGTH = 150;
@@ -50,7 +50,6 @@ public class GUIScene {
 		layout.setLeft(addButtons());
 		layout.setCenter(addGrid());
 	}
-	
 	public GridPane getRightBox(){
 		GridPane bottom = new GridPane();
 		HBox statusBar = new HBox();
@@ -64,20 +63,32 @@ public class GUIScene {
         input.setPrefWidth(200);
         input.setPrefHeight((int)SCENE_HEIGHT/2);
         input.setStyle("-fx-background-color: DarkBlue");
+        GridPane userInput = new GridPane();
+        Button enter = new Button("Enter", input);
+        enter.setOnAction(new EventHandler<ActionEvent>(){
+        	public void handle(ActionEvent e){
+        		userCommand = input.getText();
+        		input.clear();
+        		statusText.setText(userCommand);
+        		System.out.println(userCommand);
+        	}
+        });
+        userInput.add(input, 0,0);
+        userInput.add(enter, 1,0);
         
-        bottom.add(input, 0, 0);
+        bottom.add(userInput, 0, 0);
         bottom.add(statusBar, 0, 1);
         bottom.setStyle("-fx-background-color: AQUA");
+        bottom.setPrefWidth(userInput.getWidth());
         
         return bottom;
 	}
-	
 	public ToolBar getTopToolBar(){
 		Button load = new Button("For future use");
         load.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle (ActionEvent event) {
-                System.out.println("Making progress");
+                
             }
         });
         ToolBar topToolBar = new ToolBar(load);
@@ -85,7 +96,6 @@ public class GUIScene {
         topToolBar.setStyle("-fx-background-color: Black");
         return topToolBar;
 	}
-	
 	public GridPane addGrid(){
 		GridPane playground = new GridPane();
 		playground.setGridLinesVisible(true);
@@ -102,15 +112,39 @@ public class GUIScene {
 		
 		ImageView col= new ImageView(setImage(new FileInputStream(new File("src/images/BackgroundColor.png"))));
 		Button color = new Button("color", col);
+		color.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle (ActionEvent event) {
+            	statusText.setText("Changing background color");
+            }
+        });
 		
 		ImageView gdt= new ImageView(setImage(new FileInputStream(new File("src/images/Grid.png"))));
 		Button gridT = new Button("Grid Toggle", gdt);
+		gridT.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle (ActionEvent event) {
+            	statusText.setText("Showing grid in simulation");
+            }
+        });
 	
 		ImageView ttle= new ImageView(setImage(new FileInputStream(new File("src/images/Leonardo.png"))));
 		Button turtle= new Button("Turtle Toggle", ttle);
+		turtle.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle (ActionEvent event) {
+                statusText.setText("Toggling turtle in simulation");
+            }
+        });
 		
 		ImageView ttm= new ImageView(setImage(new FileInputStream(new File("src/images/Raphael.png"))));
 		Button turtim= new Button("Turtle image", ttm);
+		turtim.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle (ActionEvent event) {
+                statusText.setText("Changing turtle image");
+            }
+        });
 	
 		flow.getChildren().add(color);
 		flow.getChildren().add(gridT);
@@ -118,8 +152,6 @@ public class GUIScene {
 		flow.getChildren().add(turtim);
 		return flow;
 	}
-	
-
 	public Image setImage(FileInputStream input){	
 		return new Image(input, WRAP_LENGTH, WRAP_HEIGHT, true, true);
 	}
