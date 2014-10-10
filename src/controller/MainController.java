@@ -6,6 +6,7 @@ import java.util.Map;
 
 import simulationObjects.Turtle;
 import commands.Command;
+import compiler.Compiler;
 import exceptions.ParsingException;
 import exceptions.UnbalancedBracketsException;
 

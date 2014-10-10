@@ -1,8 +1,8 @@
-package controller;
+package compiler;
 
 import java.util.Stack;
 
-import controller.TokenFinder.Type;
+import compiler.TokenFinder.Type;
 
 class SymbolTableEntry {
     private Type myType;

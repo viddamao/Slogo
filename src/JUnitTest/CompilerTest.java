@@ -1,12 +1,13 @@
 package JUnitTest;
 
 import static org.junit.Assert.assertEquals;
-import controller.Compiler;
-import controller.TokenFinder.Type;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import compiler.Compiler;
+import compiler.TokenFinder.Type;
 
 public class CompilerTest {
 

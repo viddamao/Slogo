@@ -1,4 +1,4 @@
-package controller;
+package compiler;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
