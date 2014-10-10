@@ -2,11 +2,14 @@ package compiler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 import simulationObjects.Turtle;
 import commands.Command;
+import compiler.AST.Node;
 import compiler.TokenFinder.Type;
 import exceptions.ParsingException;
 import exceptions.SyntaxErrorException;
@@ -21,15 +24,22 @@ public class Compiler {
     public ArrayList<HashMap<String, String>> move = new ArrayList<>();
     public ArrayList<HashMap<String, Integer>> nextState = new ArrayList<>();
     private List<SymbolTableEntry> symbolTable = new ArrayList<>();
+    private Queue<Node> syntaxTree = new LinkedList<Node>();
     Stack<Integer> state = new Stack<Integer>();
     Stack<String> symbol = new Stack<String>();
     private String[] lhs;
     private int[] rhs;
 
+    
+    /**
+     * 
+     * @param inputBuffer
+     * @return
+     * @throws ParsingException
+     */
     private String scanner(String inputBuffer) throws ParsingException {
 	String[] split = inputBuffer.split(" ");
 	Type[] tokens = TokenFinder.tokenize(split);
-	bracketPairCheck(tokens);
 	symbolTableGeneration(split, tokens);
 	System.out.println(tokens.length);
 	for (int i = 0; i < tokens.length; i++) {
@@ -42,6 +52,14 @@ public class Compiler {
 	return inputBuffer;
     }
 
+    
+    /**
+     * 
+     * 
+     * 
+     * @param split
+     * @param tokens
+     */
     private void symbolTableGeneration(String[] split, Type[] tokens) {
 	for (int i = 0; i < split.length; i++) {
 	    SymbolTableEntry currentEntry = new SymbolTableEntry();
@@ -66,37 +84,16 @@ public class Compiler {
 
     }
 
-    private boolean bracketPairCheck(Type[] tokens)
-	    throws UnbalancedBracketsException {
-
-	Stack<Type> brackets = new Stack<>();
-	for (int i = 0; i < tokens.length; i++) {
-	    switch (tokens[i]) {
-	    case LIST_START:
-		brackets.push(Type.LIST_START);
-		break;
-	    case LIST_END:
-		if (brackets.peek() != Type.LIST_START)
-		    throw new UnbalancedBracketsException();
-		brackets.pop();
-		break;
-	    case PARENS_START:
-		brackets.push(Type.PARENS_START);
-		break;
-	    case PARENS_END:
-		if (brackets.peek() != Type.PARENS_START)
-		    throw new UnbalancedBracketsException();
-		brackets.pop();
-		break;
-	    default:
-	    }
-
-	}
-	if (brackets.isEmpty())
-	    return true;
-	throw new UnbalancedBracketsException();
-    }
-
+    
+   
+    /**
+     * 
+     * Use the modified inputBuffer to construct a derivation list to get the program
+     * 
+     * @param   String modified inputBuffer
+     * @return	Stack<Integer> derivation Rules
+     * @throws ParsingException
+     */
     private Stack<Integer> interpreter(String input) throws ParsingException {
 	try {
 	    Stack<Integer> sequence = new Stack<Integer>();
@@ -187,11 +184,16 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "REPEAT 10 [ FD 50 ]";
+	String inputString = "FD 50 LT 90";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
 
+    
+    /**
+     * 
+     * initilize tables needed for parsing
+     */
     private void initialize() {
 
 	myParseTable.initializeTable();
@@ -199,16 +201,29 @@ public class Compiler {
 	nextState = myParseTable.getNextState();
 	lhs = myParseTable.getLHS();
 	rhs = myParseTable.getRHS();
-	for (int i = 0; i < 60; i++) {
-
-	}
 
     }
 
+    
+    private void generateAST(Stack<Integer> sequence){
+	
+	
+    }
+    
+    /**
+     * 
+     * take the input passed from MainController
+     * and compile the input program
+     * 
+     * 
+     * @param input
+     * @return
+     * @throws ParsingException
+     */
     public ArrayList<Command<Turtle, Void>> compile(String input)
 	    throws ParsingException {
 	initialize();
-	interpreter(scanner(input));
+	generateAST(interpreter(scanner(input)));
 	// "add 20;"
 	final int val = 20;
 
