@@ -23,8 +23,8 @@ public class Compiler {
     @SuppressWarnings("rawtypes")
     public ArrayList<HashMap> nextState = new ArrayList<HashMap>();
     private List<SymbolTableEntry> symbolTable = new ArrayList<>();
-    @SuppressWarnings("unused")
-    private String currentline = "", variable = "";
+    Stack<Integer> state = new Stack<Integer>();
+    Stack<String> symbol = new Stack<String>();
     private String[] lhs;
     private int[] rhs;
 
@@ -33,14 +33,14 @@ public class Compiler {
 	Type[] tokens = TokenFinder.tokenize(split);
 	bracketPairCheck(tokens);
 	symbolTableGeneration(split, tokens);
-	for (int i = 0; i < tokens.length; i++) {
+	/*for (int i = 0; i < tokens.length; i++) {
 	    System.out.print(symbolTable.get(i).getType());
 	    System.out.print(" ");
 	    System.out.print(symbolTable.get(i).getName());
 	    System.out.print(" ");
 	    System.out.println(symbolTable.get(i).getValue());
 
-	}
+	}*/
 
 	return tokens;
     }
@@ -101,20 +101,16 @@ public class Compiler {
     }
 
 
-    @SuppressWarnings("static-access")
+   
     private Stack<Integer> interpreter(String input) throws ParsingException {
-
+	try{
 	Stack<Integer> sequence = new Stack<Integer>();
 	String lookahead = "", temp = "", program=input;
 	int currentstate = 0, temp1 = 0;
 	program = program.concat("$");
 	lookahead = program.split(" ")[0];
 	program = program.substring(program.indexOf(" ")+1);
-	move = myParseTable.myOperation;
-	nextState=myParseTable.nextState;
 	
-	Stack<Integer> state = new Stack<Integer>();
-	Stack<String> symbol = new Stack<String>();
 	state.push(0);
 	while (!program.equals("")) {
 
@@ -130,6 +126,7 @@ public class Compiler {
 
 	    }
 
+	   
 	    currentstate = state.peek();
 	    if (move.get(currentstate).get(lookahead).equals("r")) {
 		int i = 0;
@@ -162,7 +159,7 @@ public class Compiler {
 
 	    currentstate = state.peek();
 	    if (move.get(currentstate).get(lookahead).equals("a")) {
-		// System.out.println("ACCEPT");
+		System.out.println("ACCEPT");
 		return sequence;
 	    }
 
@@ -170,21 +167,30 @@ public class Compiler {
 	    if (move.get(currentstate).get(lookahead).equals("x")) {
 		throw new SyntaxErrorException();
 	    }
-
+	    
 	}
 	return null;
-
+	}
+	catch (NullPointerException e){
+	  System.out.println(state);  
+	}
+	return null;
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "fd 50";
+	String inputString = "FD 50";
 	Compiler myCompiler=new Compiler();
 	myCompiler.compile(inputString);
     }
 
+  
     private void initialize() {
 	
 	myParseTable.initializeTable();
+	move = myParseTable.getOperation();
+	nextState=myParseTable.getNextState();
+	lhs=myParseTable.getLHS();
+	rhs=myParseTable.getRHS();	
 	for (int i=0;i<60;i++){
 	    
 	}

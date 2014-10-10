@@ -9,33 +9,47 @@ import java.util.HashMap;
 
 public class ParseTable {
     @SuppressWarnings("rawtypes")
-    public static ArrayList<HashMap> myOperation = new ArrayList<>();
+    private static ArrayList<HashMap> myOperation = new ArrayList<>();
     @SuppressWarnings("rawtypes")
-    public static ArrayList<HashMap> nextState = new ArrayList<>();
+    private static ArrayList<HashMap> nextState = new ArrayList<>();
     private static String[] key=new String[64];
+    private String[] myLHS = new String[61];
+    private int[] myRHS = new int[61];
 
     @SuppressWarnings({ "resource" })
-    public static void initializeTable() {
+    public void initializeTable() {
 	try {
 	    BufferedReader in = new BufferedReader(new FileReader(
 		    ".\\src\\properties\\parse_table_keys.txt"));
-	    for (int i=0;i<63;i++)
+	    for (int i=0;i<61;i++)
 		key[i]=in.readLine();
 	    
+	    in = new BufferedReader(new FileReader(
+		    ".\\src\\properties\\LHS.txt"));
+	    for (int i=0;i<61;i++)
+		myLHS[i]=in.readLine();
+		
 	    
+	    in = new BufferedReader(new FileReader(
+		    ".\\src\\properties\\RHS.txt"));
+	    for (int i=0;i<61;i++)
+		myRHS[i]=Integer.parseInt(in.readLine());
+		
 	    in = new BufferedReader(new FileReader(
 		    ".\\src\\properties\\parse_table.txt"));
 	    String currentNode = "";
 	    for (int i = 0; i < 137; i++) {
 		String inputBuffer = in.readLine();
 		String[] currentLine = inputBuffer.split(" ");
+
 		HashMap<String, String> opTemp=new HashMap<>();
 		HashMap<String, Integer> nextTemp=new HashMap<>();
-		
+		String currentOp ="";
+		int currentNext=0;
 		
 		for (int j = 0; j < 63; j++) {
 		    currentNode = currentLine[j];
-		    opTemp.put(key[i], currentNode.substring(0, 1));
+		    currentOp = currentNode.substring(0, 1);
 		   
 
 		    switch (currentNode.charAt(0)) {
@@ -48,18 +62,21 @@ public class ParseTable {
 		    case 's':
 
 		    case 'r':
-			nextTemp.put(key[i], Integer.parseInt(currentNode
-				.substring(1)));
+			currentNext=Integer.parseInt(currentNode
+				.substring(1));
 
 			break;
 		    default:
-			nextTemp.put(key[i], Integer.parseInt(currentNode
-				.substring(1)));
-			opTemp.remove(key[i]);
-			opTemp.put(key[i], "g");
+			currentNext=Integer.parseInt(currentNode);
+			currentOp= "g";
 
 		    }
+		    opTemp.put(key[j],currentOp);
+		    nextTemp.put(key[j], currentNext);
 		}
+		myOperation.add(opTemp);
+		nextState.add(nextTemp);
+		
 	    }
 
 	} catch (FileNotFoundException e) {
@@ -68,6 +85,22 @@ public class ParseTable {
 	    System.out.println("Parse Table error");
 	}
 
+    }
+
+    public ArrayList<HashMap> getOperation() {
+	return myOperation;
+    }
+
+    public ArrayList<HashMap> getNextState() {
+	return nextState;
+    }
+
+    public String[] getLHS() {
+	return myLHS;
+    }
+
+    public int[] getRHS() {
+	return myRHS;
     }
 
 }
