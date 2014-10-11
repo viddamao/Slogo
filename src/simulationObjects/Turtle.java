@@ -8,7 +8,7 @@ public class Turtle {
     private Point position = new Point();
     private double rotation = 90.0;
     private boolean visible = true;
-    private Image myImage = new Image(getClass().getResourceAsStream("properties/turtle.png"), 100, 80, false, true);
+    private Image myImage = new Image(getClass().getResourceAsStream("images/turtle.png"), 100, 80, false, true);
     private ImageView turtImg = new ImageView();
     
     /**

@@ -1,11 +1,18 @@
 package gui;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+
+import simulationObjects.Turtle;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -38,11 +45,18 @@ public class Buttons {
 		
 	}
 
-	public static void changeImage() {
+	public static void changeImage(Turtle turtle) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG", "*.jpg"));
 		fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 		File file = fileChooser.showOpenDialog(new Stage());
+		try {
+            BufferedImage bufferedImage = ImageIO.read(file);
+            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+            turtle.changeImage(image);
+        } catch (IOException ex) {
+            
+        }
 		
 	}
 
