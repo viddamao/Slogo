@@ -1,5 +1,7 @@
 package compiler;
 
+import Node;
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -23,11 +25,19 @@ public class ASTGenerator {
 	    currentRule = sequence.pop();
 	    System.out.println(currentRule);
 	    switch (currentRule) {
-	    case 1:
+	    case 1:				//<Program>--><List>
+		
 		break;
-	    case 2:
+	    case 2:				//<List>--><Statement>
 		break;
-	    case 3:
+	    case 3:				//<List>-><List><Statement>
+		tempright = tempStack.pop();
+		templeft = tempStack.pop();
+		tempparent = new Node(0, 0, 0, 3, templeft, tempright, null);
+		templeft.parent = tempparent;
+		tempright.parent = tempparent;
+		tempStack.push(tempparent);
+
 		break;
 	    case 4:
 		break;
@@ -76,7 +86,7 @@ public class ASTGenerator {
 	    case 26:
 		break;
 	    case 27:
-
+		
 		break;
 	    case 28:
 		break;
