@@ -11,8 +11,8 @@ public class ParseTable {
     private static ArrayList<HashMap<String, String>> myOperation = new ArrayList<>();
     private static ArrayList<HashMap<String, Integer>> nextState = new ArrayList<>();
     private static String[] key = new String[64];
-    private String[] myLHS = new String[61];
-    private int[] myRHS = new int[61];
+    private static String[] myLHS = new String[61];
+    private static int[] myRHS = new int[61];
 
     @SuppressWarnings({ "resource" })
     public void initializeTable() {

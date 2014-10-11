@@ -31,7 +31,7 @@ public class GUIScene {
 	/**
 	 * Application scene is managed in this class
 	 * @author Steven Pierre
-	 *
+	 * @author Kevin Rhine
 	 */
 	private Text statusText = new Text();
 	protected Turtle turtle = new Turtle();
@@ -122,6 +122,7 @@ public class GUIScene {
             @Override
             public void handle (ActionEvent event) {
             	statusText.setText("Changing background color");
+            	Buttons.changeColor();
             }
         });
 		
@@ -131,6 +132,7 @@ public class GUIScene {
             @Override
             public void handle (ActionEvent event) {
             	statusText.setText("Showing grid in simulation");
+            	Buttons.gridToggle();
             }
         });
 	
@@ -140,6 +142,7 @@ public class GUIScene {
             @Override
             public void handle (ActionEvent event) {
                 statusText.setText("Toggling turtle in simulation");
+                Buttons.turtleToggle();
             }
         });
 		
@@ -149,6 +152,15 @@ public class GUIScene {
             @Override
             public void handle (ActionEvent event) {
                 statusText.setText("Changing turtle image");
+                Buttons.changeImage();
+            }
+        });
+		
+		Button language= new Button("Choose SLogo language");
+		language.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle (ActionEvent event) {
+                Buttons.changeLang();
             }
         });
 	
@@ -156,6 +168,7 @@ public class GUIScene {
 		flow.getChildren().add(gridT);
 		flow.getChildren().add(turtle);
 		flow.getChildren().add(turtim);
+		flow.getChildren().add(language);
 		return flow;
 	}
 	public Image setImage(FileInputStream input){	
