@@ -1,5 +1,9 @@
 package compiler;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +14,6 @@ import commands.Command;
 import compiler.TokenFinder.Type;
 import exceptions.ParsingException;
 import exceptions.SyntaxErrorException;
-import exceptions.UnbalancedBracketsException;
 
 public class Compiler {
     public Compiler() {
@@ -21,27 +24,64 @@ public class Compiler {
     public ArrayList<HashMap<String, String>> move = new ArrayList<>();
     public ArrayList<HashMap<String, Integer>> nextState = new ArrayList<>();
     private List<SymbolTableEntry> symbolTable = new ArrayList<>();
+    private HashMap<String, String> grammar = new HashMap<>();
+    private HashMap<String, String> dictionary=new HashMap<>();
+
     Stack<Integer> state = new Stack<Integer>();
     Stack<String> symbol = new Stack<String>();
-    private String[] lhs;
+    private String[] lhs = new String[61];
     private int[] rhs;
-
+    private String language="";
+    
+    /**
+     * 
+     * @param inputBuffer
+     * @return
+     * @throws ParsingException
+     */
     private String scanner(String inputBuffer) throws ParsingException {
+	inputBuffer = inputBuffer.toUpperCase();
+	if (language!="English") inputBuffer=translateToEnglish(inputBuffer);
 	String[] split = inputBuffer.split(" ");
 	Type[] tokens = TokenFinder.tokenize(split);
-	bracketPairCheck(tokens);
-	symbolTableGeneration(split, tokens);
-	System.out.println(tokens.length);
-	for (int i = 0; i < tokens.length; i++) {
-	    if (tokens[i] == Type.CONSTANT)
-		inputBuffer=inputBuffer.replaceFirst(split[i],"CONSTANT");
-	    if (tokens[i] == Type.VARIABLE)
-		inputBuffer=inputBuffer.replaceFirst(split[i],"VARIABLE");
+	
+	for (int i = 0; i < split.length; i++) {
+	    if (grammar.containsKey(split[i])) {
+		inputBuffer = inputBuffer.replaceFirst(split[i],
+			grammar.get(split[i]));
+		split[i] = grammar.get(split[i]);
+	    }
 	}
 
+	symbolTableGeneration(split, tokens);
+	for (int i = 0; i < tokens.length; i++) {
+	    if (tokens[i] == Type.CONSTANT)
+		inputBuffer = inputBuffer.replaceFirst(split[i], "CONSTANT");
+	    if (tokens[i] == Type.VARIABLE)
+		inputBuffer = inputBuffer.replaceFirst(split[i], "VARIABLE");
+	}
 	return inputBuffer;
     }
 
+    private String translateToEnglish(String inputBuffer) {
+	String[] split = inputBuffer.split(" ");
+	
+	for (int i = 0; i < split.length; i++) {
+	    if (dictionary.containsKey(split[i])) {
+		inputBuffer = inputBuffer.replaceFirst(split[i],
+			dictionary.get(split[i]));
+	    }
+	}
+	return inputBuffer;
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @param split
+     * @param tokens
+     */
     private void symbolTableGeneration(String[] split, Type[] tokens) {
 	for (int i = 0; i < split.length; i++) {
 	    SymbolTableEntry currentEntry = new SymbolTableEntry();
@@ -66,37 +106,16 @@ public class Compiler {
 
     }
 
-    private boolean bracketPairCheck(Type[] tokens)
-	    throws UnbalancedBracketsException {
-
-	Stack<Type> brackets = new Stack<>();
-	for (int i = 0; i < tokens.length; i++) {
-	    switch (tokens[i]) {
-	    case LIST_START:
-		brackets.push(Type.LIST_START);
-		break;
-	    case LIST_END:
-		if (brackets.peek() != Type.LIST_START)
-		    throw new UnbalancedBracketsException();
-		brackets.pop();
-		break;
-	    case PARENS_START:
-		brackets.push(Type.PARENS_START);
-		break;
-	    case PARENS_END:
-		if (brackets.peek() != Type.PARENS_START)
-		    throw new UnbalancedBracketsException();
-		brackets.pop();
-		break;
-	    default:
-	    }
-
-	}
-	if (brackets.isEmpty())
-	    return true;
-	throw new UnbalancedBracketsException();
-    }
-
+    /**
+     * 
+     * Use the modified inputBuffer to construct a derivation list to get the
+     * program
+     * 
+     * @param String
+     *            modified inputBuffer
+     * @return Stack<Integer> derivation Rules
+     * @throws ParsingException
+     */
     private Stack<Integer> interpreter(String input) throws ParsingException {
 	try {
 	    Stack<Integer> sequence = new Stack<Integer>();
@@ -110,13 +129,6 @@ public class Compiler {
 	    state.push(0);
 	    while (!program.equals("")) {
 
-		System.out.println(program);
-		System.out.println(lookahead);
-		System.out.println(currentState);
-		System.out.println(state);
-		System.out.println(symbol);
-		System.out.println();
-
 		currentState = state.peek();
 		if (move.get(currentState).get(lookahead).equals("s")) {
 
@@ -127,13 +139,6 @@ public class Compiler {
 		    program = program.substring(program.indexOf(" ") + 1);
 
 		}
-
-		System.out.println(program);
-		System.out.println(lookahead);
-		System.out.println(currentState);
-		System.out.println(state);
-		System.out.println(symbol);
-		System.out.println();
 
 		currentState = state.peek();
 		if (move.get(currentState).get(lookahead).equals("r")) {
@@ -187,28 +192,80 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "REPEAT 10 [ FD 50 ]";
+	String inputString = "QJ 50 ZZ 90";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
 
+    /**
+     * 
+     * initilize tables needed for parsing
+     */
     private void initialize() {
-
+	initGrammar();
 	myParseTable.initializeTable();
 	move = myParseTable.getOperation();
 	nextState = myParseTable.getNextState();
 	lhs = myParseTable.getLHS();
 	rhs = myParseTable.getRHS();
-	for (int i = 0; i < 60; i++) {
 
+    }
+
+    private void initGrammar() {
+	try {
+
+	    String language = "Chinese", currentLine = "", key = "", value = "";
+	    grammar.clear();
+	    
+	    BufferedReader in = new BufferedReader(new FileReader(".\\src\\dictionary\\English.txt"));
+	    while (in.ready()) {
+		currentLine = in.readLine();
+		System.out.println(currentLine);
+		key = currentLine.split(" ")[0];
+		value = currentLine.split(" ")[1];
+		grammar.put(key, value);
+	    }
+
+	    if (language != "English") {
+		in = new BufferedReader(new FileReader(".\\src\\dictionary\\"
+			+ language + ".txt"));
+		while (in.ready()) {
+			currentLine = in.readLine();
+			key = currentLine.split(" ")[1].toUpperCase();
+			value = currentLine.split(" ")[0].toUpperCase();
+			dictionary.put(key, value);
+		    }
+		System.out.println(dictionary);
+	    }
+
+	} catch (FileNotFoundException e) {
+	    System.out.println("Grammar File Not Found");
+	} catch (IOException e) {
+	    e.printStackTrace();
 	}
 
     }
 
+    /**
+     * 
+     * take the input passed from MainController and compile the input program
+     * 
+     * 
+     * @param input
+     * @return
+     * @throws ParsingException
+     */
     public ArrayList<Command<Turtle, Void>> compile(String input)
 	    throws ParsingException {
 	initialize();
-	interpreter(scanner(input));
+	Stack<Integer> sequence = interpreter(scanner(input));
+	Stack<Integer> reversedStack = new Stack<>();
+	while (!sequence.empty())
+	    reversedStack.push(sequence.pop());
+
+	ASTGenerator myASTGenerator = new ASTGenerator();
+	myASTGenerator.generate(reversedStack);
+
 	// "add 20;"
 	final int val = 20;
 
