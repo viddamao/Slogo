@@ -5,11 +5,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import simulationObjects.Turtle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,6 +34,7 @@ public class GUIScene {
 	 *
 	 */
 	private Text statusText = new Text();
+	protected Turtle turtle = new Turtle();
 	protected String userCommand = new String();
 	public static double SCENE_WIDTH = 1280;
     public static double SCENE_HEIGHT = 720;
@@ -98,6 +101,9 @@ public class GUIScene {
 	}
 	public GridPane addGrid(){
 		GridPane playground = new GridPane();
+		Group root = new Group();
+		Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT, Color.SILVER);
+		
 		playground.setGridLinesVisible(true);
 		return playground;
 	}
