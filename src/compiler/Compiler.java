@@ -220,7 +220,6 @@ public class Compiler {
 	    BufferedReader in = new BufferedReader(new FileReader(".\\src\\dictionary\\English.txt"));
 	    while (in.ready()) {
 		currentLine = in.readLine();
-		System.out.println(currentLine);
 		key = currentLine.split(" ")[0];
 		value = currentLine.split(" ")[1];
 		grammar.put(key, value);
@@ -235,7 +234,6 @@ public class Compiler {
 			value = currentLine.split(" ")[0].toUpperCase();
 			dictionary.put(key, value);
 		    }
-		System.out.println(dictionary);
 	    }
 
 	} catch (FileNotFoundException e) {
