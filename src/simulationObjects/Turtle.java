@@ -2,30 +2,39 @@ package simulationObjects;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
 import simulationObjects.Point;
 
-public class Turtle {
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+public class Turtle extends Circle{
     private Point position = new Point();
     private double rotation = 90.0;
     private boolean visible = true;
-    private Image myImage = new Image(getClass().getResourceAsStream("properties/turtle.png"), 100, 80, false, true);
-    private ImageView turtImg = new ImageView();
+    private Image myImage;
+    public ImageView turtImg = new ImageView();
     
     /**
      * Constructor
+     * @throws FileNotFoundException 
      */
-    public Turtle() {
+    public Turtle() throws FileNotFoundException {
+    	myImage = new Image(new FileInputStream(new File("src/properties/turtle.png")), 100, 80, false, true);
     	turtImg.setImage(myImage);
     }
     
     /**
      * Copy-constructor
      * @param turtle	a Turtle object whose data will be copied to the new Turtle instance.
+     * @throws FileNotFoundException 
      */
-    public Turtle(Turtle turtle) {
+    public Turtle(Turtle turtle) throws FileNotFoundException {
     	this.position = turtle.getPosition();
     	this.rotation = turtle.getRotation();
     	this.visible = turtle.isVisible();
+    	myImage = new Image(new FileInputStream(new File("src/properties/turtle.png")), 100, 80, false, true);
     	turtImg.setImage(myImage);
     }
 
@@ -37,6 +46,8 @@ public class Turtle {
     public void setPosition(double x, double y) {
     	this.position.x = x;
 		this.position.y = y;
+		this.setCenterX(this.position.x);
+		this.setCenterY(this.position.y);		
     }
     
     /**
@@ -83,7 +94,7 @@ public class Turtle {
      * Get the visibility of the turtle.
      * @return boolean 	the visibility state
      */
-    public boolean isVisible() {
+    public boolean isVisibility() {
     	return visible;
     }
 
@@ -91,7 +102,7 @@ public class Turtle {
      * Set the visibility of the turtle.
      * @param visible	the visibility state
      */
-    public void setVisible(boolean visible) {
+    public void setVisibility(boolean visible) {
     	this.visible = visible;
     }
     

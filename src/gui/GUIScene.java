@@ -3,8 +3,6 @@ package gui;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import simulationObjects.Turtle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -34,8 +32,9 @@ public class GUIScene {
 	 * @author Kevin Rhine
 	 */
 	private Text statusText = new Text();
-	protected Turtle turtle = new Turtle();
+	protected Turtle turtle;
 	protected String userCommand = new String();
+	private GridPane playground = new GridPane();
 	public static double SCENE_WIDTH = 1280;
     public static double SCENE_HEIGHT = 720;
     public static double WRAP_LENGTH = 150;
@@ -81,9 +80,7 @@ public class GUIScene {
         
         bottom.add(userInput, 0, 0);
         bottom.add(statusBar, 0, 1);
-        bottom.setStyle("-fx-background-color: AQUA");
-        bottom.setPrefWidth(userInput.getWidth());
-        
+        bottom.setStyle("-fx-background-color: AQUA");        
         return bottom;
 	}
 	public ToolBar getTopToolBar(){
@@ -99,13 +96,16 @@ public class GUIScene {
         topToolBar.setStyle("-fx-background-color: Black");
         return topToolBar;
 	}
-	public GridPane addGrid(){
-		GridPane playground = new GridPane();
+	public Group addGrid() throws FileNotFoundException{
 		Group root = new Group();
-		Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT, Color.SILVER);
+		turtle = new Turtle();
+		turtle.setPosition(SCENE_WIDTH/2, SCENE_HEIGHT/2);
 		
 		playground.setGridLinesVisible(true);
-		return playground;
+		root.getChildren().add(turtle.turtImg);		
+		root.getChildren().add(playground);
+
+		return root;
 	}
 	public FlowPane addButtons() throws FileNotFoundException{
 		FlowPane flow = new FlowPane();
@@ -131,8 +131,8 @@ public class GUIScene {
 		gridT.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle (ActionEvent event) {
-            	statusText.setText("Showing grid in simulation");
-            	Buttons.gridToggle();
+            	statusText.setText("Toggling grid in simulation");
+            	Buttons.gridToggle(playground);
             }
         });
 	
@@ -152,7 +152,7 @@ public class GUIScene {
             @Override
             public void handle (ActionEvent event) {
                 statusText.setText("Changing turtle image");
-                Buttons.changeImage();
+                Buttons.changeImage(turtle);
             }
         });
 		

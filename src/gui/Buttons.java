@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -28,9 +29,9 @@ public class Buttons {
 		
 	}
 
-	public static void gridToggle() {
+	public static void gridToggle(GridPane playground) {
 		// TODO Auto-generated method stub
-		
+		playground.setGridLinesVisible(!playground.isGridLinesVisible());
 	}
 
 	public static void turtleToggle() {
