@@ -23,7 +23,7 @@ public class Compiler {
     private ParseTable myParseTable = new ParseTable();
     public ArrayList<HashMap<String, String>> move = new ArrayList<>();
     public ArrayList<HashMap<String, Integer>> nextState = new ArrayList<>();
-    private List<SymbolTableEntry> symbolTable = new ArrayList<>();
+    public List<SymbolTableEntry> symbolTable = new ArrayList<>();
     private HashMap<String, String> grammar = new HashMap<>();
     private HashMap<String, String> dictionary=new HashMap<>();
 
@@ -91,16 +91,18 @@ public class Compiler {
 	    switch (tokens[i]) {
 	    case VARIABLE:
 		currentEntry.setValue(0);
+		symbolTable.add(currentEntry);
 		break;
 	    case CONSTANT:
 		currentEntry.setValue(Double.parseDouble(split[i]));
+		symbolTable.add(currentEntry);
 		break;
 	    default:
 		break;
 
 	    }
 
-	    symbolTable.add(currentEntry);
+	    
 
 	}
 
@@ -192,7 +194,7 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "QJ 50 ZZ 90";
+	String inputString = "FD 50 LT 90";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
@@ -214,9 +216,10 @@ public class Compiler {
     private void initGrammar() {
 	try {
 
-	    String language = "Chinese", currentLine = "", key = "", value = "";
+	    String language = "English", currentLine = "", key = "", value = "";
 	    grammar.clear();
 	    
+	    @SuppressWarnings("resource")
 	    BufferedReader in = new BufferedReader(new FileReader(".\\src\\dictionary\\English.txt"));
 	    while (in.ready()) {
 		currentLine = in.readLine();
@@ -257,13 +260,20 @@ public class Compiler {
 	    throws ParsingException {
 	initialize();
 	Stack<Integer> sequence = interpreter(scanner(input));
+/*	for (int i=0;i<symbolTable.size();i++)
+		System.out.println(symbolTable.get(i).getName());
+*/	
 	Stack<Integer> reversedStack = new Stack<>();
-	while (!sequence.empty())
+	while (!sequence.empty()){
+	//    System.out.println(sequence.peek());
 	    reversedStack.push(sequence.pop());
-
-	ASTGenerator myASTGenerator = new ASTGenerator();
-	myASTGenerator.generate(reversedStack);
-
+		
+	}
+	    
+	AST myASTGenerator = new AST();
+	myASTGenerator.generate(reversedStack,symbolTable);
+	
+	
 	// "add 20;"
 	final int val = 20;
 
