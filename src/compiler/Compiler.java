@@ -23,7 +23,7 @@ public class Compiler {
     private ParseTable myParseTable = new ParseTable();
     public ArrayList<HashMap<String, String>> move = new ArrayList<>();
     public ArrayList<HashMap<String, Integer>> nextState = new ArrayList<>();
-    private List<SymbolTableEntry> symbolTable = new ArrayList<>();
+    private static List<SymbolTableEntry> symbolTable = new ArrayList<>();
     private HashMap<String, String> grammar = new HashMap<>();
     private HashMap<String, String> dictionary = new HashMap<>();
 
@@ -192,12 +192,7 @@ public class Compiler {
 	return null;
     }
 
-    public static void main(String[] args) throws Exception {
-	String inputString = "FD 50 LT 90";
-	Compiler myCompiler = new Compiler();
-	myCompiler.compile(inputString);
-    }
-
+    
     /**
      * 
      * initilize tables needed for parsing
@@ -247,6 +242,14 @@ public class Compiler {
 
     }
 
+    
+    
+    public static void main(String[] args) throws Exception {
+	String inputString = "FD 50";
+	Compiler myCompiler = new Compiler();
+	myCompiler.compile(inputString);
+    }
+    
     /**
      * 
      * take the input passed from MainController and compile the input program
@@ -260,21 +263,23 @@ public class Compiler {
 	    throws ParsingException {
 	initialize();
 	Stack<Integer> sequence = interpreter(scanner(input));
-	/*
-	 * for (int i=0;i<symbolTable.size();i++)
-	 * System.out.println(symbolTable.get(i).getName());
-	 */
+	
+	System.out.println(input);
+	System.out.println();
+	//for (int i=0;i<symbolTable.size();i++){ System.out.println(symbolTable.get(i).getValue());}
+ 
 	Stack<Integer> reversedStack = new Stack<>();
 	while (!sequence.empty()) {
-	    // System.out.println(sequence.peek());
+	    System.out.println(sequence.peek());
 	    reversedStack.push(sequence.pop());
 
 	}
 
 	AST myAST = new AST();
-
+	System.out.println("-------------------");
 	myAST.traverse(myAST.generate(reversedStack));
-
+	
+	
 	// "add 20;"
 	final int val = 20;
 
