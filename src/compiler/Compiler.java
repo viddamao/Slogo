@@ -119,6 +119,8 @@ public class Compiler {
      */
     private Stack<Integer> interpreter(String input) throws ParsingException {
 	try {
+	    System.out.println(input);
+	    
 	    Stack<Integer> sequence = new Stack<Integer>();
 	    String lookahead = "", currentLHS = "", program = input;
 	    int currentState = 0, currentRHS = 0;
@@ -126,11 +128,18 @@ public class Compiler {
 
 	    lookahead = program.split(" ")[0];
 	    program = program.substring(program.indexOf(" ") + 1);
-
 	    state.push(0);
 	    while (!program.equals("")) {
 
 		currentState = state.peek();
+		
+		System.out.println();
+		System.out.println(currentState);
+		System.out.println(lookahead);
+		
+		System.out.print(move.get(currentState).get(lookahead));
+		System.out.println(nextState.get(currentState).get(lookahead));
+		System.out.println(sequence);
 		if (move.get(currentState).get(lookahead).equals("s")) {
 
 		    currentState = nextState.get(currentState).get(lookahead);
@@ -140,7 +149,13 @@ public class Compiler {
 		    program = program.substring(program.indexOf(" ") + 1);
 
 		}
-
+		System.out.println();
+		System.out.println(currentState);
+		System.out.println(lookahead);
+		System.out.print(move.get(currentState).get(lookahead));
+		System.out.println(nextState.get(currentState).get(lookahead));	
+		System.out.println(sequence);
+		    
 		currentState = state.peek();
 		if (move.get(currentState).get(lookahead).equals("r")) {
 		    int i = 0;
@@ -192,7 +207,6 @@ public class Compiler {
 	return null;
     }
 
-    
     /**
      * 
      * initilize tables needed for parsing
@@ -242,14 +256,12 @@ public class Compiler {
 
     }
 
-    
-    
     public static void main(String[] args) throws Exception {
-	String inputString = "FD 50";
+	String inputString = "FD EQUAL 0 1";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
-    
+
     /**
      * 
      * take the input passed from MainController and compile the input program
@@ -261,25 +273,32 @@ public class Compiler {
      */
     public ArrayList<Command<Turtle, Void>> compile(String input)
 	    throws ParsingException {
+	
 	initialize();
 	Stack<Integer> sequence = interpreter(scanner(input));
-	
+	 
 	System.out.println(input);
 	System.out.println();
-	//for (int i=0;i<symbolTable.size();i++){ System.out.println(symbolTable.get(i).getValue());}
- 
+	// for (int i=0;i<symbolTable.size();i++){
+	// System.out.println(symbolTable.get(i).getValue());}
+	
 	Stack<Integer> reversedStack = new Stack<>();
+	try{
 	while (!sequence.empty()) {
 	    System.out.println(sequence.peek());
 	    reversedStack.push(sequence.pop());
 
 	}
+	}
+	catch (NullPointerException e){
+	    System.out.println("Null Pointer~");
+	
+	}
 
 	AST myAST = new AST();
 	System.out.println("-------------------");
 	myAST.traverse(myAST.generate(reversedStack));
-	
-	
+
 	// "add 20;"
 	final int val = 20;
 

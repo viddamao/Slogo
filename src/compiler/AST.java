@@ -75,8 +75,7 @@ public class AST {
 	    case 16: // <Command>--><Turn><Type>
 		tempRight = syntaxTree.pop();
 		tempLeft = syntaxTree.pop();
-		tempParent = new Node(0, 0, 0, currentRule, tempLeft,
-			tempRight);
+		tempParent = new Node(0, 0, 0, currentRule, tempLeft, tempRight);
 		syntaxTree.push(tempParent);
 
 		break;
@@ -107,21 +106,23 @@ public class AST {
 	    case 52: // <Tri>-->TAN
 	    case 53: // <Tri>-->ATAN
 
-		tempParent = new Node(currentRule, 0, 0, currentRule, null,null);
+		tempParent = new Node(currentRule, 0, 0, currentRule, null,
+			null);
 		syntaxTree.push(tempParent);
 
 		break;
-	
+
 	    case 36: // <Type>-->Constant
 
 	    case 37: // <Type>-->Variable
 		index++;
-		tempLeft = new Node(symbolTable.get(index).getValue(), 0, 0, currentRule, null, null);
+		tempLeft = new Node(symbolTable.get(index).getValue(), 0, 0,
+			currentRule, null, null);
 		syntaxTree.push(tempLeft);
 
 		break;
 	    case 38: // <Type>--><Math>
-		
+
 		break;
 	    case 39: // <Type>--><Boolean>
 
@@ -132,9 +133,16 @@ public class AST {
 	    case 43: // <Math>-->/<Type><Type>
 	    case 44: // <Math>-->%<Type><Type>
 	    case 49: // <Math>-->POW<Type><Type>
-		tempRight=syntaxTree.pop();
-		tempLeft=syntaxTree.pop();
-		tempParent=new Node(0,0,0,currentRule,tempLeft,tempRight);
+	    case 54: // <Boolean>-->LESSP<Type><Type>
+	    case 55: // <Boolean>-->GREATERP<Type><Type>
+	    case 56: // <Boolean>-->EQUALP<Type><Type>
+	    case 57: // <Boolean>-->NOTEQUALP<Type><Type>
+	    case 58: // <Boolean>-->AND<Type><Type>
+	    case 60: // <Boolean>-->OR<Type><Type>
+
+		tempRight = syntaxTree.pop();
+		tempLeft = syntaxTree.pop();
+		tempParent = new Node(0, 0, 0, currentRule, tempLeft, tempRight);
 		syntaxTree.push(tempParent);
 		break;
 
@@ -144,27 +152,19 @@ public class AST {
 	    case 46: // <Math>-->RANDOM<Type>
 	    case 48: // <Math>-->LOG<Type>
 
-		tempLeft=syntaxTree.pop();
-		tempParent=new Node(0,0,0,currentRule,tempLeft,null);
+		tempLeft = syntaxTree.pop();
+		tempParent = new Node(0, 0, 0, currentRule, tempLeft, null);
 		syntaxTree.push(tempParent);
 
 		break;
 	    case 47: // <Math>--><Tri><Type>
 
 		break;
-	   
-	    case 54: // <Boolean>-->LESSP<Type><Type>
-	    case 55: // <Boolean>-->GREATERP<Type><Type>
-	    case 56: // <Boolean>-->EQUALP<Type><Type>
-	    case 57: // <Boolean>-->NOTEQUALP<Type><Type>
-	    case 58: // <Boolean>-->AND<Type><Type>	   
-	    case 60: // <Boolean>-->OR<Type><Type>
-		
-		break;
-	    
+
 	    case 59: // <Boolean>-->NOT<Type>
-		tempLeft=syntaxTree.pop();
-		tempParent=new Node(currentRule, 0, 0, currentRule, null,null);
+		tempLeft = syntaxTree.pop();
+		tempParent = new Node(currentRule, 0, 0, currentRule, null,
+			null);
 		syntaxTree.push(tempParent);
 		break;
 	    }
@@ -176,7 +176,7 @@ public class AST {
     }
 
     public void traverse(Node currentNode) {
-	
+
 	if (currentNode == null)
 	    return;
 	traverse(currentNode.left);
@@ -299,51 +299,87 @@ public class AST {
 	case 43: // <Math>-->/<Type><Type>
 	case 44: // <Math>-->%<Type><Type>
 	case 49: // <Math>-->POW<Type><Type>
-	    double val1= currentNode.left.data_1,val2=currentNode.right.data_1;
-	    double result=0;
+	case 54: // <Boolean>-->LESSP<Type><Type>
+	case 55: // <Boolean>-->GREATERP<Type><Type>
+	case 56: // <Boolean>-->EQUALP<Type><Type>
+	case 57: // <Boolean>-->NOTEQUALP<Type><Type>
+	case 58: // <Boolean>-->AND<Type><Type>
+	case 60: // <Boolean>-->OR<Type><Type>
+
+	    double val1 = currentNode.left.data_1,
+	    val2 = currentNode.right.data_1;
+	    double result = 0;
 	    System.out.println(val1);
 	    System.out.println(val2);
 	    System.out.println(rule);
-	    
-	    switch (rule){
+
+	    switch (rule) {
 	    case 41:
-		result=val1+val2;break;
+		result = val1 + val2;
+		break;
 	    case 42:
-		result=val1-val2;break;
+		result = val1 - val2;
+		break;
 	    case 40:
-		result=val1*val2;break;
+		result = val1 * val2;
+		break;
 	    case 43:
-		result=val1/val2;break;
+		result = val1 / val2;
+		break;
 	    case 44:
-		result=val1%val2;break;
+		result = val1 % val2;
+		break;
 	    case 49:
-		result=Math.pow(val1, val2);break;
+		result = Math.pow(val1, val2);
+		break;
+	    case 54:
+		result = (val1 < val2) ? 0 : 1;
+		break;
+	    case 55:
+		result = (val1 > val2) ? 0 : 1;
+		break;
+	    case 56:
+		result = (val1 == val2) ? 0 : 1;
+		break;
+	    case 57:
+		result = (val1 == val2) ? 1 : 0;
+		break;
+	    case 58:
+		result = ((val1 == 1) & (val2 == 1)) ? 0 : 1;
+		break;
+	    case 60: 
+		result = ((val1 == 1) | (val2 == 1)) ? 0 : 1;
+		break;
+
 	    }
-	    currentNode.data_1=result;
+	    currentNode.data_1 = result;
 	    break;
-	
+
 	case 45: // <Math>-->~<Type>
 	case 46: // <Math>-->RANDOM<Type>
 	case 48: // <Math>-->LOG<Type>
 
-	    val1= currentNode.left.data_1;
-	    result=0;
+	    val1 = currentNode.left.data_1;
+	    result = 0;
 	    System.out.println(val1);
 	    System.out.println(rule);
-	    
-	    switch (rule){
+
+	    switch (rule) {
 	    case 45:
-		result=-val1;break;
+		result = -val1;
+		break;
 	    case 46:
-		result=Math.random()*50;break;
+		result = Math.random() * 50;
+		break;
 	    case 48:
-		result=Math.log(val1);break;
+		result = Math.log(val1);
+		break;
 	    }
-	    currentNode.data_1=result;
-	    
+	    currentNode.data_1 = result;
+
 	    break;
 	case 47: // <Math>--><Tri><Type>
-		
+
 	case 50: // <Tri>-->SIN
 
 	    break;
@@ -356,25 +392,9 @@ public class AST {
 	case 53: // <Tri>-->ATAN
 
 	    break;
-	case 54: // <Boolean>-->LESSP<Type><Type>
 
-	    break;
-	case 55: // <Boolean>-->GREATERP<Type><Type>
-
-	    break;
-	case 56: // <Boolean>-->EQUALP<Type><Type>
-
-	    break;
-	case 57: // <Boolean>-->NOTEQUALP<Type><Type>
-
-	    break;
-	case 58: // <Boolean>-->AND<Type><Type>
-
-	    break;
 	case 59: // <Boolean>-->NOT<Type>
 
-	    break;
-	case 60: // <Boolean>-->OR<Type><Type>
 	    break;
 
 	}
