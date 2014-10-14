@@ -37,5 +37,4 @@ public class CompilerTest {
 	compiler.compile(testInput);
     }
 
-  
 }

@@ -23,16 +23,16 @@ public class Compiler {
     private ParseTable myParseTable = new ParseTable();
     public ArrayList<HashMap<String, String>> move = new ArrayList<>();
     public ArrayList<HashMap<String, Integer>> nextState = new ArrayList<>();
-    public List<SymbolTableEntry> symbolTable = new ArrayList<>();
+    private List<SymbolTableEntry> symbolTable = new ArrayList<>();
     private HashMap<String, String> grammar = new HashMap<>();
-    private HashMap<String, String> dictionary=new HashMap<>();
+    private HashMap<String, String> dictionary = new HashMap<>();
 
     Stack<Integer> state = new Stack<Integer>();
     Stack<String> symbol = new Stack<String>();
     private String[] lhs = new String[61];
     private int[] rhs;
-    private String language="";
-    
+    private String language = "";
+
     /**
      * 
      * @param inputBuffer
@@ -41,10 +41,11 @@ public class Compiler {
      */
     private String scanner(String inputBuffer) throws ParsingException {
 	inputBuffer = inputBuffer.toUpperCase();
-	if (language!="English") inputBuffer=translateToEnglish(inputBuffer);
+	if (language != "English")
+	    inputBuffer = translateToEnglish(inputBuffer);
 	String[] split = inputBuffer.split(" ");
 	Type[] tokens = TokenFinder.tokenize(split);
-	
+
 	for (int i = 0; i < split.length; i++) {
 	    if (grammar.containsKey(split[i])) {
 		inputBuffer = inputBuffer.replaceFirst(split[i],
@@ -65,7 +66,7 @@ public class Compiler {
 
     private String translateToEnglish(String inputBuffer) {
 	String[] split = inputBuffer.split(" ");
-	
+
 	for (int i = 0; i < split.length; i++) {
 	    if (dictionary.containsKey(split[i])) {
 		inputBuffer = inputBuffer.replaceFirst(split[i],
@@ -101,8 +102,6 @@ public class Compiler {
 		break;
 
 	    }
-
-	    
 
 	}
 
@@ -218,9 +217,10 @@ public class Compiler {
 
 	    String language = "English", currentLine = "", key = "", value = "";
 	    grammar.clear();
-	    
+
 	    @SuppressWarnings("resource")
-	    BufferedReader in = new BufferedReader(new FileReader(".\\src\\dictionary\\English.txt"));
+	    BufferedReader in = new BufferedReader(new FileReader(
+		    ".\\src\\dictionary\\English.txt"));
 	    while (in.ready()) {
 		currentLine = in.readLine();
 		key = currentLine.split(" ")[0];
@@ -232,11 +232,11 @@ public class Compiler {
 		in = new BufferedReader(new FileReader(".\\src\\dictionary\\"
 			+ language + ".txt"));
 		while (in.ready()) {
-			currentLine = in.readLine();
-			key = currentLine.split(" ")[1].toUpperCase();
-			value = currentLine.split(" ")[0].toUpperCase();
-			dictionary.put(key, value);
-		    }
+		    currentLine = in.readLine();
+		    key = currentLine.split(" ")[1].toUpperCase();
+		    value = currentLine.split(" ")[0].toUpperCase();
+		    dictionary.put(key, value);
+		}
 	    }
 
 	} catch (FileNotFoundException e) {
@@ -260,20 +260,21 @@ public class Compiler {
 	    throws ParsingException {
 	initialize();
 	Stack<Integer> sequence = interpreter(scanner(input));
-/*	for (int i=0;i<symbolTable.size();i++)
-		System.out.println(symbolTable.get(i).getName());
-*/	
+	/*
+	 * for (int i=0;i<symbolTable.size();i++)
+	 * System.out.println(symbolTable.get(i).getName());
+	 */
 	Stack<Integer> reversedStack = new Stack<>();
-	while (!sequence.empty()){
-	//    System.out.println(sequence.peek());
+	while (!sequence.empty()) {
+	    // System.out.println(sequence.peek());
 	    reversedStack.push(sequence.pop());
-		
+
 	}
-	    
-	AST myASTGenerator = new AST();
-	myASTGenerator.generate(reversedStack,symbolTable);
-	
-	
+
+	AST myAST = new AST();
+
+	myAST.traverse(myAST.generate(reversedStack));
+
 	// "add 20;"
 	final int val = 20;
 
@@ -289,6 +290,10 @@ public class Compiler {
 	ret.add(c);
 
 	return ret;
+    }
+
+    public List<SymbolTableEntry> getSymbolTable() {
+	return symbolTable;
     }
 
 }
