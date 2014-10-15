@@ -309,10 +309,7 @@ public class AST {
 	    double val1 = currentNode.left.data_1,
 	    val2 = currentNode.right.data_1;
 	    double result = 0;
-	    System.out.println(val1);
-	    System.out.println(val2);
-	    System.out.println(rule);
-
+	  
 	    switch (rule) {
 	    case 41:
 		result = val1 + val2;
@@ -347,7 +344,7 @@ public class AST {
 	    case 58:
 		result = ((val1 == 1) & (val2 == 1)) ? 0 : 1;
 		break;
-	    case 60: 
+	    case 60:
 		result = ((val1 == 1) | (val2 == 1)) ? 0 : 1;
 		break;
 

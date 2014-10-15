@@ -118,7 +118,6 @@ public class Compiler {
      * @throws ParsingException
      */
     private Stack<Integer> interpreter(String input) throws ParsingException {
-	try {
 	    System.out.println(input);
 	    
 	    Stack<Integer> sequence = new Stack<Integer>();
@@ -172,6 +171,14 @@ public class Compiler {
 			i++;
 		    }
 
+		    
+		    System.out.println();
+			System.out.println(currentState);
+			System.out.println(lookahead);
+			System.out.print(move.get(currentState).get(lookahead));
+			System.out.println(nextState.get(currentState).get(lookahead));	
+			System.out.println(sequence);
+			
 		    symbol.push(currentLHS);
 		    currentState = (Integer) nextState.get(state.peek()).get(
 			    symbol.peek());
@@ -200,11 +207,7 @@ public class Compiler {
 
 	    }
 	    return null;
-	} catch (NullPointerException e) {
-	    System.out.println("Null Pointer");
-	    System.out.println(state);
-	}
-	return null;
+
     }
 
     /**
@@ -257,7 +260,7 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "FD EQUAL 0 1";
+	String inputString = "FD + 0 1";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
