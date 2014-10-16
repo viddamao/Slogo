@@ -62,7 +62,7 @@ public class GUIScene {
 	statusBar.getChildren().addAll(new Label("Status:"), statusText);
 	statusBar.setStyle("-fx-background-color: AQUA");
 
-	TextArea input = new TextArea();
+	final TextArea input = new TextArea();
 	input.setWrapText(true);
 	input.setPrefWidth(200);
 	input.setPrefHeight((int) SCENE_HEIGHT / 2);
@@ -157,11 +157,12 @@ public class GUIScene {
 	ImageView ttm = new ImageView(setImage(new FileInputStream(new File(
 		"src/images/Raphael.png"))));
 	Button turtim = new Button("Turtle image", ttm);
+	final Turtle locTurtle = new Turtle(this.turtle);
 	turtim.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override
 	    public void handle(ActionEvent event) {
 		statusText.setText("Changing turtle image");
-		Buttons.changeImage(turtle);
+		Buttons.changeImage(locTurtle);
 	    }
 	});
 
