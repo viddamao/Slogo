@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import simulationObjects.Turtle;
+import view.TurtleView;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -46,7 +47,7 @@ public class Buttons {
 
     }
 
-    public static void changeImage(Turtle turtle) {
+    public static void changeImage(TurtleView turtle) {
 	FileChooser fileChooser = new FileChooser();
 	fileChooser.getExtensionFilters().add(
 		new FileChooser.ExtensionFilter("JPG", "*.jpg"));
@@ -58,7 +59,7 @@ public class Buttons {
 	    Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 	    turtle.changeImage(image);
 	} catch (IOException ex) {
-
+		
 	}
 
     }

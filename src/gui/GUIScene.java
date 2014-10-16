@@ -3,7 +3,8 @@ package gui;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import simulationObjects.Turtle;
+
+import view.TurtleView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -33,7 +34,7 @@ public class GUIScene {
      * @author Kevin Rhine
      */
     private Text statusText = new Text();
-    protected Turtle turtle;
+    protected TurtleView turtle;
     protected String userCommand = new String();
     private GridPane playground = new GridPane();
     public static double SCENE_WIDTH = 1280;
@@ -102,7 +103,7 @@ public class GUIScene {
 
     public Group addGrid() throws FileNotFoundException {
 	Group root = new Group();
-	turtle = new Turtle();
+	turtle = new TurtleView();
 	turtle.setPosition(SCENE_WIDTH / 2, SCENE_HEIGHT / 2);
 
 	playground.setGridLinesVisible(true);
@@ -157,7 +158,7 @@ public class GUIScene {
 	ImageView ttm = new ImageView(setImage(new FileInputStream(new File(
 		"src/images/Raphael.png"))));
 	Button turtim = new Button("Turtle image", ttm);
-	final Turtle locTurtle = new Turtle(this.turtle);
+	final TurtleView locTurtle = new TurtleView(this.turtle);
 	turtim.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override
 	    public void handle(ActionEvent event) {
