@@ -36,10 +36,10 @@ public class MainController {
     }
 
     public Turtle getTurtle() {
-    	return new Turtle(turtle);
+	return new Turtle(turtle);
     }
 
     public ArrayList<String> getHistory() {
-    	return new ArrayList<String>(history);
+	return new ArrayList<String>(history);
     }
 }

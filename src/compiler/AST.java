@@ -228,18 +228,19 @@ public class AST {
 	    switch (currentNode.left.type) {
 	    case 27:
 		System.out.println("FD ");
-		double pixelsMoved=val;
+		double pixelsMoved = val;
 		Command<Turtle, Void> c = new Command<Turtle, Void>() {
 
-		    double pixelsMoved=-val;
+		    double pixelsMoved = -val;
+
 		    @Override
 		    public Void run(Turtle turtle) {
 			double x_pos = turtle.getPosition().x;
 			double y_pos = turtle.getPosition().y;
 			double radians = Math.toRadians(turtle.getRotation());
 
-			double new_x = x_pos + Math.cos(radians)* pixelsMoved;
-			double new_y = y_pos + Math.sin(radians)* pixelsMoved;
+			double new_x = x_pos + Math.cos(radians) * pixelsMoved;
+			double new_y = y_pos + Math.sin(radians) * pixelsMoved;
 			turtle.setPosition(new_x, new_y);
 			return null;
 		    }
@@ -247,18 +248,17 @@ public class AST {
 		break;
 	    case 28:
 		System.out.println("BK ");
-		pixelsMoved=-val;
+		pixelsMoved = -val;
 		c = new Command<Turtle, Void>() {
 
-		   
 		    @Override
 		    public Void run(Turtle turtle) {
 			double x_pos = turtle.getPosition().x;
 			double y_pos = turtle.getPosition().y;
 			double radians = Math.toRadians(turtle.getRotation());
 
-			double new_x = x_pos + Math.cos(radians)* pixelsMoved;
-			double new_y = y_pos + Math.sin(radians)* pixelsMoved;
+			double new_x = x_pos + Math.cos(radians) * pixelsMoved;
+			double new_y = y_pos + Math.sin(radians) * pixelsMoved;
 			turtle.setPosition(new_x, new_y);
 			return null;
 		    }
@@ -268,7 +268,6 @@ public class AST {
 		System.out.println("LT ");
 		c = new Command<Turtle, Void>() {
 
-			   
 		    @Override
 		    public Void run(Turtle turtle) {
 			double newRot = val;
@@ -284,7 +283,6 @@ public class AST {
 		System.out.println("RT ");
 		c = new Command<Turtle, Void>() {
 
-			   
 		    @Override
 		    public Void run(Turtle turtle) {
 			double newRot = val;
@@ -370,7 +368,7 @@ public class AST {
 	    double val1 = currentNode.left.data_1,
 	    val2 = currentNode.right.data_1;
 	    double result = 0;
-	  
+
 	    switch (rule) {
 	    case 41:
 		result = val1 + val2;

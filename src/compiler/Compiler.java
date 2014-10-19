@@ -118,95 +118,75 @@ public class Compiler {
      * @throws ParsingException
      */
     private Stack<Integer> interpreter(String input) throws ParsingException {
-	    System.out.println(input);
-	    
-	    Stack<Integer> sequence = new Stack<Integer>();
-	    String lookahead = "", currentLHS = "", program = input;
-	    int currentState = 0, currentRHS = 0;
-	    program = program.concat(" $");
+	System.out.println(input);
 
-	    lookahead = program.split(" ")[0];
-	    program = program.substring(program.indexOf(" ") + 1);
-	    state.push(0);
-	    while (!program.equals("")) {
+	Stack<Integer> sequence = new Stack<Integer>();
+	String lookahead = "", currentLHS = "", program = input;
+	String entry_action = "";
+	int currentState = 0, currentRHS = 0, entry_next = 0;
+	program = program.concat(" $");
 
-		currentState = state.peek();
-		
-		System.out.println();
-		System.out.println(currentState);
-		System.out.println(lookahead);
-		
-		System.out.print(move.get(currentState).get(lookahead));
-		System.out.println(nextState.get(currentState).get(lookahead));
-		System.out.println(sequence);
-		if (move.get(currentState).get(lookahead).equals("s")) {
+	lookahead = program.split(" ")[0];
+	program = program.substring(program.indexOf(" ") + 1);
+	state.push(0);
+	while (!program.equals("")) {
 
-		    currentState = nextState.get(currentState).get(lookahead);
-		    state.push(currentState);
-		    symbol.push(lookahead);
-		    lookahead = program.split(" ")[0];
-		    program = program.substring(program.indexOf(" ") + 1);
+	    entry_action = move.get(currentState).get(lookahead);
+	    entry_next = nextState.get(currentState).get(lookahead);
+	    System.out.println();
+	    System.out.println(currentState);
+	    System.out.println(lookahead);
+	    System.out.println(entry_action);
+	    System.out.println(entry_next);
 
-		}
-		System.out.println();
-		System.out.println(currentState);
-		System.out.println(lookahead);
-		System.out.print(move.get(currentState).get(lookahead));
-		System.out.println(nextState.get(currentState).get(lookahead));	
-		System.out.println(sequence);
-		    
-		currentState = state.peek();
-		if (move.get(currentState).get(lookahead).equals("r")) {
-		    int i = 0;
-		    sequence.push((Integer) nextState.get(currentState).get(
-			    lookahead));
-		    currentLHS = lhs[(Integer) nextState.get(currentState).get(
-			    lookahead)];
-		    currentRHS = rhs[(Integer) nextState.get(currentState).get(
-			    lookahead)];
+	    switch (entry_action) {
+	    case "s":
+		symbol.push(lookahead);
+		currentState = entry_next;
+		state.push(currentState);
 
-		    while (i < currentRHS) {
-			currentState = (Integer) state.pop();
-			symbol.pop();
-			i++;
-		    }
+		lookahead = program.split(" ")[0];
+		program = program.substring(program.indexOf(" ") + 1);
 
-		    
-		    System.out.println();
-			System.out.println(currentState);
-			System.out.println(lookahead);
-			System.out.print(move.get(currentState).get(lookahead));
-			System.out.println(nextState.get(currentState).get(lookahead));	
-			System.out.println(sequence);
-			
-		    symbol.push(currentLHS);
-		    currentState = (Integer) nextState.get(state.peek()).get(
-			    symbol.peek());
-		    state.push(currentState);
+		break;
 
+	    case "r":
+
+		sequence.push(entry_next);
+		currentLHS = lhs[entry_next];
+		currentRHS = rhs[entry_next];
+		System.out.println(currentLHS);
+		System.out.println(currentRHS);
+
+		int i = 0;
+		while (i < currentRHS) {
+		    currentState = (Integer) state.pop();
+		    symbol.pop();
+		    i++;
 		}
 
-		currentState = state.peek();
-		if (move.get(currentState).get(lookahead).equals("m")) {
+		symbol.push(currentLHS);
 
-		    currentState = (Integer) nextState.get(state.peek()).get(
-			    symbol.peek());
+		currentState = (Integer) nextState.get(state.peek()).get(
+			symbol.peek());
+		state.push(currentState);
+		break;
 
-		}
+	    case "m":
 
-		currentState = state.peek();
-		if (move.get(currentState).get(lookahead).equals("a")) {
-		    System.out.println("ACCEPT");
-		    return sequence;
-		}
+		currentState = (Integer) nextState.get(state.peek()).get(
+			symbol.peek());
+		break;
 
-		currentState = state.peek();
-		if (move.get(currentState).get(lookahead).equals("x")) {
-		    throw new SyntaxErrorException();
-		}
-
+	    case "a":
+		System.out.println("ACCEPT");
+		return sequence;
+	    case "x":
+		throw new SyntaxErrorException();
 	    }
-	    return null;
+	}
+
+	return null;
 
     }
 
@@ -260,7 +240,7 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "FD + 10 20";
+	String inputString = "FD LESSP 10 20";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
@@ -276,26 +256,25 @@ public class Compiler {
      */
     public ArrayList<Command<Turtle, Void>> compile(String input)
 	    throws ParsingException {
-	
+
 	initialize();
 	Stack<Integer> sequence = interpreter(scanner(input));
-	 
+
 	System.out.println(input);
 	System.out.println();
 	// for (int i=0;i<symbolTable.size();i++){
 	// System.out.println(symbolTable.get(i).getValue());}
-	
-	Stack<Integer> reversedStack = new Stack<>();
-	try{
-	while (!sequence.empty()) {
-	    System.out.println(sequence.peek());
-	    reversedStack.push(sequence.pop());
 
-	}
-	}
-	catch (NullPointerException e){
+	Stack<Integer> reversedStack = new Stack<>();
+	try {
+	    while (!sequence.empty()) {
+		System.out.println(sequence.peek());
+		reversedStack.push(sequence.pop());
+
+	    }
+	} catch (NullPointerException e) {
 	    System.out.println("Null Pointer~");
-	
+
 	}
 
 	AST myAST = new AST();

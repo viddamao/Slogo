@@ -59,7 +59,7 @@ public class Buttons {
 	    Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 	    turtle.changeImage(image);
 	} catch (IOException ex) {
-		
+
 	}
 
     }

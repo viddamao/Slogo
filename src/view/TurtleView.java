@@ -22,39 +22,39 @@ public class TurtleView extends Circle {
      */
     public TurtleView() {
 	try {
-		myImage = new Image(new FileInputStream(new File(
-			"src/images/turtle.png")), 100, 80, false, true);
+	    myImage = new Image(new FileInputStream(new File(
+		    "src/images/turtle.png")), 100, 80, false, true);
 	} catch (FileNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
 	turtImg.setImage(myImage);
     }
-    
+
     /**
      * Constructor
      */
     public TurtleView(Turtle turtleModel) {
-    	this();
-    	this.position = turtleModel.getPosition();
-    	this.rotation = turtleModel.getRotation();
-    	this.visible = true;
+	this();
+	this.position = turtleModel.getPosition();
+	this.rotation = turtleModel.getRotation();
+	this.visible = true;
     }
 
     /**
      * Copy-constructor
      * 
      * @param turtle
-     *            a TurtleView object whose data will be copied to the new TurtleView
-     *            instance.
+     *            a TurtleView object whose data will be copied to the new
+     *            TurtleView instance.
      */
     public TurtleView(TurtleView turtle) throws FileNotFoundException {
-    	this();
-    	if(turtle != null) {
-    		this.position = turtle.getPosition();
-    		this.rotation = turtle.getRotation();
-    		this.visible = turtle.isVisible();
-    	}
+	this();
+	if (turtle != null) {
+	    this.position = turtle.getPosition();
+	    this.rotation = turtle.getRotation();
+	    this.visible = turtle.isVisible();
+	}
     }
 
     /**
