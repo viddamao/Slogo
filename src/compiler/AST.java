@@ -1,10 +1,13 @@
 package compiler;
 
+import commands.Command;
 import compiler.Node;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
+import simulationObjects.Turtle;
 
 public class AST {
 
@@ -225,15 +228,73 @@ public class AST {
 	    switch (currentNode.left.type) {
 	    case 27:
 		System.out.println("FD ");
+		double pixelsMoved=val;
+		Command<Turtle, Void> c = new Command<Turtle, Void>() {
+
+		    double pixelsMoved=-val;
+		    @Override
+		    public Void run(Turtle turtle) {
+			double x_pos = turtle.getPosition().x;
+			double y_pos = turtle.getPosition().y;
+			double radians = Math.toRadians(turtle.getRotation());
+
+			double new_x = x_pos + Math.cos(radians)* pixelsMoved;
+			double new_y = y_pos + Math.sin(radians)* pixelsMoved;
+			turtle.setPosition(new_x, new_y);
+			return null;
+		    }
+		};
 		break;
 	    case 28:
 		System.out.println("BK ");
+		pixelsMoved=-val;
+		c = new Command<Turtle, Void>() {
+
+		   
+		    @Override
+		    public Void run(Turtle turtle) {
+			double x_pos = turtle.getPosition().x;
+			double y_pos = turtle.getPosition().y;
+			double radians = Math.toRadians(turtle.getRotation());
+
+			double new_x = x_pos + Math.cos(radians)* pixelsMoved;
+			double new_y = y_pos + Math.sin(radians)* pixelsMoved;
+			turtle.setPosition(new_x, new_y);
+			return null;
+		    }
+		};
 		break;
 	    case 29:
 		System.out.println("LT ");
+		c = new Command<Turtle, Void>() {
+
+			   
+		    @Override
+		    public Void run(Turtle turtle) {
+			double newRot = val;
+
+			double rot = turtle.getRotation();
+			turtle.setRotation(rot + newRot);
+
+			return null;
+		    }
+		};
 		break;
 	    case 30:
 		System.out.println("RT ");
+		c = new Command<Turtle, Void>() {
+
+			   
+		    @Override
+		    public Void run(Turtle turtle) {
+			double newRot = val;
+
+			double rot = turtle.getRotation();
+			turtle.setRotation(rot - newRot);
+
+			return null;
+		    }
+		};
 		break;
 	    }
 

@@ -260,7 +260,7 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "FD + 0 1";
+	String inputString = "FD + 10 20";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
