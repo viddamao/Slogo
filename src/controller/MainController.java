@@ -35,11 +35,11 @@ public class MainController {
 	}
     }
 
-    public Turtle getTurtle() throws FileNotFoundException {
-	return new Turtle(turtle);
+    public Turtle getTurtle() {
+    	return new Turtle(turtle);
     }
 
     public ArrayList<String> getHistory() {
-	return new ArrayList<String>(history);
+    	return new ArrayList<String>(history);
     }
 }
