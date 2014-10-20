@@ -8,8 +8,6 @@ import java.util.ResourceBundle;
 
 import controller.MainController;
 import exceptions.ParsingException;
-import exceptions.UnbalancedBracketsException;
-import simulationObjects.Turtle;
 import view.TurtleView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,7 +29,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -46,7 +43,7 @@ public class GUIScene {
 	 */
 	private Locale[] supportedLocales = { new Locale("en", "US"), new Locale("fr", "FR")};
 	private Text statusText = new Text();
-	protected TurtleView turtle;
+	protected TurtleView turtle = new TurtleView(new Image(getClass().getResourceAsStream("../images/turtle.png"), 80, 60, true, true));
 	protected String userCommand = new String();
 	private GridPane playground = new GridPane();
 	private MainController controller = new MainController();
@@ -97,7 +94,7 @@ public class GUIScene {
 					input.clear();
 					statusText.setText("Pass in a string fitting SLogo format");
 				}
-				turtle = new TurtleView(controller.getTurtle());
+				turtle.setData(controller.getTurtle());
 				input.clear();      
 
 			}
@@ -124,10 +121,9 @@ public class GUIScene {
 		topToolBar.setStyle("-fx-background-color: Black");
 		return topToolBar;
 	}
+	
 	public Group addGrid() throws FileNotFoundException{
 		root = new Group();
-		turtle = new TurtleView();
-
 		playground.setHgap(10);
 		for(int i=0; i<SCENE_WIDTH/15.5; i++){
 			for(int j=0; j<SCENE_HEIGHT/10; j++){
@@ -135,13 +131,12 @@ public class GUIScene {
 				playground.add(gridCreate, i, j);
 			}
 		}
-
-		turtle.setPosition(SCENE_WIDTH/2, SCENE_HEIGHT/2);
-		root.getChildren().add(turtle.turtImg);		
+		root.getChildren().add(turtle);		
 		root.getChildren().add(playground);
-
+		update();
 		return root;
 	}
+	
 	public FlowPane addButtons() throws FileNotFoundException{
 		flow = new FlowPane();
 		flow.setPadding(new Insets(5, 0, 5, 0));
@@ -216,6 +211,6 @@ public class GUIScene {
 		return new Image(input, WRAP_LENGTH/3, WRAP_HEIGHT/3, true, true);
 	}
 	public void update() throws FileNotFoundException{
-		turtle = new TurtleView(controller.getTurtle());
+		turtle.setData(controller.getTurtle());
 	}
 }

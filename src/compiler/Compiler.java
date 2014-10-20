@@ -135,12 +135,6 @@ public class Compiler {
 	  
 	while (!program.equals("")) {
 
-	    System.out.println();
-	    System.out.println(currentState);
-	    System.out.println(lookahead);
-	    System.out.println(entry_action);
-	    System.out.println(entry_next);
-
 	    switch (entry_action) {
 	    case "a":
 		System.out.println("ACCEPT");
@@ -162,9 +156,7 @@ public class Compiler {
 		sequence.push(entry_next);
 		currentLHS = lhs[entry_next];
 		currentRHS = rhs[entry_next];
-		System.out.println(currentLHS);
-		System.out.println(currentRHS);
-
+		
 		int i = 0;
 		while (i < currentRHS) {
 		    state.pop();
@@ -246,7 +238,7 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "IF AND 0 1 [ FD 50 ]";
+	String inputString = "FD 50";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
@@ -274,7 +266,6 @@ public class Compiler {
 	Stack<Integer> reversedStack = new Stack<>();
 	try {
 	    while (!sequence.empty()) {
-		System.out.println(sequence.peek());
 		reversedStack.push(sequence.pop());
 
 	    }

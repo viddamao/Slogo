@@ -14,6 +14,7 @@ public class AST {
     private Stack<Node> syntaxTree = new Stack<Node>();
     private List<SymbolTableEntry> symbolTable = new ArrayList<>();
 
+    
     /**
      * 
      * generate AST with the rules provided
@@ -34,9 +35,6 @@ public class AST {
 		tempParent = new Node(0, 0, 0, 1, tempLeft, null);
 		syntaxTree.push(tempParent);
 		break;
-	    case 2: // <List>--><Statement>
-
-		break;
 	    case 3: // <List>--><List><Statement>
 	    case 4: // <List>-->REPEAT<Type>[ <List> ]
 	    case 5: // <List>-->DOTIMES [ Variable <Type> ] [ <List> ]
@@ -48,7 +46,20 @@ public class AST {
 	    case 16: // <Command>--><Turn><Type>
 	    case 17: // <Command>-->SETXY<Type><Type>
 	    case 18: // <Command>-->TOWARDS<Type><Type>
-		
+	    case 41: // <Math>-->+<Type><Type>
+	    case 42: // <Math>-->-<Type><Type>
+	    case 40: // <Math>-->*<Type><Type>
+	    case 43: // <Math>-->/<Type><Type>
+	    case 44: // <Math>-->%<Type><Type>
+	    case 47: // <Math>--><Tri><Type>
+	    case 49: // <Math>-->POW<Type><Type>
+	    case 54: // <Boolean>-->LESSP<Type><Type>
+	    case 55: // <Boolean>-->GREATERP<Type><Type>
+	    case 56: // <Boolean>-->EQUALP<Type><Type>
+	    case 57: // <Boolean>-->NOTEQUALP<Type><Type>
+	    case 58: // <Boolean>-->AND<Type><Type>
+	    case 60: // <Boolean>-->OR<Type><Type>
+	
 		tempRight = syntaxTree.pop();
 		tempLeft = syntaxTree.pop();
 		tempParent = new Node(0, 0, 0, currentRule, tempLeft, tempRight);
@@ -56,15 +67,16 @@ public class AST {
 
 		break;
 	    case 8: // <List>-->IFELSE <Type>[ <List> ][ <List>]
-		//TODO
-		break;
-
 	    case 9: // <List>-->TO Variable [ <Parameters> ] [ <List> ]
+		tempRight = syntaxTree.pop();
+		tempLeft = syntaxTree.pop();
+		Node tempSeq = new Node(0, 0, 0, currentRule, tempLeft, tempRight);
+		tempLeft=syntaxTree.pop();
+		tempParent = new Node(0, 0, 0, currentRule, tempLeft, tempSeq);
+		syntaxTree.push(tempParent);
 
 		break;
 
-	    case 19: // <Command>--><Property>
-		break;
 	    case 20: // <Command>-->HOME
 	    case 21: // <Command>-->CS
 	    case 22: // <Queries>-->XCOR
@@ -100,46 +112,17 @@ public class AST {
 		syntaxTree.push(tempLeft);
 
 		break;
-	    case 38: // <Type>--><Math>
-	    case 39: // <Type>--><Boolean>
-		break;
-	    case 41: // <Math>-->+<Type><Type>
-	    case 42: // <Math>-->-<Type><Type>
-	    case 40: // <Math>-->*<Type><Type>
-	    case 43: // <Math>-->/<Type><Type>
-	    case 44: // <Math>-->%<Type><Type>
-	    case 47: // <Math>--><Tri><Type>
-	    case 49: // <Math>-->POW<Type><Type>
-	    case 54: // <Boolean>-->LESSP<Type><Type>
-	    case 55: // <Boolean>-->GREATERP<Type><Type>
-	    case 56: // <Boolean>-->EQUALP<Type><Type>
-	    case 57: // <Boolean>-->NOTEQUALP<Type><Type>
-	    case 58: // <Boolean>-->AND<Type><Type>
-	    case 60: // <Boolean>-->OR<Type><Type>
-
-		tempRight = syntaxTree.pop();
-		tempLeft = syntaxTree.pop();
-		tempParent = new Node(0, 0, 0, currentRule, tempLeft, tempRight);
-		syntaxTree.push(tempParent);
-		break;
-
+	
 	    case 45: // <Math>-->~<Type>
-
-		break;
 	    case 46: // <Math>-->RANDOM<Type>
 	    case 48: // <Math>-->LOG<Type>
-
+	    case 59: // <Boolean>-->NOT<Type>
 		tempLeft = syntaxTree.pop();
 		tempParent = new Node(0, 0, 0, currentRule, tempLeft, null);
 		syntaxTree.push(tempParent);
 
-		break;
 	    
-	    case 59: // <Boolean>-->NOT<Type>
-		tempLeft = syntaxTree.pop();
-		tempParent = new Node(currentRule, 0, 0, currentRule, null,
-			null);
-		syntaxTree.push(tempParent);
+
 		break;
 	    }
 
@@ -335,15 +318,12 @@ public class AST {
 
 	    val1 = currentNode.left.data_1;
 	    result = 0;
-	    System.out.println(val1);
-	    System.out.println(rule);
-
 	    switch (rule) {
 	    case 45:
 		result = -val1;
 		break;
 	    case 46:
-		result = Math.random() * 50;
+		result = Math.random() * val1;
 		break;
 	    case 48:
 		result = Math.log(val1);
