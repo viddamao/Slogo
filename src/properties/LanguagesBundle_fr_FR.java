@@ -9,7 +9,8 @@ public class LanguagesBundle_fr_FR extends ListResourceBundle {
 			{"Turtle Toggle","Choisir la Tortue"},
 			{"Grid Toggle","Choisir la visibilité du Grid"},
 			{"Color","Couleur"},
-			{"Enter","Entrée"}
+			{"Enter","Entrée"},
+			{"Toggling grid in simulation", "Changer la grid de la simulation"}
 	};
 	
 	@Override
