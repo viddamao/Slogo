@@ -246,7 +246,7 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "FD 50";
+	String inputString = "IF AND 0 1 [ FD 50 ]";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
