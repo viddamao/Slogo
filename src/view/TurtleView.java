@@ -37,8 +37,8 @@ public class TurtleView extends Circle {
 	 */
 	public TurtleView(Turtle turtleModel) {
 		this();
-		this.position = turtleModel.getPosition();
-		this.rotation = turtleModel.getRotation();	
+		setPosition(turtleModel.getPosition());
+		this.rotation = turtleModel.getRotation();
 		this.visible = true;
 	}
 
@@ -52,7 +52,7 @@ public class TurtleView extends Circle {
 	public TurtleView(TurtleView turtle) throws FileNotFoundException {
 		this();
 		if (turtle != null) {
-			this.position = turtle.getPosition();
+			setPosition(turtle.getPosition());
 			this.rotation = turtle.getRotation();
 			this.visible = turtle.isVisible();
 		}
@@ -69,8 +69,8 @@ public class TurtleView extends Circle {
 	public void setPosition(double x, double y) {
 		this.position.x = x;
 		this.position.y = y;
-		this.setCenterX(this.position.x);
-		this.setCenterY(this.position.y);
+		turtImg.setX(this.position.x);
+		turtImg.setY(this.position.y);
 	}
 
 	/**
