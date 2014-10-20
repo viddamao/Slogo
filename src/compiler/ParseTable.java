@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class ParseTable {
     private static ArrayList<HashMap<String, String>> myOperation = new ArrayList<>();
     private static ArrayList<HashMap<String, Integer>> nextState = new ArrayList<>();
-    private static String[] key = new String[64];
+    private static String[] key = new String[65];
     private static String[] myLHS = new String[61];
     private static int[] myRHS = new int[61];
 
@@ -19,7 +19,7 @@ public class ParseTable {
 	try {
 	    BufferedReader in = new BufferedReader(new FileReader(
 		    ".\\src\\properties\\parse_table_keys.txt"));
-	    for (int i = 0; i < 61; i++)
+	    for (int i = 0; i < 64; i++)
 		key[i] = in.readLine();
 
 	    in = new BufferedReader(new FileReader(
@@ -44,7 +44,7 @@ public class ParseTable {
 		String currentOp = "";
 		int currentNext = 0;
 
-		for (int j = 0; j < 63; j++) {
+		for (int j = 0; j < currentLine.length; j++) {
 		    currentNode = currentLine[j];
 		    currentOp = currentNode.substring(0, 1);
 
@@ -73,8 +73,9 @@ public class ParseTable {
 		myOperation.add(opTemp);
 		nextState.add(nextTemp);
 
+		
 	    }
-
+	 
 	} catch (FileNotFoundException e) {
 	    System.out.println("Parse Table file not found");
 	} catch (IOException e) {

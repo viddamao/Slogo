@@ -165,13 +165,12 @@ public class Compiler {
 
 		int i = 0;
 		while (i < currentRHS) {
-		    currentState = (Integer) state.pop();
+		    state.pop();
 		    symbol.pop();
 		    i++;
 		}
 
 		symbol.push(currentLHS);
-
 		currentState = (Integer) nextState.get(state.peek()).get(
 			symbol.peek());
 		state.push(currentState);
