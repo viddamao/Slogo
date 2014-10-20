@@ -8,6 +8,7 @@ import java.util.Map;
 import simulationObjects.Point;
 import simulationObjects.Turtle;
 import commands.Command;
+import commands.CommandList;
 import compiler.Compiler;
 import exceptions.ParsingException;
 import exceptions.UnbalancedBracketsException;
@@ -32,11 +33,10 @@ public class MainController {
 		if (cache.containsKey(input)) {
 		    commands = cache.get(input);
 		} else {
-			commands = new ArrayList<Command<Turtle, Void>>();
-		    commands.add(compiler.compile(input));
+		    commands = new ArrayList<Command<Turtle, Void>>();
+		    commands=compiler.compile(input);
 		    cache.put(input, commands);
 		}
-	
 		for (Command<Turtle, Void> c : commands) {
 		    c.run(turtle);
 		}

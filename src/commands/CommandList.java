@@ -4,7 +4,8 @@ import simulationObjects.Turtle;
 
 public class CommandList {
 	
-	public static Command<Turtle, Void> forwardCommand(final double forwardBy) {
+	public static Command<Turtle, Void> forwardCommand(double forwardBy) {
+	    	final double copyVal = forwardBy;
 		return new Command<Turtle, Void>() {
 			@Override
 			public Void run(Turtle params) {
@@ -12,8 +13,8 @@ public class CommandList {
 				double y_pos = params.getPosition().y;
 				double radians = Math.toRadians(params.getRotation());
 
-				double new_x = x_pos - Math.cos(radians)*forwardBy;
-				double new_y = y_pos - Math.sin(radians)*forwardBy;
+				double new_x = x_pos - Math.cos(radians)*copyVal;
+				double new_y = y_pos - Math.sin(radians)*copyVal;
 				params.setPosition(new_x, new_y);
 				return null;
 			}

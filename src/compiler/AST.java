@@ -132,18 +132,19 @@ public class AST {
 
     }
 
-    public Command<Turtle, Void> traverse(Node currentNode) {
+    public ArrayList<Command<Turtle, Void>> traverse(Node currentNode,ArrayList<Command<Turtle, Void>> ret) {
 
 	if (currentNode == null)
 	    return null;
-	traverse(currentNode.left);
-	traverse(currentNode.right);
+	 traverse(currentNode.left,ret);
+	 traverse(currentNode.right,ret);
 	int rule = currentNode.type;
 	switch (rule) {
 
 	case 1: // <Program>--><List>
 	    break;
 	case 3: // <List>--><List><Statement>
+	    
 	    break;
 
 	case 4: // <List>-->REPEAT<Type>[ <List> ]
@@ -166,9 +167,7 @@ public class AST {
 	case 11: // <Parameters>--><Parameters><Type>
 
 	    break;
-	case 12: // <Statement>--><Command>
-
-	    break;
+	    
 	case 13: // <Statement>--><Queries>
 
 	    break;
@@ -182,11 +181,17 @@ public class AST {
 	    
 	    switch (currentNode.left.type) {
 	    case 27:
-		System.out.println("FD ");
-		return CommandList.forwardCommand(val);
+		System.out.print("FD ");
+		System.out.println(val);
+		Command<Turtle, Void> current = CommandList.forwardCommand(val);
+		ret.add(current);
+		return ret;
 	    case 28:
 		System.out.println("BK ");
-		return CommandList.forwardCommand(-val);
+		current = CommandList.forwardCommand(val);
+		ret.add(current);
+		return ret;
+
 	    case 29:
 		System.out.println("LT ");
 		
@@ -353,7 +358,7 @@ public class AST {
 
 	}
 	
-	return null;
+	return ret;
 
     }
 }

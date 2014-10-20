@@ -157,6 +157,7 @@ public class Compiler {
 		currentLHS = lhs[entry_next];
 		currentRHS = rhs[entry_next];
 		
+		
 		int i = 0;
 		while (i < currentRHS) {
 		    state.pop();
@@ -252,7 +253,7 @@ public class Compiler {
      * @return
      * @throws ParsingException
      */
-    public Command<Turtle, Void> compile(String input)
+    public ArrayList<Command<Turtle, Void>> compile(String input)
 	    throws ParsingException {
 
 	initialize();
@@ -277,7 +278,7 @@ public class Compiler {
 	
 	AST myAST = new AST();
 	System.out.println("-------------------");
-	return myAST.traverse(myAST.generate(reversedStack));
+	return myAST.traverse(myAST.generate(reversedStack),new ArrayList<Command<Turtle,Void>>());
     }
 
     public List<SymbolTableEntry> getSymbolTable() {
