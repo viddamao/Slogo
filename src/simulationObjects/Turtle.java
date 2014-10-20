@@ -5,6 +5,8 @@ import simulationObjects.Point;
 public class Turtle {
     private Point position = new Point();
     private double rotation = 90.0;
+    private boolean visible=true;
+    private Pen myPen;
 
     /**
      * Constructor
@@ -23,6 +25,12 @@ public class Turtle {
     public Turtle(Turtle turtle) {
 	this.position = turtle.getPosition();
 	this.rotation = turtle.getRotation();
+	this.visible=turtle.getVisible();
+	this.myPen=turtle.getPen();
+    }
+
+    public boolean getVisible() {
+	return visible;
     }
 
     /**
@@ -83,5 +91,18 @@ public class Turtle {
 	} else {
 	    this.rotation = rotation;
 	}
+    }
+
+    public Turtle getTurtle() {
+	// TODO Auto-generated method stub
+	return this;
+    }
+
+    public void setVisible(boolean b) {
+	this.visible=b;
+    }
+
+    public Pen getPen() {
+	return this.myPen;
     }
 }

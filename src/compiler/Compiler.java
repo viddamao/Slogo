@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Stack;
 
 import simulationObjects.Turtle;
+import compiler.AST;
 import commands.Command;
 import compiler.TokenFinder.Type;
 import exceptions.ParsingException;
@@ -129,10 +130,11 @@ public class Compiler {
 	lookahead = program.split(" ")[0];
 	program = program.substring(program.indexOf(" ") + 1);
 	state.push(0);
+	entry_action = move.get(currentState).get(lookahead);
+	entry_next = nextState.get(currentState).get(lookahead);
+	  
 	while (!program.equals("")) {
 
-	    entry_action = move.get(currentState).get(lookahead);
-	    entry_next = nextState.get(currentState).get(lookahead);
 	    System.out.println();
 	    System.out.println(currentState);
 	    System.out.println(lookahead);
@@ -140,6 +142,11 @@ public class Compiler {
 	    System.out.println(entry_next);
 
 	    switch (entry_action) {
+	    case "a":
+		System.out.println("ACCEPT");
+		return sequence;
+	    case "x":
+		throw new SyntaxErrorException();
 	    case "s":
 		symbol.push(lookahead);
 		currentState = entry_next;
@@ -160,13 +167,12 @@ public class Compiler {
 
 		int i = 0;
 		while (i < currentRHS) {
-		    currentState = (Integer) state.pop();
+		    state.pop();
 		    symbol.pop();
 		    i++;
 		}
 
 		symbol.push(currentLHS);
-
 		currentState = (Integer) nextState.get(state.peek()).get(
 			symbol.peek());
 		state.push(currentState);
@@ -178,12 +184,11 @@ public class Compiler {
 			symbol.peek());
 		break;
 
-	    case "a":
-		System.out.println("ACCEPT");
-		return sequence;
-	    case "x":
-		throw new SyntaxErrorException();
+	   
 	    }
+	    entry_action = move.get(currentState).get(lookahead);
+	    entry_next = nextState.get(currentState).get(lookahead);
+		
 	}
 
 	return null;
@@ -201,6 +206,7 @@ public class Compiler {
 	nextState = myParseTable.getNextState();
 	lhs = myParseTable.getLHS();
 	rhs = myParseTable.getRHS();
+	
 
     }
 
@@ -240,7 +246,7 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "FD LESSP 10 20";
+	String inputString = "FD 50";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
@@ -254,13 +260,13 @@ public class Compiler {
      * @return
      * @throws ParsingException
      */
-    public ArrayList<Command<Turtle, Void>> compile(String input)
+    public Command<Turtle, Void> compile(String input)
 	    throws ParsingException {
 
 	initialize();
 	Stack<Integer> sequence = interpreter(scanner(input));
 
-	System.out.println(input);
+	//System.out.println(input);
 	System.out.println();
 	// for (int i=0;i<symbolTable.size();i++){
 	// System.out.println(symbolTable.get(i).getValue());}
@@ -277,25 +283,10 @@ public class Compiler {
 
 	}
 
+	
 	AST myAST = new AST();
 	System.out.println("-------------------");
-	myAST.traverse(myAST.generate(reversedStack));
-
-	// "add 20;"
-	final int val = 20;
-
-	ArrayList<Command<Turtle, Void>> ret = new ArrayList<Command<Turtle, Void>>();
-	Command<Turtle, Void> c = new Command<Turtle, Void>() {
-	    @Override
-	    public Void run(Turtle turtle) {
-		turtle.setPosition(turtle.getPosition().x + val,
-			turtle.getPosition().y);
-		return null;
-	    }
-	};
-	ret.add(c);
-
-	return ret;
+	return myAST.traverse(myAST.generate(reversedStack));
     }
 
     public List<SymbolTableEntry> getSymbolTable() {
