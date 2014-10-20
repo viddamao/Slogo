@@ -129,10 +129,11 @@ public class Compiler {
 	lookahead = program.split(" ")[0];
 	program = program.substring(program.indexOf(" ") + 1);
 	state.push(0);
+	entry_action = move.get(currentState).get(lookahead);
+	entry_next = nextState.get(currentState).get(lookahead);
+	  
 	while (!program.equals("")) {
 
-	    entry_action = move.get(currentState).get(lookahead);
-	    entry_next = nextState.get(currentState).get(lookahead);
 	    System.out.println();
 	    System.out.println(currentState);
 	    System.out.println(lookahead);
@@ -140,6 +141,11 @@ public class Compiler {
 	    System.out.println(entry_next);
 
 	    switch (entry_action) {
+	    case "a":
+		System.out.println("ACCEPT");
+		return sequence;
+	    case "x":
+		throw new SyntaxErrorException();
 	    case "s":
 		symbol.push(lookahead);
 		currentState = entry_next;
@@ -178,12 +184,11 @@ public class Compiler {
 			symbol.peek());
 		break;
 
-	    case "a":
-		System.out.println("ACCEPT");
-		return sequence;
-	    case "x":
-		throw new SyntaxErrorException();
+	   
 	    }
+	    entry_action = move.get(currentState).get(lookahead);
+	    entry_next = nextState.get(currentState).get(lookahead);
+		
 	}
 
 	return null;
@@ -201,6 +206,7 @@ public class Compiler {
 	nextState = myParseTable.getNextState();
 	lhs = myParseTable.getLHS();
 	rhs = myParseTable.getRHS();
+	
 
     }
 
@@ -240,7 +246,7 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "FD LESSP 10 20";
+	String inputString = "FD + 10 20";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
@@ -260,7 +266,7 @@ public class Compiler {
 	initialize();
 	Stack<Integer> sequence = interpreter(scanner(input));
 
-	System.out.println(input);
+	//System.out.println(input);
 	System.out.println();
 	// for (int i=0;i<symbolTable.size();i++){
 	// System.out.println(symbolTable.get(i).getValue());}

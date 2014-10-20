@@ -228,22 +228,7 @@ public class AST {
 	    switch (currentNode.left.type) {
 	    case 27:
 		System.out.println("FD ");
-		double pixelsMoved = val;
-		Command<Turtle, Void> c = new Command<Turtle, Void>() {
-
-		    double pixelsMoved = -val;
-
-		    @Override
-		    public Void run(Turtle turtle) {
-			double x_pos = turtle.getPosition().x;
-			double y_pos = turtle.getPosition().y;
-			double radians = Math.toRadians(turtle.getRotation());
-
-			double new_x = x_pos + Math.cos(radians) * pixelsMoved;
-			double new_y = y_pos + Math.sin(radians) * pixelsMoved;
-			turtle.setPosition(new_x, new_y);
-			return null;
-		    }
+		Forward(args);
 		};
 		break;
 	    case 28:
