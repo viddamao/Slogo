@@ -43,6 +43,7 @@ public class MainController {
     }
 
     public Turtle getTurtle() {
+    	turtle.setPosition(turtle.getPosition().x+100, turtle.getPosition().y+100);
     	return new Turtle(turtle);
     }
     
