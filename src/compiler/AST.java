@@ -13,7 +13,6 @@ public class AST {
 
     private Stack<Node> syntaxTree = new Stack<Node>();
     private List<SymbolTableEntry> symbolTable = new ArrayList<>();
-    private Turtle t;
 
     /**
      * 
@@ -179,17 +178,17 @@ public class AST {
 
     }
 
-    public void traverse(Node currentNode) {
+    public Command<Turtle, Void> traverse(Node currentNode) {
 
 	if (currentNode == null)
-	    return;
+	    return null;
 	traverse(currentNode.left);
 	traverse(currentNode.right);
 	int rule = currentNode.type;
 	switch (rule) {
 
 	case 1: // <Program>--><List>
-	    return;
+	    break;
 	case 3: // <List>--><List><Statement>
 	    break;
 
@@ -226,12 +225,11 @@ public class AST {
 
 	case 16: // <Command>--><Turn><Type>
 	    double val = currentNode.right.data_1;
-	    String[] args;
+	    
 	    switch (currentNode.left.type) {
 	    case 27:
 		System.out.println("FD ");
-		
-		break;
+		return CommandList.forwardCommand(val);
 	    case 28:
 		System.out.println("BK ");
 		
@@ -404,6 +402,8 @@ public class AST {
 	    break;
 
 	}
+	
+	return null;
 
     }
 }

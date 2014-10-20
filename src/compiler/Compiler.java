@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
+
+import simulationObjects.Turtle;
 import compiler.AST;
 import commands.Command;
 import compiler.TokenFinder.Type;
@@ -244,7 +246,7 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "FD AND 0 1";
+	String inputString = "FD 50";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
@@ -258,7 +260,7 @@ public class Compiler {
      * @return
      * @throws ParsingException
      */
-    public ArrayList<Command> compile(String input)
+    public Command<Turtle, Void> compile(String input)
 	    throws ParsingException {
 
 	initialize();
@@ -284,12 +286,7 @@ public class Compiler {
 	
 	AST myAST = new AST();
 	System.out.println("-------------------");
-	myAST.traverse(myAST.generate(reversedStack));
-	return null;
-
-	
-
-	
+	return myAST.traverse(myAST.generate(reversedStack));
     }
 
     public List<SymbolTableEntry> getSymbolTable() {
