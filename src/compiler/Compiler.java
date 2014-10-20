@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
-
-import simulationObjects.Turtle;
+import compiler.AST;
 import commands.Command;
 import compiler.TokenFinder.Type;
 import exceptions.ParsingException;
@@ -246,7 +245,7 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "FD + 10 20";
+	String inputString = "FD AND 0 1";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
@@ -260,7 +259,7 @@ public class Compiler {
      * @return
      * @throws ParsingException
      */
-    public ArrayList<Command<Turtle, Void>> compile(String input)
+    public ArrayList<Command> compile(String input)
 	    throws ParsingException {
 
 	initialize();
@@ -283,25 +282,15 @@ public class Compiler {
 
 	}
 
+	
 	AST myAST = new AST();
 	System.out.println("-------------------");
 	myAST.traverse(myAST.generate(reversedStack));
+	return null;
 
-	// "add 20;"
-	final int val = 20;
+	
 
-	ArrayList<Command<Turtle, Void>> ret = new ArrayList<Command<Turtle, Void>>();
-	Command<Turtle, Void> c = new Command<Turtle, Void>() {
-	    @Override
-	    public Void run(Turtle turtle) {
-		turtle.setPosition(turtle.getPosition().x + val,
-			turtle.getPosition().y);
-		return null;
-	    }
-	};
-	ret.add(c);
-
-	return ret;
+	
     }
 
     public List<SymbolTableEntry> getSymbolTable() {

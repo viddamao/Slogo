@@ -1,6 +1,6 @@
 package compiler;
 
-import commands.Command;
+import commands.*;
 import compiler.Node;
 
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ public class AST {
 
     private Stack<Node> syntaxTree = new Stack<Node>();
     private List<SymbolTableEntry> symbolTable = new ArrayList<>();
+    private Turtle t;
 
     /**
      * 
@@ -225,59 +226,23 @@ public class AST {
 
 	case 16: // <Command>--><Turn><Type>
 	    double val = currentNode.right.data_1;
+	    String[] args;
 	    switch (currentNode.left.type) {
 	    case 27:
 		System.out.println("FD ");
-		Forward(args);
-		};
+		
 		break;
 	    case 28:
 		System.out.println("BK ");
-		pixelsMoved = -val;
-		c = new Command<Turtle, Void>() {
-
-		    @Override
-		    public Void run(Turtle turtle) {
-			double x_pos = turtle.getPosition().x;
-			double y_pos = turtle.getPosition().y;
-			double radians = Math.toRadians(turtle.getRotation());
-
-			double new_x = x_pos + Math.cos(radians) * pixelsMoved;
-			double new_y = y_pos + Math.sin(radians) * pixelsMoved;
-			turtle.setPosition(new_x, new_y);
-			return null;
-		    }
-		};
+		
 		break;
 	    case 29:
 		System.out.println("LT ");
-		c = new Command<Turtle, Void>() {
-
-		    @Override
-		    public Void run(Turtle turtle) {
-			double newRot = val;
-
-			double rot = turtle.getRotation();
-			turtle.setRotation(rot + newRot);
-
-			return null;
-		    }
-		};
+		
 		break;
 	    case 30:
 		System.out.println("RT ");
-		c = new Command<Turtle, Void>() {
-
-		    @Override
-		    public Void run(Turtle turtle) {
-			double newRot = val;
-
-			double rot = turtle.getRotation();
-			turtle.setRotation(rot - newRot);
-
-			return null;
-		    }
-		};
+		
 		break;
 	    }
 
