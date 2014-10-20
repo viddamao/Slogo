@@ -3,9 +3,8 @@ package gui;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import simulationObjects.Turtle;
 import javax.imageio.ImageIO;
-
 import simulationObjects.Turtle;
 import view.TurtleView;
 import javafx.embed.swing.SwingFXUtils;
@@ -36,6 +35,15 @@ public class Buttons {
 	// TODO Auto-generated method stub
 
     }
+
+
+	public static void changeImage(Turtle turtle) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG", "*.jpg"));
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+		File file = fileChooser.showOpenDialog(new Stage());
+		
+	}
 
     public static void gridToggle(GridPane playground) {
 	// TODO Auto-generated method stub

@@ -3,6 +3,7 @@ package controller;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import simulationObjects.Turtle;
@@ -12,9 +13,10 @@ import exceptions.ParsingException;
 import exceptions.UnbalancedBracketsException;
 
 public class MainController {
-    private Compiler compiler = new Compiler();
-    private Turtle turtle;
-    private ArrayList<String> history = new ArrayList<String>();
+	
+	private Compiler compiler = new Compiler();
+	private Turtle turtle;
+	private List<String> history;
 
     private Map<String, ArrayList<Command<Turtle, Void>>> cache = new HashMap<String, ArrayList<Command<Turtle, Void>>>();
 
@@ -38,8 +40,8 @@ public class MainController {
     public Turtle getTurtle() {
 	return new Turtle(turtle);
     }
-
-    public ArrayList<String> getHistory() {
-	return new ArrayList<String>(history);
+    
+    public List<String> getHistory() {
+    	return new ArrayList<String>(history);
     }
 }
