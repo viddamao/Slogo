@@ -9,16 +9,8 @@ public class Turtle {
     /**
      * Constructor
      */
-<<<<<<< HEAD
-    public Turtle() throws FileNotFoundException {
-    	this.position.x = 0;
-    	this.position.y = 0;
-    	myImage = new Image(new FileInputStream(new File("src/properties/turtle.png")), 80, 100, false, true);
-    	turtImg.setImage(myImage);
-=======
     public Turtle() {
 
->>>>>>> 266ff812318c8cfc72b6e62863977a3ca85678af
     }
 
     /**
@@ -28,18 +20,9 @@ public class Turtle {
      *            a Turtle object whose data will be copied to the new Turtle
      *            instance.
      */
-<<<<<<< HEAD
-    public Turtle(Turtle turtle) throws FileNotFoundException {
-    	this.position = turtle.getPosition();
-    	this.rotation = turtle.getRotation();
-    	this.visible = turtle.isVisible();
-    	myImage = new Image(new FileInputStream(new File("src/properties/turtle.png")), 80, 100, false, true);
-    	turtImg.setImage(myImage);
-=======
     public Turtle(Turtle turtle) {
 	this.position = turtle.getPosition();
 	this.rotation = turtle.getRotation();
->>>>>>> 266ff812318c8cfc72b6e62863977a3ca85678af
     }
 
     /**

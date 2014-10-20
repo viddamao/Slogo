@@ -42,7 +42,7 @@ public class GUIScene {
 	 */
 	private Locale[] supportedLocales = { new Locale("en", "US"), new Locale("fr", "FR")};
 	private Text statusText = new Text();
-	protected Turtle turtle;
+	protected TurtleView turtle;
 	protected String userCommand = new String();
 	private GridPane playground = new GridPane();
 	private MainController controller = new MainController();
@@ -74,7 +74,7 @@ public class GUIScene {
         statusBar.getChildren().addAll( new Label("Status:"), statusText);
         statusBar.setStyle("-fx-background-color: AQUA");
         
-        TextArea input = new TextArea();
+        final TextArea input = new TextArea();
         input.setWrapText(true);
         input.setPrefWidth(200);
         input.setPrefHeight((int)SCENE_HEIGHT/2);
@@ -116,7 +116,7 @@ public class GUIScene {
 	public Group addGrid() throws FileNotFoundException{
 		Group root = new Group();
 		
-		turtle = new Turtle();	
+		turtle = new TurtleView();	
 //		playground.setPrefSize(SCENE_WIDTH/2, SCENE_HEIGHT/2);
 //		playground.setHgap(5);
 //		playground.setVgap(5);
@@ -201,6 +201,6 @@ public class GUIScene {
 		return new Image(input, WRAP_LENGTH/3, WRAP_HEIGHT/3, true, true);
 	}
 	public void update() throws FileNotFoundException{
-		turtle = controller.getTurtle();
+		turtle = new TurtleView(controller.getTurtle());
 	}
 }
