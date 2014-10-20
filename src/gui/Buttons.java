@@ -2,6 +2,7 @@ package gui;
 
 import java.io.File;
 
+import simulationObjects.Turtle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -39,7 +40,7 @@ public class Buttons {
 		
 	}
 
-	public static void changeImage() {
+	public static void changeImage(Turtle turtle) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG", "*.jpg"));
 		fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));

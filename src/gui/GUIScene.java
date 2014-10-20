@@ -3,6 +3,12 @@ package gui;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import controller.MainController;
+import exceptions.ParsingException;
+import exceptions.UnbalancedBracketsException;
 import simulationObjects.Turtle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,6 +27,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -30,23 +37,29 @@ public class GUIScene {
 	 * Application scene is managed in this class
 	 * @author Steven Pierre
 	 * @author Kevin Rhine
+	 * @model cellsociety_team15
 	 */
+	private Locale[] supportedLocales = { new Locale("en", "US"), new Locale("fr", "FR")};
 	private Text statusText = new Text();
 	protected Turtle turtle;
 	protected String userCommand = new String();
 	private GridPane playground = new GridPane();
+	private MainController controller = new MainController();
 	public static double SCENE_WIDTH = 1280;
     public static double SCENE_HEIGHT = 720;
     public static double WRAP_LENGTH = 150;
     public static double WRAP_HEIGHT= 720/4;
     public static double GRID_TO_SCENE_RATIO = 0.8;
 	private BorderPane layout = new BorderPane();
+	private ResourceBundle guiText;
 	
 	public void createScene(Stage s) throws FileNotFoundException{
 		Scene slogo = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT, Color.AQUA);
 		s.setTitle("SLogo Team 05");
 		s.setScene(slogo);
 		s.show();
+		Locale currentLocale = supportedLocales[1];
+	    guiText = ResourceBundle.getBundle("properties.LanguagesBundle", currentLocale);
 		layout.setTop(getTopToolBar());
 		layout.setRight(getRightBox());
 		layout.setLeft(addButtons());
@@ -55,7 +68,7 @@ public class GUIScene {
 	public GridPane getRightBox(){
 		GridPane bottom = new GridPane();
 		HBox statusBar = new HBox();
-        statusBar.setPrefHeight(SCENE_HEIGHT/2);
+        statusBar.setPrefHeight(SCENE_HEIGHT/2.5);
         statusBar.setAlignment(Pos.TOP_LEFT);     
         statusBar.getChildren().addAll( new Label("Status:"), statusText);
         statusBar.setStyle("-fx-background-color: AQUA");
@@ -69,10 +82,13 @@ public class GUIScene {
         Button enter = new Button("Enter", input);
         enter.setOnAction(new EventHandler<ActionEvent>(){
         	public void handle(ActionEvent e){
-        		userCommand = input.getText();
-        		input.clear();
-        		statusText.setText(userCommand);
-        		System.out.println(userCommand);
+        		try {
+					controller.passInput(input.getText());
+				} catch (ParsingException e1) {
+					input.clear();
+					statusText.setText("Pass in a string fitting SLogo format");
+				}
+        		input.clear();      		
         	}
         });
         userInput.add(input, 0,0);
@@ -88,7 +104,7 @@ public class GUIScene {
         load.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle (ActionEvent event) {
-                
+              
             }
         });
         ToolBar topToolBar = new ToolBar(load);
@@ -98,13 +114,23 @@ public class GUIScene {
 	}
 	public Group addGrid() throws FileNotFoundException{
 		Group root = new Group();
-		turtle = new Turtle();
-		turtle.setPosition(SCENE_WIDTH/2, SCENE_HEIGHT/2);
+		
+		turtle = new Turtle();	
+//		playground.setPrefSize(SCENE_WIDTH/2, SCENE_HEIGHT/2);
+//		playground.setHgap(5);
+//		playground.setVgap(5);
+//		for(int i=0; i<SCENE_WIDTH/16; i++){
+//			for(int j=0; j<SCENE_HEIGHT/9; j++){
+//				Text gridCreate = new Text("");
+//				playground.add(gridCreate, i, j);
+//			}
+//		}
 		
 		playground.setGridLinesVisible(true);
+		
 		root.getChildren().add(turtle.turtImg);		
-		root.getChildren().add(playground);
-
+		//root.getChildren().add(playground);
+		turtle.setPosition(SCENE_WIDTH/2, SCENE_HEIGHT/2);
 		return root;
 	}
 	public FlowPane addButtons() throws FileNotFoundException{
@@ -117,37 +143,37 @@ public class GUIScene {
 		flow.setStyle("-fx-background-color: DarkBlue");
 		
 		ImageView col= new ImageView(setImage(new FileInputStream(new File("src/images/BackgroundColor.png"))));
-		Button color = new Button("color", col);
+		Button color = new Button(guiText.getString("Color"), col);
 		color.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle (ActionEvent event) {
-            	statusText.setText("Changing background color");
+            	statusText.setText(guiText.getString("Changing background color"));
             	Buttons.changeColor();
             }
         });
 		
 		ImageView gdt= new ImageView(setImage(new FileInputStream(new File("src/images/Grid.png"))));
-		Button gridT = new Button("Grid Toggle", gdt);
+		Button gridT = new Button(guiText.getString("Grid Toggle"), gdt);
 		gridT.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle (ActionEvent event) {
-            	statusText.setText("Toggling grid in simulation");
+            	statusText.setText(guiText.getString("Toggling grid in simulation"));
             	Buttons.gridToggle(playground);
             }
         });
 	
 		ImageView ttle= new ImageView(setImage(new FileInputStream(new File("src/images/Leonardo.png"))));
-		Button turtle= new Button("Turtle Toggle", ttle);
-		turtle.setOnAction(new EventHandler<ActionEvent>() {
+		Button turtleToggle= new Button(guiText.getString("Turtle Toggle"), ttle);
+		turtleToggle.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle (ActionEvent event) {
-                statusText.setText("Toggling turtle in simulation");
+                statusText.setText(guiText.getString("Toggling turtle in simulation"));
                 Buttons.turtleToggle();
             }
         });
 		
 		ImageView ttm= new ImageView(setImage(new FileInputStream(new File("src/images/Raphael.png"))));
-		Button turtim= new Button("Turtle image", ttm);
+		Button turtim= new Button(guiText.getString("Turtle Image"), ttm);
 		turtim.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle (ActionEvent event) {
@@ -166,12 +192,15 @@ public class GUIScene {
 	
 		flow.getChildren().add(color);
 		flow.getChildren().add(gridT);
-		flow.getChildren().add(turtle);
+		flow.getChildren().add(turtleToggle);
 		flow.getChildren().add(turtim);
 		flow.getChildren().add(language);
 		return flow;
 	}
 	public Image setImage(FileInputStream input){	
-		return new Image(input, WRAP_LENGTH, WRAP_HEIGHT, true, true);
+		return new Image(input, WRAP_LENGTH/3, WRAP_HEIGHT/3, true, true);
+	}
+	public void update() throws FileNotFoundException{
+		turtle = controller.getTurtle();
 	}
 }

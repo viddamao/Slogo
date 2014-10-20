@@ -21,7 +21,9 @@ public class Turtle extends Circle{
      * @throws FileNotFoundException 
      */
     public Turtle() throws FileNotFoundException {
-    	myImage = new Image(new FileInputStream(new File("src/properties/turtle.png")), 100, 80, false, true);
+    	this.position.x = 0;
+    	this.position.y = 0;
+    	myImage = new Image(new FileInputStream(new File("src/properties/turtle.png")), 80, 100, false, true);
     	turtImg.setImage(myImage);
     }
     
@@ -34,7 +36,7 @@ public class Turtle extends Circle{
     	this.position = turtle.getPosition();
     	this.rotation = turtle.getRotation();
     	this.visible = turtle.isVisible();
-    	myImage = new Image(new FileInputStream(new File("src/properties/turtle.png")), 100, 80, false, true);
+    	myImage = new Image(new FileInputStream(new File("src/properties/turtle.png")), 80, 100, false, true);
     	turtImg.setImage(myImage);
     }
 
