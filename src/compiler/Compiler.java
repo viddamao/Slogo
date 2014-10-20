@@ -23,16 +23,16 @@ public class Compiler {
     private ParseTable myParseTable = new ParseTable();
     public ArrayList<HashMap<String, String>> move = new ArrayList<>();
     public ArrayList<HashMap<String, Integer>> nextState = new ArrayList<>();
-    private List<SymbolTableEntry> symbolTable = new ArrayList<>();
+    private static List<SymbolTableEntry> symbolTable = new ArrayList<>();
     private HashMap<String, String> grammar = new HashMap<>();
-    private HashMap<String, String> dictionary=new HashMap<>();
+    private HashMap<String, String> dictionary = new HashMap<>();
 
     Stack<Integer> state = new Stack<Integer>();
     Stack<String> symbol = new Stack<String>();
     private String[] lhs = new String[61];
     private int[] rhs;
-    private String language="";
-    
+    private String language = "";
+
     /**
      * 
      * @param inputBuffer
@@ -41,10 +41,11 @@ public class Compiler {
      */
     private String scanner(String inputBuffer) throws ParsingException {
 	inputBuffer = inputBuffer.toUpperCase();
-	if (language!="English") inputBuffer=translateToEnglish(inputBuffer);
+	if (language != "English")
+	    inputBuffer = translateToEnglish(inputBuffer);
 	String[] split = inputBuffer.split(" ");
 	Type[] tokens = TokenFinder.tokenize(split);
-	
+
 	for (int i = 0; i < split.length; i++) {
 	    if (grammar.containsKey(split[i])) {
 		inputBuffer = inputBuffer.replaceFirst(split[i],
@@ -65,7 +66,7 @@ public class Compiler {
 
     private String translateToEnglish(String inputBuffer) {
 	String[] split = inputBuffer.split(" ");
-	
+
 	for (int i = 0; i < split.length; i++) {
 	    if (dictionary.containsKey(split[i])) {
 		inputBuffer = inputBuffer.replaceFirst(split[i],
@@ -91,16 +92,16 @@ public class Compiler {
 	    switch (tokens[i]) {
 	    case VARIABLE:
 		currentEntry.setValue(0);
+		symbolTable.add(currentEntry);
 		break;
 	    case CONSTANT:
 		currentEntry.setValue(Double.parseDouble(split[i]));
+		symbolTable.add(currentEntry);
 		break;
 	    default:
 		break;
 
 	    }
-
-	    symbolTable.add(currentEntry);
 
 	}
 
@@ -117,84 +118,76 @@ public class Compiler {
      * @throws ParsingException
      */
     private Stack<Integer> interpreter(String input) throws ParsingException {
-	try {
-	    Stack<Integer> sequence = new Stack<Integer>();
-	    String lookahead = "", currentLHS = "", program = input;
-	    int currentState = 0, currentRHS = 0;
-	    program = program.concat(" $");
+	System.out.println(input);
 
-	    lookahead = program.split(" ")[0];
-	    program = program.substring(program.indexOf(" ") + 1);
+	Stack<Integer> sequence = new Stack<Integer>();
+	String lookahead = "", currentLHS = "", program = input;
+	String entry_action = "";
+	int currentState = 0, currentRHS = 0, entry_next = 0;
+	program = program.concat(" $");
 
-	    state.push(0);
-	    while (!program.equals("")) {
+	lookahead = program.split(" ")[0];
+	program = program.substring(program.indexOf(" ") + 1);
+	state.push(0);
+	while (!program.equals("")) {
 
-		currentState = state.peek();
-		if (move.get(currentState).get(lookahead).equals("s")) {
+	    entry_action = move.get(currentState).get(lookahead);
+	    entry_next = nextState.get(currentState).get(lookahead);
+	    System.out.println();
+	    System.out.println(currentState);
+	    System.out.println(lookahead);
+	    System.out.println(entry_action);
+	    System.out.println(entry_next);
 
-		    currentState = nextState.get(currentState).get(lookahead);
-		    state.push(currentState);
-		    symbol.push(lookahead);
-		    lookahead = program.split(" ")[0];
-		    program = program.substring(program.indexOf(" ") + 1);
+	    switch (entry_action) {
+	    case "s":
+		symbol.push(lookahead);
+		currentState = entry_next;
+		state.push(currentState);
 
+		lookahead = program.split(" ")[0];
+		program = program.substring(program.indexOf(" ") + 1);
+
+		break;
+
+	    case "r":
+
+		sequence.push(entry_next);
+		currentLHS = lhs[entry_next];
+		currentRHS = rhs[entry_next];
+		System.out.println(currentLHS);
+		System.out.println(currentRHS);
+
+		int i = 0;
+		while (i < currentRHS) {
+		    currentState = (Integer) state.pop();
+		    symbol.pop();
+		    i++;
 		}
 
-		currentState = state.peek();
-		if (move.get(currentState).get(lookahead).equals("r")) {
-		    int i = 0;
-		    sequence.push((Integer) nextState.get(currentState).get(
-			    lookahead));
-		    currentLHS = lhs[(Integer) nextState.get(currentState).get(
-			    lookahead)];
-		    currentRHS = rhs[(Integer) nextState.get(currentState).get(
-			    lookahead)];
+		symbol.push(currentLHS);
 
-		    while (i < currentRHS) {
-			currentState = (Integer) state.pop();
-			symbol.pop();
-			i++;
-		    }
+		currentState = (Integer) nextState.get(state.peek()).get(
+			symbol.peek());
+		state.push(currentState);
+		break;
 
-		    symbol.push(currentLHS);
-		    currentState = (Integer) nextState.get(state.peek()).get(
-			    symbol.peek());
-		    state.push(currentState);
+	    case "m":
 
-		}
+		currentState = (Integer) nextState.get(state.peek()).get(
+			symbol.peek());
+		break;
 
-		currentState = state.peek();
-		if (move.get(currentState).get(lookahead).equals("m")) {
-
-		    currentState = (Integer) nextState.get(state.peek()).get(
-			    symbol.peek());
-
-		}
-
-		currentState = state.peek();
-		if (move.get(currentState).get(lookahead).equals("a")) {
-		    System.out.println("ACCEPT");
-		    return sequence;
-		}
-
-		currentState = state.peek();
-		if (move.get(currentState).get(lookahead).equals("x")) {
-		    throw new SyntaxErrorException();
-		}
-
+	    case "a":
+		System.out.println("ACCEPT");
+		return sequence;
+	    case "x":
+		throw new SyntaxErrorException();
 	    }
-	    return null;
-	} catch (NullPointerException e) {
-	    System.out.println("Null Pointer");
-	    System.out.println(state);
 	}
-	return null;
-    }
 
-    public static void main(String[] args) throws Exception {
-	String inputString = "QJ 50 ZZ 90";
-	Compiler myCompiler = new Compiler();
-	myCompiler.compile(inputString);
+	return null;
+
     }
 
     /**
@@ -214,13 +207,14 @@ public class Compiler {
     private void initGrammar() {
 	try {
 
-	    String language = "Chinese", currentLine = "", key = "", value = "";
+	    String language = "English", currentLine = "", key = "", value = "";
 	    grammar.clear();
-	    
-	    BufferedReader in = new BufferedReader(new FileReader(".\\src\\dictionary\\English.txt"));
+
+	    @SuppressWarnings("resource")
+	    BufferedReader in = new BufferedReader(new FileReader(
+		    ".\\src\\dictionary\\English.txt"));
 	    while (in.ready()) {
 		currentLine = in.readLine();
-		System.out.println(currentLine);
 		key = currentLine.split(" ")[0];
 		value = currentLine.split(" ")[1];
 		grammar.put(key, value);
@@ -230,12 +224,11 @@ public class Compiler {
 		in = new BufferedReader(new FileReader(".\\src\\dictionary\\"
 			+ language + ".txt"));
 		while (in.ready()) {
-			currentLine = in.readLine();
-			key = currentLine.split(" ")[1].toUpperCase();
-			value = currentLine.split(" ")[0].toUpperCase();
-			dictionary.put(key, value);
-		    }
-		System.out.println(dictionary);
+		    currentLine = in.readLine();
+		    key = currentLine.split(" ")[1].toUpperCase();
+		    value = currentLine.split(" ")[0].toUpperCase();
+		    dictionary.put(key, value);
+		}
 	    }
 
 	} catch (FileNotFoundException e) {
@@ -244,6 +237,12 @@ public class Compiler {
 	    e.printStackTrace();
 	}
 
+    }
+
+    public static void main(String[] args) throws Exception {
+	String inputString = "FD LESSP 10 20";
+	Compiler myCompiler = new Compiler();
+	myCompiler.compile(inputString);
     }
 
     /**
@@ -257,14 +256,30 @@ public class Compiler {
      */
     public ArrayList<Command<Turtle, Void>> compile(String input)
 	    throws ParsingException {
+
 	initialize();
 	Stack<Integer> sequence = interpreter(scanner(input));
-	Stack<Integer> reversedStack = new Stack<>();
-	while (!sequence.empty())
-	    reversedStack.push(sequence.pop());
 
-	ASTGenerator myASTGenerator = new ASTGenerator();
-	myASTGenerator.generate(reversedStack);
+	System.out.println(input);
+	System.out.println();
+	// for (int i=0;i<symbolTable.size();i++){
+	// System.out.println(symbolTable.get(i).getValue());}
+
+	Stack<Integer> reversedStack = new Stack<>();
+	try {
+	    while (!sequence.empty()) {
+		System.out.println(sequence.peek());
+		reversedStack.push(sequence.pop());
+
+	    }
+	} catch (NullPointerException e) {
+	    System.out.println("Null Pointer~");
+
+	}
+
+	AST myAST = new AST();
+	System.out.println("-------------------");
+	myAST.traverse(myAST.generate(reversedStack));
 
 	// "add 20;"
 	final int val = 20;
@@ -281,6 +296,10 @@ public class Compiler {
 	ret.add(c);
 
 	return ret;
+    }
+
+    public List<SymbolTableEntry> getSymbolTable() {
+	return symbolTable;
     }
 
 }

@@ -5,11 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import controller.MainController;
 import exceptions.ParsingException;
 import exceptions.UnbalancedBracketsException;
 import simulationObjects.Turtle;
+import view.TurtleView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -33,6 +33,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class GUIScene {
+
 	/**
 	 * Application scene is managed in this class
 	 * @author Steven Pierre
@@ -48,7 +49,7 @@ public class GUIScene {
 	public static double SCENE_WIDTH = 1280;
     public static double SCENE_HEIGHT = 720;
     public static double WRAP_LENGTH = 150;
-    public static double WRAP_HEIGHT= 720/4;
+    public static double WRAP_HEIGHT = 720 / 4;
     public static double GRID_TO_SCENE_RATIO = 0.8;
 	private BorderPane layout = new BorderPane();
 	private ResourceBundle guiText;
@@ -126,8 +127,7 @@ public class GUIScene {
 //			}
 //		}
 		
-		playground.setGridLinesVisible(true);
-		
+		playground.setGridLinesVisible(true);	
 		root.getChildren().add(turtle.turtImg);		
 		//root.getChildren().add(playground);
 		turtle.setPosition(SCENE_WIDTH/2, SCENE_HEIGHT/2);
