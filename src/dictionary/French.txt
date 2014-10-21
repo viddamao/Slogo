@@ -57,3 +57,17 @@ ID id
 Tell dire
 Ask demande
 AskWith demanderavec
+SetBG deffonddecran
+SETBG dfde
+SetPC defcouleurdustylo
+SETPC dcds
+SetPS deftailledustylo
+SETPS dts
+SetSh defimage
+SETSH di
+SetPalettedefpalette
+PC couleurdustylo,cds
+SH image
+SH im
+STAMP stamp
+ClearStamps = effacerstamps

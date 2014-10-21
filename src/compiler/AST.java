@@ -59,12 +59,27 @@ public class AST {
 	    case 57: // <Boolean>-->NOTEQUALP<Type><Type>
 	    case 58: // <Boolean>-->AND<Type><Type>
 	    case 60: // <Boolean>-->OR<Type><Type>
+	    case 61:
+	    case 62:
+	    case 63:
+	    case 64:
+	    case 72:
+	    case 73:
+	    case 74:
+	    case 75:
+	    case 76:
 	
 		tempRight = syntaxTree.pop();
 		tempLeft = syntaxTree.pop();
 		tempParent = new Node(0, 0, 0, currentRule, tempLeft, tempRight);
 		syntaxTree.push(tempParent);
 
+		break;
+	    case 65://palette
+		tempRight = syntaxTree.pop();
+		tempLeft = syntaxTree.pop();
+		Node temp = new Node(syntaxTree.pop().data_1,tempLeft.data_1, tempRight.data_1, currentRule, tempLeft, tempRight);
+		tempParent = new Node(0, 0, 0, currentRule, syntaxTree.pop(), temp);
 		break;
 	    case 8: // <List>-->IFELSE <Type>[ <List> ][ <List>]
 	    case 9: // <List>-->TO Variable [ <Parameters> ] [ <List> ]
@@ -97,6 +112,14 @@ public class AST {
 	    case 51: // <Tri>-->COS
 	    case 52: // <Tri>-->TAN
 	    case 53: // <Tri>-->ATAN
+	    case 66:
+	    case 67:
+	    case 68:
+	    case 69:
+	    case 70:
+	    case 71:
+	    case 77://
+		
 
 		tempParent = new Node(currentRule, 0, 0, currentRule, null,
 			null);
@@ -276,13 +299,13 @@ public class AST {
 	    double result = 0;
 
 	    switch (rule) {
-	    case 41:
+	    case 40:
 		result = val1 + val2;
 		break;
-	    case 42:
+	    case 41:
 		result = val1 - val2;
 		break;
-	    case 40:
+	    case 42:
 		result = val1 * val2;
 		break;
 	    case 43:
@@ -338,7 +361,7 @@ public class AST {
 
 	    break;
 	case 47: // <Math>--><Tri><Type>
-
+	    break;
 	case 50: // <Tri>-->SIN
 
 	    break;
@@ -355,7 +378,42 @@ public class AST {
 	case 59: // <Boolean>-->NOT<Type>
 
 	    break;
-
+	    
+	case 61://SETBG
+	    break;
+	case 62://SETPC
+	    break;
+	case 63://SETPS
+	    break;
+	case 64://SETSH
+	    break;
+	case 65://SETPALETTE
+	    break;
+	case 66://PC
+	    break;
+	case 67://SH
+	    break;
+	case 68://STAMP
+	    break;
+	case 69://CLEARSTAMPS
+	    break;
+	case 70://ID
+	    break;
+	case 71://TURTLES
+	    break;
+	case 72://TELL
+	    break;
+	case 73://ASK
+	    break;
+	case 74://ASKWITH
+	    break;
+	case 75://ONCLICK
+	    break;
+	case 76://ONMOVE
+	    break;
+	case 77://ONKEY
+	    break;
+	
 	}
 	
 	return ret;

@@ -30,7 +30,7 @@ public class MainController {
 		history.add(input);
 		ArrayList<Command<Turtle, Void>> commands;
 	
-		if (cache.containsKey(input)) {
+		if (false) {
 		    commands = cache.get(input);
 		} else {
 		    commands = new ArrayList<Command<Turtle, Void>>();
