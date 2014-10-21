@@ -10,7 +10,8 @@ public class LanguagesBundle_en_US extends ListResourceBundle {
 			{"Grid Toggle","Grid Toggle"},
 			{"Color","Color"},
 			{"Enter","Enter"},
-			{"Toggling turtle Grid in simulation", "Toggling turtle in simulation"}
+			{"Toggling turtle in simulation", "Toggling turtle in simulation"},
+			{"Toggling grid in simulation", "Toggling grid in simulation"}
 	};
 	
 	@Override

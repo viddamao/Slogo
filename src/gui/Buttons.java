@@ -65,7 +65,7 @@ public class Buttons {
 	try {
 	    BufferedImage bufferedImage = ImageIO.read(file);
 	    Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-	    turtle.changeImage(image);
+	    //turtle.changeImage(image);
 	} catch (IOException ex) {
 
 	}
