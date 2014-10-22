@@ -105,7 +105,7 @@ public class GUIScene {
 		rightSide.setPrefSize(input.getMaxWidth(), SCENE_HEIGHT/2.5);
 		rightSide.add(userInput, 0, 0);
 		rightSide.add(statusBar, 0, 1);
-		rightSide.setStyle("-fx-background-color: AQUA");        
+		rightSide.setStyle("-fx-background-color: AQUA");   
 		return rightSide;
 	}
 	public ToolBar getTopToolBar(){
@@ -130,9 +130,9 @@ public class GUIScene {
 				Text gridCreate = new Text("");
 				playground.add(gridCreate, i, j);
 			}
-		}
-		root.getChildren().add(turtle);		
+		}	
 		root.getChildren().add(playground);
+		root.getChildren().add(turtle);	
 		update();
 		return root;
 	}
