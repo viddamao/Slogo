@@ -7,12 +7,17 @@ public class Turtle {
     private double rotation = 0;
     private boolean visible=true;
     private Pen myPen;
+    private int idNum;
 
     /**
      * Constructor
      */
     public Turtle() {
-
+	idNum = 0;
+	myPen = new Pen();
+	position=new Point(0,0);
+	rotation = 90;
+	visible = true;
     }
 
     /**
@@ -27,6 +32,7 @@ public class Turtle {
 	this.rotation = turtle.getRotation();
 	this.visible=turtle.getVisible();
 	this.myPen=turtle.getPen();
+	this.idNum=turtle.getIdNum();
     }
 
     public boolean getVisible() {
@@ -105,4 +111,16 @@ public class Turtle {
     public Pen getPen() {
 	return this.myPen;
     }
+
+    public int getIdNum() {
+	return idNum;
+}
+
+/**
+ * set the idnum of the turtle
+ * @param idNum
+ */
+public void setIdNum(int idNum) {
+	this.idNum = idNum;
+}
 }

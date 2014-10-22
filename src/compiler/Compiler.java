@@ -239,7 +239,7 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "SETPS 10";
+	String inputString = "FD 10";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
