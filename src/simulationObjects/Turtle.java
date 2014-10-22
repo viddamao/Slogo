@@ -4,7 +4,7 @@ import simulationObjects.Point;
 
 public class Turtle {
     private Point position = new Point();
-    private double rotation = 90.0;
+    private double rotation = 0;
     private boolean visible=true;
     private Pen myPen;
 
