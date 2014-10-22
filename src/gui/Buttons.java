@@ -40,8 +40,8 @@ public class Buttons {
 		return result;
 	}
 
-	public static void changeColor(Pane playground, FlowPane flow) {
-		ColorPicker color = new ColorPicker(Color.GREY);
+	public static void changeColor(final Pane playground, final FlowPane flow) {
+		final ColorPicker color = new ColorPicker(Color.GREY);
 		flow.getChildren().add(color);
 		color.setOnAction(new EventHandler<ActionEvent>(){
 			@Override

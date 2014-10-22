@@ -195,7 +195,7 @@ public class GUIScene {
 			public void handle (ActionEvent event) {
 				Buttons.changeLang();
 				ObservableList<String> options = FXCollections.observableArrayList("English", "French");
-				ComboBox<String> comboBox = new ComboBox<String>(options);
+				final ComboBox<String> comboBox = new ComboBox<String>(options);
 				flow.getChildren().add(comboBox);
 				comboBox.setOnAction(new EventHandler<ActionEvent> (){
 					@Override
