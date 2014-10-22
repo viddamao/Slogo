@@ -341,42 +341,38 @@ public class AST {
 	    break;
 
 	case 45: // <Math>-->~<Type>
+
+	    currentNode.data_1=-currentNode.left.data_1;
+	    break;
 	case 46: // <Math>-->RANDOM<Type>
+
+	    currentNode.data_1=Math.random()*currentNode.left.data_1;
+	    break;
 	case 48: // <Math>-->LOG<Type>
 
-	    val1 = currentNode.left.data_1;
-	    result = 0;
-	    switch (rule) {
-	    case 45:
-		result = -val1;
-		break;
-	    case 46:
-		result = Math.random() * val1;
-		break;
-	    case 48:
-		result = Math.log(val1);
-		break;
-	    }
-	    currentNode.data_1 = result;
-
+	    currentNode.data_1=Math.sin(currentNode.left.data_1);
 	    break;
 	case 47: // <Math>--><Tri><Type>
 	    break;
 	case 50: // <Tri>-->SIN
-
+	    currentNode.data_1=Math.sin(currentNode.left.data_1); 
 	    break;
 	case 51: // <Tri>-->COS
 
+	    currentNode.data_1=Math.cos(currentNode.left.data_1);
 	    break;
 	case 52: // <Tri>-->TAN
 
+	    currentNode.data_1=Math.tan(currentNode.left.data_1);
 	    break;
 	case 53: // <Tri>-->ATAN
 
+	    currentNode.data_1=Math.atan(currentNode.left.data_1);
 	    break;
 
 	case 59: // <Boolean>-->NOT<Type>
 
+	    currentNode.data_1=(currentNode.left.data_1==1)?0:1;
 	    break;
 	    
 	case 61://SETBG

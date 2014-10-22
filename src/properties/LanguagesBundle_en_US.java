@@ -11,7 +11,8 @@ public class LanguagesBundle_en_US extends ListResourceBundle {
 			{"Color","Color"},
 			{"Enter","Enter"},
 			{"Toggling turtle in simulation", "Toggling turtle in simulation"},
-			{"Toggling grid in simulation", "Toggling grid in simulation"}
+			{"Toggling grid in simulation", "Toggling grid in simulation"},
+			{"Changing background color", "Changing background color"}
 	};
 	
 	@Override

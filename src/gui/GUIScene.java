@@ -41,7 +41,7 @@ public class GUIScene {
 	 * @author Kevin Rhine
 	 * @model cellsociety_team15
 	 */
-	private Locale[] supportedLocales = { new Locale("en", "US"), new Locale("fr", "FR")};
+	private Locale[] supportedLocales = { new Locale("en", "US", "English"), new Locale("fr", "FR", "French")};
 	private Text statusText = new Text();
 	protected TurtleView turtle = new TurtleView(new Image(getClass().getResourceAsStream("../images/turtle.png"), 80, 60, true, true));
 	protected String userCommand = new String();
@@ -66,7 +66,10 @@ public class GUIScene {
 		s.show();
 		Locale currentLocale = supportedLocales[0];
 		guiText = ResourceBundle.getBundle("properties.LanguagesBundle", currentLocale);
-		layout.setStyle("-fx-background-color: " + "GREY");
+		createGUI();
+	}
+	public void createGUI() throws FileNotFoundException{
+		layout.setStyle("-fx-background-color: GREY");
 		layout.setTop(getTopToolBar());
 		layout.setRight(getRightBox());
 		layout.setLeft(addButtons());
@@ -121,11 +124,11 @@ public class GUIScene {
 		topToolBar.setStyle("-fx-background-color: Black");
 		return topToolBar;
 	}
-	
+
 	public Group addGrid() throws FileNotFoundException{
 		root = new Group();
 		playground.setHgap(10);
-		for(int i=0; i<SCENE_WIDTH/15.5; i++){
+		for(int i=0; i<SCENE_WIDTH/15; i++){
 			for(int j=0; j<SCENE_HEIGHT/10; j++){
 				Text gridCreate = new Text("");
 				playground.add(gridCreate, i, j);
@@ -136,7 +139,7 @@ public class GUIScene {
 		update();
 		return root;
 	}
-	
+
 	public FlowPane addButtons() throws FileNotFoundException{
 		flow = new FlowPane();
 		flow.setPadding(new Insets(5, 0, 5, 0));
@@ -152,7 +155,7 @@ public class GUIScene {
 			@Override
 			public void handle (ActionEvent event) {
 				statusText.setText(guiText.getString("Changing background color"));
-				Buttons.changeColor();
+				Buttons.changeColor(layout, flow);
 			}
 		});
 
@@ -162,7 +165,7 @@ public class GUIScene {
 			@Override
 			public void handle (ActionEvent event) {
 				statusText.setText(guiText.getString("Toggling grid in simulation"));
-				Buttons.gridToggle(playground);
+				playground.setGridLinesVisible(!playground.isGridLinesVisible());
 			}
 		});
 
@@ -172,7 +175,7 @@ public class GUIScene {
 			@Override
 			public void handle (ActionEvent event) {
 				statusText.setText(guiText.getString("Toggling turtle in simulation"));
-				Buttons.turtleToggle();
+				turtle.setVisible(!turtle.isVisible());
 			}
 		});
 
@@ -191,11 +194,22 @@ public class GUIScene {
 			@Override
 			public void handle (ActionEvent event) {
 				Buttons.changeLang();
-				ObservableList<String> options = FXCollections.observableArrayList("Option 1", "Option 2", "Option 3");
+				ObservableList<String> options = FXCollections.observableArrayList("English", "French");
 				ComboBox<String> comboBox = new ComboBox<String>(options);
 				flow.getChildren().add(comboBox);
-				Locale currentLocale = supportedLocales[0];
-				guiText = ResourceBundle.getBundle("properties.LanguagesBundle", currentLocale);
+				comboBox.setOnAction(new EventHandler<ActionEvent> (){
+					@Override
+					public void handle (ActionEvent event){
+						System.out.println(comboBox.getValue());
+						Locale currentLocale = supportedLocales[Buttons.factory(comboBox.getValue())];
+						guiText = ResourceBundle.getBundle("properties.LanguagesBundle", currentLocale);
+						try {
+							createGUI();
+						} catch (FileNotFoundException e) {
+						}
+						flow.getChildren().remove(comboBox);
+					}
+				});			
 			}
 		});
 
