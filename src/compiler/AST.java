@@ -164,14 +164,9 @@ public class AST {
 	int rule = currentNode.type;
 	switch (rule) {
 
-	case 1: // <Program>--><List>
-	    break;
-	case 3: // <List>--><List><Statement>
-	    
-	    break;
-
+	
 	case 4: // <List>-->REPEAT<Type>[ <List> ]
-
+	    //TODO implement loops 
 	    break;
 	case 5: // <List>-->DOTIMES [ Variable <Type> ] [ <List> ]
 	    break;
@@ -184,21 +179,11 @@ public class AST {
 	case 9: // <List>-->TO Variable [ <Parameters> ] [ <List> ]
 
 	    break;
-	case 10: // <Parameters>--><Type>
 
-	    break;
-	case 11: // <Parameters>--><Parameters><Type>
-
-	    break;
-	    
-	case 13: // <Statement>--><Queries>
-
-	    break;
 	case 14: // <Command>-->SET Variable<Type>
 
 	    break;
 	case 15: // <Command>--><Move><Type>
-
 	case 16: // <Command>--><Turn><Type>
 	    double val = currentNode.right.data_1;
 	    
@@ -237,45 +222,44 @@ public class AST {
 
 	    break;
 	case 21: // <Command>-->CS
+
+	    //TODO command to clear screen
 	    System.out.println("CS");
 	    break;
 	case 22: // <Queries>-->XCOR
 
+	    //TODO command to query xCor
 	    break;
 	case 23: // <Queries>-->YCOR
 
+	    //TODO command to query yCor
 	    break;
 	case 24: // <Queries>-->HEADING
 
 	    break;
 	case 25: // <Queries>-->PENDOWNP
 
+	    //TODO command to set pen down
 	    break;
 	case 26: // <Queries>-->SHOWINGP
 
 	    break;
-	// case 27: //<Move>-->FD
-	// case 28: //<Move>-->BK
-	// case 29: //<Turn>-->LT
-	// case 30: //<Turn>-->RT
-	// case 31: //<Turn>-->SETH
-	//
-	// tempParent = new Node( currentRule , 0, 0,
-	// currentRule, null, null, null);
-	// syntaxTree.push(tempParent);
-	//
-	// break;
-	case 32: // <Property>-->PD
 
+
+	case 32: // <Property>-->PD
+	    //TODO command to set pen down
 	    break;
 	case 33: // <Property>-->PU
 
+	    //TODO command to set pen up
 	    break;
 	case 34: // <Property>-->ST
 
+	    //TODO command to show turtle
 	    break;
 	case 35: // <Property>-->HT
 
+	    //TODO command to hide turtle
 	    break;
 	case 38: // <Type>--><Math>
 	    break;
@@ -376,6 +360,8 @@ public class AST {
 	    break;
 	    
 	case 61://SETBG
+
+	    //TODO command to set background
 	    break;
 	case 62://SETPC
 	    break;
