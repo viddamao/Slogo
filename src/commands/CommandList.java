@@ -1,5 +1,6 @@
 package commands;
 
+import exceptions.InvalidArgumentsException;
 import simulationObjects.Point;
 import simulationObjects.Turtle;
 
@@ -38,6 +39,46 @@ public class CommandList {
 		public Void run(Turtle params) {
 			params.setPosition(new Point(val1,val2));
 			return null;
+		}
+	};
+	}
+
+	public static Command<Turtle, Void> towards(double val1, double val2) {
+	    return new Command<Turtle, Void>() {
+		@Override
+		public Void run(Turtle params) {
+			double dAngle = 0;
+
+			double headingX = val1 - params.getPosition().x ;
+			double headingY = val2 - params.getPosition().y;
+
+			dAngle = Math.atan2(headingY,headingX) * 180/Math.PI;
+
+			params.setRotation(dAngle);
+
+
+			return null;
+
+		
+		}
+	};
+	}
+
+	public static Command<Turtle, Void> clearScreen() {
+	    return new Command<Turtle, Void>() {
+		@Override
+		public Void run(Turtle params) {
+		    	double curX = params.getPosition().x;
+			double curY = params.getPosition().y;
+
+			double distance = Math.sqrt(Math.pow(curX, 2)+Math.pow(curY, 2));
+
+			params.setPosition((double)0, (double)0);
+			params.setRotation(90);
+			
+			return null;
+
+		
 		}
 	};
 	}

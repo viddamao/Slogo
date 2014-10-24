@@ -223,17 +223,22 @@ public class AST {
 	    ret.add(current);
 	    return ret;
 	case 18: // <Command>-->TOWARDS<Type><Type>
-	    break;
+	    val1=currentNode.left.data_1;
+	    val2=currentNode.right.data_1;
+	    current = CommandList.towards(val1,val2);
+	    ret.add(current);
+	    return ret;
 	case 19: // <Command>--><Property>
 	    break;
 	case 20: // <Command>-->HOME
-
-	    break;
+	    current = CommandList.SetXY(0,0);
+	    ret.add(current);
+	    return ret;
 	case 21: // <Command>-->CS
 
-	    //TODO command to clear screen
-	    System.out.println("CS");
-	    break;
+	    current = CommandList.clearScreen();
+	    ret.add(current);
+	    return ret;
 	case 22: // <Queries>-->XCOR
 
 	    //TODO command to query xCor
@@ -254,21 +259,7 @@ public class AST {
 	    break;
 
 
-	case 32: // <Property>-->PD
-	    //TODO command to set pen down
-	    break;
-	case 33: // <Property>-->PU
-
-	    //TODO command to set pen up
-	    break;
-	case 34: // <Property>-->ST
-
-	    //TODO command to show turtle
-	    break;
-	case 35: // <Property>-->HT
-
-	    //TODO command to hide turtle
-	    break;
+	
 	case 38: // <Type>--><Math>
 	    break;
 	case 39: // <Type>--><Boolean>
