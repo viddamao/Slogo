@@ -4,6 +4,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 
+
+//TODO wtf is this class doing..
 public class UpdateLocation {
 	public boolean goup = false, goright = false, godown = false, goleft = false;
 	public int newx = 0, newy = 0;
@@ -12,20 +14,21 @@ public class UpdateLocation {
 		
 	}
 
-	public void updateLocation(int x, int y){		
+	public int[] updateLocation(int x, int y){		
 		if(goup) newy = y+50;
 		if(godown)newy = y-50;
 		if(goleft) newx = x-50;
 		if(goright) newx = x+50;
 		newLocation = new int[]{newx,newy};	
+		return newLocation;
 	}
 
-	public void updatemovement(Scene scene, int x, int y){
+	public void updatemovement(Scene scene){
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
 			public void handle(KeyEvent event){
 				switch (event.getCode()) {
 				case UP: goup = true; break;
-				case RIGHT:	goright = true; break;
+				case RIGHT:goright = true; break;
 				case DOWN: godown = true; break;		
 				case LEFT: goleft = true; break;						
 				default: break;

@@ -3,8 +3,8 @@ package simulationObjects;
 import simulationObjects.Point;
 
 public class Turtle extends UpdateLocation{
-    private Point position = new Point();
-    private double rotation = 0;
+    private Point position = new Point(370,300);
+    private double rotation = 90;
     private boolean visible=true;
     private Pen myPen;
     private int idNum;
@@ -15,7 +15,7 @@ public class Turtle extends UpdateLocation{
     public Turtle() {
 	idNum = 0;
 	myPen = new Pen();
-	position=new Point(0,0);
+	position=new Point(370,300);
 	rotation = 90;
 	visible = true;
     }
@@ -39,18 +39,7 @@ public class Turtle extends UpdateLocation{
 	return visible;
     }
 
-    /**
-     * Set the position within an x, y coordinate system.
-     * 
-     * @param x
-     *            a double representing the x-coordinate of the turtle
-     * @param y
-     *            a double representing the y-coordinate of the turtle
-     */
-    public void setPosition(double x, double y) {
-	this.position.x = x;
-	this.position.y = y;
-    }
+
 
     /**
      * Set the position within an x, y coordinate system.
@@ -100,7 +89,7 @@ public class Turtle extends UpdateLocation{
     }
 
     public Turtle getTurtle() {
-	// TODO Auto-generated method stub
+	
 	return this;
     }
 
