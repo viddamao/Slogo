@@ -172,8 +172,15 @@ public class AST {
 	case 6: // <List>-->FOR [ Variable <Type><Type><Type> ] [ List ]
 	    break;
 	case 7: // <List>-->IF <Type> [ <List> ]
+	    if (currentNode.left.data_1==1) 
+		ret.addAll(traverse(currentNode.right, new ArrayList<Command<Turtle, Void>>()));
 	    break;
 	case 8: // <List>-->IFELSE <Type>[ <List> ][ <List>]
+	    if (currentNode.left.data_1==1) 
+		ret.addAll(traverse(currentNode.right.left, new ArrayList<Command<Turtle, Void>>()));
+	    else
+		ret.addAll(traverse(currentNode.right.right, new ArrayList<Command<Turtle, Void>>()));
+	    
 	    break;
 	case 9: // <List>-->TO Variable [ <Parameters> ] [ <List> ]
 
