@@ -6,21 +6,21 @@ import javafx.scene.input.KeyEvent;
 
 public class UpdateLocation {
 	public boolean goup = false, goright = false, godown = false, goleft = false;
-	
+	public int newx = 0, newy = 0;
+	public int[] newLocation = new int[2];
 	public UpdateLocation(){
 		
 	}
 
-	public int[] updateLocation(int x, int y){		
-		if(goup) y+=50;
-		if(godown) y-=50;
-		if(goleft) x-=50;
-		if(goright) x+=50;
-		int[] newLocation = new int[]{x,y};
-		return newLocation;		
+	public void updateLocation(int x, int y){		
+		if(goup) newy = y+50;
+		if(godown)newy = y-50;
+		if(goleft) newx = x-50;
+		if(goright) newx = x+50;
+		newLocation = new int[]{newx,newy};	
 	}
 
-	public void updatemovement(Scene scene){
+	public void updatemovement(Scene scene, int x, int y){
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
 			public void handle(KeyEvent event){
 				switch (event.getCode()) {
