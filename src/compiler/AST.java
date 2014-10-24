@@ -240,25 +240,25 @@ public class AST {
 	    ret.add(current);
 	    return ret;
 	case 22: // <Queries>-->XCOR
-
-	    //TODO command to query xCor
-	    break;
+	    current = CommandList.xCor();
+	    ret.add(current);
+	    return ret;
 	case 23: // <Queries>-->YCOR
-
-	    //TODO command to query yCor
-	    break;
+	    current = CommandList.yCor();
+	    ret.add(current);
+	    return ret;
 	case 24: // <Queries>-->HEADING
-
-	    break;
+	    current = CommandList.heading();
+	    ret.add(current);
+	    return ret;
 	case 25: // <Queries>-->PENDOWNP
-
-	    //TODO command to set pen down
-	    break;
+	    current = CommandList.penDownP();
+	    ret.add(current);
+	    return ret;
 	case 26: // <Queries>-->SHOWINGP
-
-	    break;
-
-
+	    current = CommandList.showingP();
+	    ret.add(current);
+	    return ret;
 	
 	case 38: // <Type>--><Math>
 	    break;
