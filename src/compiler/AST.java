@@ -216,10 +216,12 @@ public class AST {
 	    System.out.println(val);
 	    break;
 	case 17: // <Command>-->SETXY<Type><Type>
-	    Command<Turtle, Void> current = CommandList.turnCommand(val);
+	    double val1=currentNode.left.data_1;
+	    double val2=currentNode.right.data_1;
+	    
+	    Command<Turtle, Void> current = CommandList.SetXY(val1,val2);
 	    ret.add(current);
 	    return ret;
-	    break;
 	case 18: // <Command>-->TOWARDS<Type><Type>
 	    break;
 	case 19: // <Command>--><Property>
@@ -284,7 +286,7 @@ public class AST {
 	case 58: // <Boolean>-->AND<Type><Type>
 	case 60: // <Boolean>-->OR<Type><Type>
 
-	    double val1 = currentNode.left.data_1,
+	    val1 = currentNode.left.data_1;
 	    val2 = currentNode.right.data_1;
 	    double result = 0;
 

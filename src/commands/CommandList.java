@@ -1,5 +1,6 @@
 package commands;
 
+import simulationObjects.Point;
 import simulationObjects.Turtle;
 
 public class CommandList {
@@ -30,4 +31,15 @@ public class CommandList {
 			}
 		};
 	}
+
+	public static Command<Turtle, Void> SetXY(double val1, double val2) {
+	    return new Command<Turtle, Void>() {
+		@Override
+		public Void run(Turtle params) {
+			params.setPosition(new Point(val1,val2));
+			return null;
+		}
+	};
+	}
+	
 }
