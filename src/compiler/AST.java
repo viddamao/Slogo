@@ -196,23 +196,29 @@ public class AST {
 		return ret;
 	    case 28:
 		System.out.println("BK ");
-		current = CommandList.forwardCommand(val);
+		current = CommandList.forwardCommand(-val);
 		ret.add(current);
 		return ret;
 
 	    case 29:
 		System.out.println("LT ");
 		
-		break;
+		current = CommandList.turnCommand(val);
+		ret.add(current);
+		return ret;
 	    case 30:
 		System.out.println("RT ");
-		
-		break;
+		current = CommandList.turnCommand(-val);
+		ret.add(current);
+		return ret;
 	    }
 
 	    System.out.println(val);
 	    break;
 	case 17: // <Command>-->SETXY<Type><Type>
+	    Command<Turtle, Void> current = CommandList.turnCommand(val);
+	    ret.add(current);
+	    return ret;
 	    break;
 	case 18: // <Command>-->TOWARDS<Type><Type>
 	    break;
