@@ -1,5 +1,5 @@
 package commands;
 
 public interface Command<Params, Result> {
-    public Result run(Params params);
+    public String run(Params params);
 }

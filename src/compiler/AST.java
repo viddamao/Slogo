@@ -14,7 +14,6 @@ public class AST {
     private Stack<Node> syntaxTree = new Stack<Node>();
     private List<SymbolTableEntry> symbolTable = new ArrayList<>();
 
-    
     /**
      * 
      * generate AST with the rules provided
@@ -68,25 +67,28 @@ public class AST {
 	    case 74:
 	    case 75:
 	    case 76:
-	
+
 		tempRight = syntaxTree.pop();
 		tempLeft = syntaxTree.pop();
 		tempParent = new Node(0, 0, 0, currentRule, tempLeft, tempRight);
 		syntaxTree.push(tempParent);
 
 		break;
-	    case 65://palette
+	    case 65:// palette
 		tempRight = syntaxTree.pop();
 		tempLeft = syntaxTree.pop();
-		Node temp = new Node(syntaxTree.pop().data_1,tempLeft.data_1, tempRight.data_1, currentRule, tempLeft, tempRight);
-		tempParent = new Node(0, 0, 0, currentRule, syntaxTree.pop(), temp);
+		Node temp = new Node(syntaxTree.pop().data_1, tempLeft.data_1,
+			tempRight.data_1, currentRule, tempLeft, tempRight);
+		tempParent = new Node(0, 0, 0, currentRule, syntaxTree.pop(),
+			temp);
 		break;
 	    case 8: // <List>-->IFELSE <Type>[ <List> ][ <List>]
 	    case 9: // <List>-->TO Variable [ <Parameters> ] [ <List> ]
 		tempRight = syntaxTree.pop();
 		tempLeft = syntaxTree.pop();
-		Node tempSeq = new Node(0, 0, 0, currentRule, tempLeft, tempRight);
-		tempLeft=syntaxTree.pop();
+		Node tempSeq = new Node(0, 0, 0, currentRule, tempLeft,
+			tempRight);
+		tempLeft = syntaxTree.pop();
 		tempParent = new Node(0, 0, 0, currentRule, tempLeft, tempSeq);
 		syntaxTree.push(tempParent);
 
@@ -119,7 +121,6 @@ public class AST {
 	    case 70:
 	    case 71:
 	    case 77://
-		
 
 		tempParent = new Node(currentRule, 0, 0, currentRule, null,
 			null);
@@ -135,7 +136,7 @@ public class AST {
 		syntaxTree.push(tempLeft);
 
 		break;
-	
+
 	    case 45: // <Math>-->~<Type>
 	    case 46: // <Math>-->RANDOM<Type>
 	    case 48: // <Math>-->LOG<Type>
@@ -143,8 +144,6 @@ public class AST {
 		tempLeft = syntaxTree.pop();
 		tempParent = new Node(0, 0, 0, currentRule, tempLeft, null);
 		syntaxTree.push(tempParent);
-
-	    
 
 		break;
 	    }
@@ -155,23 +154,18 @@ public class AST {
 
     }
 
-    public ArrayList<Command<Turtle, Void>> traverse(Node currentNode,ArrayList<Command<Turtle, Void>> ret) {
+    public ArrayList<Command<Turtle, Void>> traverse(Node currentNode,
+	    ArrayList<Command<Turtle, Void>> ret) {
 
 	if (currentNode == null)
 	    return null;
-	 traverse(currentNode.left,ret);
-	 traverse(currentNode.right,ret);
+	traverse(currentNode.left, ret);
+	traverse(currentNode.right, ret);
 	int rule = currentNode.type;
 	switch (rule) {
 
-	case 1: // <Program>--><List>
-	    break;
-	case 3: // <List>--><List><Statement>
-	    
-	    break;
-
 	case 4: // <List>-->REPEAT<Type>[ <List> ]
-
+		// TODO implement loops
 	    break;
 	case 5: // <List>-->DOTIMES [ Variable <Type> ] [ <List> ]
 	    break;
@@ -184,99 +178,98 @@ public class AST {
 	case 9: // <List>-->TO Variable [ <Parameters> ] [ <List> ]
 
 	    break;
-	case 10: // <Parameters>--><Type>
 
-	    break;
-	case 11: // <Parameters>--><Parameters><Type>
-
-	    break;
-	    
-	case 13: // <Statement>--><Queries>
-
-	    break;
 	case 14: // <Command>-->SET Variable<Type>
 
 	    break;
 	case 15: // <Command>--><Move><Type>
-
 	case 16: // <Command>--><Turn><Type>
 	    double val = currentNode.right.data_1;
-	    
+
 	    switch (currentNode.left.type) {
 	    case 27:
-		System.out.print("FD ");
-		System.out.println(val);
+		
 		Command<Turtle, Void> current = CommandList.forwardCommand(val);
 		ret.add(current);
 		return ret;
 	    case 28:
-		System.out.println("BK ");
-		current = CommandList.forwardCommand(val);
+		
+		current = CommandList.forwardCommand(-val);
 		ret.add(current);
 		return ret;
 
 	    case 29:
-		System.out.println("LT ");
 		
-		break;
+		current = CommandList.turnCommand(val);
+		ret.add(current);
+		return ret;
 	    case 30:
-		System.out.println("RT ");
 		
-		break;
+		current = CommandList.turnCommand(-val);
+		ret.add(current);
+		return ret;
 	    }
 
-	    System.out.println(val);
 	    break;
 	case 17: // <Command>-->SETXY<Type><Type>
-	    break;
+	    double val1 = currentNode.left.data_1;
+	    double val2 = currentNode.right.data_1;
+
+	    Command<Turtle, Void> current = CommandList.SetXY(val1, val2);
+	    ret.add(current);
+	    return ret;
 	case 18: // <Command>-->TOWARDS<Type><Type>
-	    break;
-	case 19: // <Command>--><Property>
-	    break;
+	    val1 = currentNode.left.data_1;
+	    val2 = currentNode.right.data_1;
+	    current = CommandList.towards(val1, val2);
+	    ret.add(current);
+	    return ret;
+	
 	case 20: // <Command>-->HOME
-
-	    break;
+	    current = CommandList.SetXY(0, 0);
+	    ret.add(current);
+	    return ret;
 	case 21: // <Command>-->CS
-	    System.out.println("CS");
-	    break;
+
+	    current = CommandList.clearScreen();
+	    ret.add(current);
+	    return ret;
 	case 22: // <Queries>-->XCOR
-
-	    break;
+	    current = CommandList.xCor();
+	    ret.add(current);
+	    return ret;
 	case 23: // <Queries>-->YCOR
-
-	    break;
+	    current = CommandList.yCor();
+	    ret.add(current);
+	    return ret;
 	case 24: // <Queries>-->HEADING
-
-	    break;
+	    current = CommandList.heading();
+	    ret.add(current);
+	    return ret;
 	case 25: // <Queries>-->PENDOWNP
-
-	    break;
+	    current = CommandList.penDownP();
+	    ret.add(current);
+	    return ret;
 	case 26: // <Queries>-->SHOWINGP
-
-	    break;
-	// case 27: //<Move>-->FD
-	// case 28: //<Move>-->BK
-	// case 29: //<Turn>-->LT
-	// case 30: //<Turn>-->RT
-	// case 31: //<Turn>-->SETH
-	//
-	// tempParent = new Node( currentRule , 0, 0,
-	// currentRule, null, null, null);
-	// syntaxTree.push(tempParent);
-	//
-	// break;
+	    current = CommandList.showingP();
+	    ret.add(current);
+	    return ret;
 	case 32: // <Property>-->PD
-
-	    break;
+	    current = CommandList.penDown();
+	    ret.add(current);
+	    return ret;
 	case 33: // <Property>-->PU
-
-	    break;
+	    current = CommandList.penUp();
+	    ret.add(current);
+	    return ret;
 	case 34: // <Property>-->ST
-
-	    break;
+	    current = CommandList.showTurtle();
+	    ret.add(current);
+	    return ret;
 	case 35: // <Property>-->HT
-
-	    break;
+	    current = CommandList.hideTurtle();
+	    ret.add(current);
+	    return ret;
 	case 38: // <Type>--><Math>
 	    break;
 	case 39: // <Type>--><Boolean>
@@ -294,7 +287,7 @@ public class AST {
 	case 58: // <Boolean>-->AND<Type><Type>
 	case 60: // <Boolean>-->OR<Type><Type>
 
-	    double val1 = currentNode.left.data_1,
+	    val1 = currentNode.left.data_1;
 	    val2 = currentNode.right.data_1;
 	    double result = 0;
 
@@ -342,76 +335,78 @@ public class AST {
 
 	case 45: // <Math>-->~<Type>
 
-	    currentNode.data_1=-currentNode.left.data_1;
+	    currentNode.data_1 = -currentNode.left.data_1;
 	    break;
 	case 46: // <Math>-->RANDOM<Type>
 
-	    currentNode.data_1=Math.random()*currentNode.left.data_1;
+	    currentNode.data_1 = Math.random() * currentNode.left.data_1;
 	    break;
 	case 48: // <Math>-->LOG<Type>
 
-	    currentNode.data_1=Math.sin(currentNode.left.data_1);
+	    currentNode.data_1 = Math.sin(currentNode.left.data_1);
 	    break;
 	case 47: // <Math>--><Tri><Type>
 	    break;
 	case 50: // <Tri>-->SIN
-	    currentNode.data_1=Math.sin(currentNode.left.data_1); 
+	    currentNode.data_1 = Math.sin(currentNode.left.data_1);
 	    break;
 	case 51: // <Tri>-->COS
 
-	    currentNode.data_1=Math.cos(currentNode.left.data_1);
+	    currentNode.data_1 = Math.cos(currentNode.left.data_1);
 	    break;
 	case 52: // <Tri>-->TAN
 
-	    currentNode.data_1=Math.tan(currentNode.left.data_1);
+	    currentNode.data_1 = Math.tan(currentNode.left.data_1);
 	    break;
 	case 53: // <Tri>-->ATAN
 
-	    currentNode.data_1=Math.atan(currentNode.left.data_1);
+	    currentNode.data_1 = Math.atan(currentNode.left.data_1);
 	    break;
 
 	case 59: // <Boolean>-->NOT<Type>
 
-	    currentNode.data_1=(currentNode.left.data_1==1)?0:1;
+	    currentNode.data_1 = (currentNode.left.data_1 == 1) ? 0 : 1;
 	    break;
-	    
-	case 61://SETBG
+
+	case 61:// SETBG
+
+	    // TODO command to set background
 	    break;
-	case 62://SETPC
+	case 62:// SETPC
 	    break;
-	case 63://SETPS
+	case 63:// SETPS
 	    break;
-	case 64://SETSH
+	case 64:// SETSH
 	    break;
-	case 65://SETPALETTE
+	case 65:// SETPALETTE
 	    break;
-	case 66://PC
+	case 66:// PC
 	    break;
-	case 67://SH
+	case 67:// SH
 	    break;
-	case 68://STAMP
+	case 68:// STAMP
 	    break;
-	case 69://CLEARSTAMPS
+	case 69:// CLEARSTAMPS
 	    break;
-	case 70://ID
+	case 70:// ID
 	    break;
-	case 71://TURTLES
+	case 71:// TURTLES
 	    break;
-	case 72://TELL
+	case 72:// TELL
 	    break;
-	case 73://ASK
+	case 73:// ASK
 	    break;
-	case 74://ASKWITH
+	case 74:// ASKWITH
 	    break;
-	case 75://ONCLICK
+	case 75:// ONCLICK
 	    break;
-	case 76://ONMOVE
+	case 76:// ONMOVE
 	    break;
-	case 77://ONKEY
+	case 77:// ONKEY
 	    break;
-	
+
 	}
-	
+
 	return ret;
 
     }
