@@ -67,6 +67,8 @@ public class GUIScene {
 		Locale currentLocale = supportedLocales[0];
 		guiText = ResourceBundle.getBundle("properties.LanguagesBundle", currentLocale);
 		turtle.setData(controller.getTurtle());
+		turtle.updateLocation(slogo);
+		
 		createGUI();
 	}
 	public void createGUI() throws FileNotFoundException{
@@ -136,7 +138,7 @@ public class GUIScene {
 				playground.add(gridCreate, i, j);
 			}
 		}	
-		root.getChildren().add(playground);
+		 root.getChildren().add(playground);
 		root.getChildren().add(turtle);	
 		update();
 		return root;
