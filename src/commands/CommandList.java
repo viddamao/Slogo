@@ -139,7 +139,61 @@ public class CommandList {
 		}
 	};
 	}
+
+	public static Command<Turtle, Void> penDown() {
+	    return new Command<Turtle, Void>() {
+		@Override
+		public String run(Turtle params) {
+		    params.getPen().setActive(true);
+
+			return "1";	
+		}
+	};
+	}
+
+	public static Command<Turtle, Void> penUp() {
+	    return new Command<Turtle, Void>() {
+	  		@Override
+	  		public String run(Turtle params) {
+	  		    params.getPen().setActive(false);
+
+	  			return "0";	
+	  		}
+	  	};
+	}
+
+	public static Command<Turtle, Void> showTurtle() {
+	    return new Command<Turtle, Void>() {
+  		@Override
+  		public String run(Turtle params) {
+  		  params.setVisible(true);
+
+  		return "1";
+  		}
+  	};
+	   
+	}
+
+	public static Command<Turtle, Void> hideTurtle() {
+	    return new Command<Turtle, Void>() {
+  		@Override
+  		public String run(Turtle params) {
+  		  params.setVisible(false);
+
+  		return "0";
+  		}
+  	};
+	}
 	
 	
-	
+	public static Command<Turtle, Void> setPenWidth(double val) {
+	    return new Command<Turtle, Void>() {
+  		@Override
+  		public String run(Turtle params) {
+  		  params.getPen().setWidth(val);
+
+			return String.valueOf(val);
+  		}
+  	};
+	}
 }

@@ -259,7 +259,22 @@ public class AST {
 	    current = CommandList.showingP();
 	    ret.add(current);
 	    return ret;
-	
+	 case 32: // <Property>-->PD
+	     current = CommandList.penDown();
+		    ret.add(current);
+		    return ret;
+	    case 33: // <Property>-->PU
+		 current = CommandList.penUp();
+		    ret.add(current);
+		    return ret;
+	    case 34: // <Property>-->ST
+		 current = CommandList.showTurtle();
+		    ret.add(current);
+		    return ret;
+	    case 35: // <Property>-->HT
+		 current = CommandList.hideTurtle();
+		    ret.add(current);
+		    return ret;
 	case 38: // <Type>--><Math>
 	    break;
 	case 39: // <Type>--><Boolean>
