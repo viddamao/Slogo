@@ -14,7 +14,8 @@ import exceptions.ParsingException;
 import exceptions.UnbalancedBracketsException;
 
 public class MainController {
-	
+	private int SCENE_WIDTH = 1280;
+	private int SCENE_HEIGHT = 720;
 	private Compiler compiler = new Compiler();
 	private Turtle turtle = new Turtle();
 	private List<String> history = new ArrayList<String>();
@@ -22,7 +23,7 @@ public class MainController {
     private Map<String, ArrayList<Command<Turtle, Void>>> cache = new HashMap<String, ArrayList<Command<Turtle, Void>>>();
 
     public void MainController() {
-    	turtle.setPosition(new Point(50, 50));
+    	turtle.setPosition(new Point(SCENE_WIDTH/2, SCENE_HEIGHT/2));
     }
     
     public void passInput(String input) throws ParsingException,

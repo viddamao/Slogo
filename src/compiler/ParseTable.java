@@ -73,9 +73,8 @@ public class ParseTable {
 		myOperation.add(opTemp);
 		nextState.add(nextTemp);
 
-		
 	    }
-	 
+
 	} catch (FileNotFoundException e) {
 	    System.out.println("Parse Table file not found");
 	} catch (IOException e) {

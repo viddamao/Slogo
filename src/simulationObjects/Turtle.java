@@ -2,17 +2,22 @@ package simulationObjects;
 
 import simulationObjects.Point;
 
-public class Turtle {
-    private Point position = new Point();
-    private double rotation = 90.0;
+public class Turtle extends UpdateLocation{
+    private Point position = new Point(370,300);
+    private double rotation = 90;
     private boolean visible=true;
     private Pen myPen;
+    private int idNum;
 
     /**
      * Constructor
      */
     public Turtle() {
-
+	idNum = 0;
+	myPen = new Pen();
+	position=new Point(370,300);
+	rotation = 90;
+	visible = true;
     }
 
     /**
@@ -27,24 +32,14 @@ public class Turtle {
 	this.rotation = turtle.getRotation();
 	this.visible=turtle.getVisible();
 	this.myPen=turtle.getPen();
+	this.idNum=turtle.getIdNum();
     }
 
     public boolean getVisible() {
 	return visible;
     }
 
-    /**
-     * Set the position within an x, y coordinate system.
-     * 
-     * @param x
-     *            a double representing the x-coordinate of the turtle
-     * @param y
-     *            a double representing the y-coordinate of the turtle
-     */
-    public void setPosition(double x, double y) {
-	this.position.x = x;
-	this.position.y = y;
-    }
+
 
     /**
      * Set the position within an x, y coordinate system.
@@ -94,7 +89,7 @@ public class Turtle {
     }
 
     public Turtle getTurtle() {
-	// TODO Auto-generated method stub
+	
 	return this;
     }
 
@@ -105,4 +100,16 @@ public class Turtle {
     public Pen getPen() {
 	return this.myPen;
     }
+
+    public int getIdNum() {
+	return idNum;
+}
+
+/**
+ * set the idnum of the turtle
+ * @param idNum
+ */
+public void setIdNum(int idNum) {
+	this.idNum = idNum;
+}
 }

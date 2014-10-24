@@ -119,8 +119,6 @@ public class Compiler {
      * @throws ParsingException
      */
     private Stack<Integer> interpreter(String input) throws ParsingException {
-	System.out.println(input);
-
 	Stack<Integer> sequence = new Stack<Integer>();
 	String lookahead = "", currentLHS = "", program = input;
 	String entry_action = "";
@@ -132,12 +130,11 @@ public class Compiler {
 	state.push(0);
 	entry_action = move.get(currentState).get(lookahead);
 	entry_next = nextState.get(currentState).get(lookahead);
-	  
+
 	while (!program.equals("")) {
 
 	    switch (entry_action) {
 	    case "a":
-		System.out.println("ACCEPT");
 		return sequence;
 	    case "x":
 		throw new SyntaxErrorException();
@@ -156,8 +153,7 @@ public class Compiler {
 		sequence.push(entry_next);
 		currentLHS = lhs[entry_next];
 		currentRHS = rhs[entry_next];
-		
-		
+
 		int i = 0;
 		while (i < currentRHS) {
 		    state.pop();
@@ -177,11 +173,10 @@ public class Compiler {
 			symbol.peek());
 		break;
 
-	   
 	    }
 	    entry_action = move.get(currentState).get(lookahead);
 	    entry_next = nextState.get(currentState).get(lookahead);
-		
+
 	}
 
 	return null;
@@ -199,13 +194,13 @@ public class Compiler {
 	nextState = myParseTable.getNextState();
 	lhs = myParseTable.getLHS();
 	rhs = myParseTable.getRHS();
-	
 
     }
 
     private void initGrammar() {
 	try {
-
+	    
+	    
 	    String language = "English", currentLine = "", key = "", value = "";
 	    grammar.clear();
 
@@ -239,7 +234,7 @@ public class Compiler {
     }
 
     public static void main(String[] args) throws Exception {
-	String inputString = "SETPS 10";
+	String inputString = "IF equalp 1 1 [ FD 20 ]";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
@@ -259,8 +254,8 @@ public class Compiler {
 	initialize();
 	Stack<Integer> sequence = interpreter(scanner(input));
 
-	//System.out.println(input);
-	System.out.println();
+	// System.out.println(input);
+	
 	// for (int i=0;i<symbolTable.size();i++){
 	// System.out.println(symbolTable.get(i).getValue());}
 
@@ -271,14 +266,13 @@ public class Compiler {
 
 	    }
 	} catch (NullPointerException e) {
-	    System.out.println("Null Pointer~");
+	    System.out.println("Null Pointer while compiling~");
 
 	}
 
-	
 	AST myAST = new AST();
-	System.out.println("-------------------");
-	return myAST.traverse(myAST.generate(reversedStack),new ArrayList<Command<Turtle,Void>>());
+	return myAST.traverse(myAST.generate(reversedStack),
+		new ArrayList<Command<Turtle, Void>>());
     }
 
     public List<SymbolTableEntry> getSymbolTable() {

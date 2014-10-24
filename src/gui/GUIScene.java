@@ -66,6 +66,9 @@ public class GUIScene {
 		s.show();
 		Locale currentLocale = supportedLocales[0];
 		guiText = ResourceBundle.getBundle("properties.LanguagesBundle", currentLocale);
+		turtle.setData(controller.getTurtle());
+		turtle.updateLocation(slogo);
+		
 		createGUI();
 	}
 	public void createGUI() throws FileNotFoundException{
@@ -88,6 +91,7 @@ public class GUIScene {
 		input.setPrefHeight((int)SCENE_HEIGHT/2);
 		input.setStyle("-fx-background-color: DarkBlue");
 		GridPane userInput = new GridPane();
+		
 		Button enter = new Button("Enter", input);
 		enter.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent e){
@@ -134,7 +138,7 @@ public class GUIScene {
 				playground.add(gridCreate, i, j);
 			}
 		}	
-		root.getChildren().add(playground);
+		 root.getChildren().add(playground);
 		root.getChildren().add(turtle);	
 		update();
 		return root;
