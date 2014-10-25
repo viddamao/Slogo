@@ -7,12 +7,14 @@ public class Pen {
 	private Color myColor;
 	private double myWidth;
 	private boolean active;
-	private boolean myStyle;
+	private String myStyle;
 	
 	public Pen(){
 		super();
 		active=true;
 		myColor = Color.BLACK;
+		myStyle="Solid";
+		myWidth = 1.0;
 	}
 	
 	public void setColor(Color color) {
@@ -39,11 +41,11 @@ public class Pen {
 		return active;
 	}
 	
-	public void setStyle(boolean sty){
+	public void setStyle(String sty){
 		this.myStyle = sty;
 	}
 
-	public boolean getOffset(){
+	public String getStyle(){
 		return myStyle;
 	}
 

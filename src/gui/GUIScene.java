@@ -21,6 +21,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -32,7 +34,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
@@ -82,18 +83,42 @@ public class GUIScene {
 		layout.setRight(getRightBox());
 		layout.setLeft(addButtons());
 		layout.setCenter(addGrid());
+
+		slogo.setOnKeyPressed(new EventHandler<KeyEvent>(){
+			public void handle(KeyEvent event){
+				try{
+					switch (event.getCode()) {
+					case UP: controller.passInput("fd 20"); break;
+					case RIGHT:	controller.passInput("rt 20"); break;
+					case DOWN: controller.passInput("bk 20"); break;		
+					case LEFT: controller.passInput("lt 20"); break;
+					default: break;
+					}
+				} catch (ParsingException e) {
+					statusText.setText("Parsing error");
+				}	
+				getRightBox();
+				update();
+			}
+		});
 	}
-	
+
 	private void draw(){
 		if(myPen.getActive()){
 			Point position = controller.getTurtle().getPosition();
-			Line line = new Line(turtle.getX(), turtle.getY(), position.x, position.y);
+			Line line = new Line(turtle.getX()+20, turtle.getY()+25, position.x, position.y);
 			line.setStroke(myPen.getColor());
-			line.getStrokeDashArray().addAll(10.0, 5.0);
+			if(myPen.getStyle().equals("Dashed"))
+				line.getStrokeDashArray().addAll(10.0, 5.0);
+			else if (myPen.getStyle().equals("Dotted"))
+				line.getStrokeDashArray().addAll(2.0, 4.0);
+			line.setStrokeWidth(myPen.getWidth());
+			root.getChildren().remove(turtle);
 			root.getChildren().add(line);
+			root.getChildren().add(turtle);
 		}
 	}
-	
+
 	private GridPane getRightBox(){
 		rightSide = new GridPane();
 		HBox statusBar = new HBox();
@@ -129,7 +154,7 @@ public class GUIScene {
 		return rightSide;
 	}
 	private ToolBar getTopToolBar(){
-		Button load = new Button("For future use");
+		Button load = new Button("Help!");
 		load.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {
@@ -166,16 +191,16 @@ public class GUIScene {
 		flow.setPrefWidth(WRAP_LENGTH);
 		flow.setStyle("-fx-background-color: DarkBlue");
 
-		ImageView col= new ImageView(setImage(new FileInputStream(new File("src/images/BackgroundColor.png"))));
-		Button color = new Button(guiText.getString("Colors"), col);
-		color.setOnAction(new EventHandler<ActionEvent>() {
+		final ColorPicker bgColor = new ColorPicker(Color.WHITE);
+		final Text bgLabel = new Text("Background"); 
+		bgLabel.setFill(Color.WHITE);
+		bgColor.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
-			public void handle (ActionEvent event) {
-				statusText.setText(guiText.getString("Changing background color"));
-				Buttons.changeColor(layout, flow, myPen);
+			public void handle(ActionEvent e){
+				playground.setStyle("-fx-background-color: "+ toRGBString(bgColor.getValue()));
 			}
 		});
-
+		
 		ImageView gdt= new ImageView(setImage(new FileInputStream(new File("src/images/Grid.png"))));
 		Button gridT = new Button(guiText.getString("Grid Toggle"), gdt);
 		gridT.setOnAction(new EventHandler<ActionEvent>() {
@@ -206,24 +231,6 @@ public class GUIScene {
 			}
 		});
 
-		slogo.setOnKeyPressed(new EventHandler<KeyEvent>(){
-			public void handle(KeyEvent event){
-				try{
-					switch (event.getCode()) {
-					case UP: controller.passInput("fd 20"); break;
-					case RIGHT:	controller.passInput("rt 20"); break;
-					case DOWN: controller.passInput("bk 20"); break;		
-					case LEFT: controller.passInput("lt 20"); break;
-					default: break;
-					}
-				} catch (ParsingException e) {
-					statusText.setText("Parsing error");
-				}	
-				getRightBox();
-				update();
-			}
-		});
-
 		Button language= new Button("Choose SLogo language");
 		language.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -247,25 +254,72 @@ public class GUIScene {
 				});			
 			}
 		});
+
+		Text penLabel = new Text("Pen Properties:"); 
+		penLabel.setFill(Color.WHITE);
+
+		Text penActive = new Text("Active:");
+		penActive.setFill(Color.WHITE);
 		
-		ImageView penImg= new ImageView(setImage(new FileInputStream(new File("src/images/pen.jpg"))));
-		Button penProp= new Button(guiText.getString("Pen Properties"), penImg);
-		penProp.setOnAction(new EventHandler<ActionEvent>() {
+		final CheckBox penState = new CheckBox();
+		penState.setStyle("-fx-font-color: WHITE");
+		penState.setSelected(true);
+		penState.setOnAction(new EventHandler<ActionEvent> (){
 			@Override
-			public void handle (ActionEvent event) {
-				statusText.setText("Changing pen properties");
-				Buttons.changePen(layout, flow, myPen);
+			public void handle (ActionEvent event){
+				myPen.setActive(penState.isSelected());
+			}
+		});	
+		
+		final ColorPicker penColor = new ColorPicker(myPen.getColor());
+		penColor.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent e){
+				myPen.setColor(penColor.getValue());
 			}
 		});
+		
+		ObservableList<Double> widthOptions = FXCollections.observableArrayList(1.0, 2.0, 3.0, 4.0, 6.0, 8.0, 12.0, 20.0);
+		final ComboBox<Double> penWidth = new ComboBox<Double>(widthOptions);
+		penWidth.setOnAction(new EventHandler<ActionEvent> (){
+			@Override
+			public void handle (ActionEvent event){
+				myPen.setWidth(penWidth.getValue());
+			}
+		});	
+		
+		
+		ObservableList<String> styleOptions = FXCollections.observableArrayList("Solid", "Dashed", "Dotted");
+		final ComboBox<String> penStyle = new ComboBox<String>(styleOptions);
+		penStyle.setOnAction(new EventHandler<ActionEvent> (){
+			@Override
+			public void handle (ActionEvent event){
+				myPen.setStyle(penStyle.getValue());
+			}
+		});	
 
-		flow.getChildren().add(color);
+		flow.getChildren().add(bgLabel);
+		flow.getChildren().add(bgColor);
 		flow.getChildren().add(gridT);
 		flow.getChildren().add(turtleToggle);
 		flow.getChildren().add(turtim);
+		flow.getChildren().add(penLabel);
+		flow.getChildren().add(penActive);
+		flow.getChildren().add(penState);
+		flow.getChildren().add(penColor);
+		flow.getChildren().add(penWidth);
+		flow.getChildren().add(penStyle);
 		flow.getChildren().add(language);
-		flow.getChildren().add(penProp);
 
 		return flow;
+	}
+
+	private static String toRGBString(Color c){
+		return "rgb("
+				+ (int)(c.getRed()*255)
+				+ "," + (int)(c.getGreen()*255)
+				+ "," + (int)(c.getBlue()*255)
+				+ ")";
 	}
 
 	private Image setImage(FileInputStream input){	

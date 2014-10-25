@@ -31,44 +31,6 @@ import javafx.stage.Stage;
 
 public class Buttons {
 
-	public static void changeColor(final Pane playground, final FlowPane flow, final Pen pen) {
-		final ColorPicker bgColor = new ColorPicker(Color.WHITE);
-		final Text bgLabel = new Text("Background"); 
-		bgLabel.setFill(Color.WHITE);
-		flow.getChildren().add(bgLabel);
-		flow.getChildren().add(bgColor);
-		bgColor.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent e){
-				playground.setStyle("-fx-background-color: "+ toRGBString(bgColor.getValue()));
-				flow.getChildren().remove(bgColor);
-				flow.getChildren().remove(bgLabel);
-			}
-		});
-		
-		final ColorPicker penColor = new ColorPicker(pen.getColor());
-		final Text penLabel = new Text("Pen"); 
-		penLabel.setFill(Color.WHITE);
-		flow.getChildren().add(penLabel);
-		flow.getChildren().add(penColor);
-		penColor.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent e){
-				pen.setColor(penColor.getValue());
-				flow.getChildren().remove(penColor);
-				flow.getChildren().remove(penLabel);
-			}
-		});
-	}
-	
-	public static String toRGBString(Color c){
-		 return "rgb("
-                 + (int)(c.getRed()*255)
-           + "," + (int)(c.getGreen()*255)
-           + "," + (int)(c.getBlue()*255)
-    + ")";
-	}
-
 	public static int factory(String value){
 		if(value.equals("English")) return 0;
 		if(value.equals("French")) return 1;
@@ -95,19 +57,7 @@ public class Buttons {
 	}
 
 	public static void changePen(BorderPane layout, FlowPane flow, Pen myPen) {
-//		final ColorPicker bgColor = new ColorPicker(Color.WHITE);
-//		final Text bgLabel = new Text("Background"); 
-//		bgLabel.setFill(Color.WHITE);
-//		flow.getChildren().add(bgLabel);
-//		flow.getChildren().add(bgColor);
-//		bgColor.setOnAction(new EventHandler<ActionEvent>(){
-//			@Override
-//			public void handle(ActionEvent e){
-//				playground.setStyle("-fx-background-color: "+ toRGBString(bgColor.getValue()));
-//				flow.getChildren().remove(bgColor);
-//				flow.getChildren().remove(bgLabel);
-//			}
-//		});
+
 	}
 
 }
