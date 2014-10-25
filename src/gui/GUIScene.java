@@ -23,6 +23,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
@@ -84,7 +86,7 @@ public class GUIScene {
 	private void draw(){
 		if(penDown){
 			Point position = controller.getTurtle().getPosition();
-			Line line = new Line(turtle.getX(), turtle.getY(), position.x, position.y);
+			Line line = new Line(turtle.getX()+20, turtle.getY()+25, position.x+20, position.y+25);
 			root.getChildren().add(line);
 		}
 	}
@@ -96,15 +98,14 @@ public class GUIScene {
 
 		final TextArea input = new TextArea();
 		input.setWrapText(true);
-		input.setPrefWidth(200);
-		input.setPrefHeight((int)SCENE_HEIGHT/2);
+		input.setPrefSize(200, (int) SCENE_HEIGHT/2.5);
 		GridPane userInput = new GridPane();
-
 		Button enter = new Button("Enter", input);
 		enter.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent e){
 				try {
 					controller.passInput(input.getText());
+					statusText.setText(Buttons.status(controller.getHistory()));
 				} catch (ParsingException e1) {
 					input.clear();
 					statusText.setText("Pass in a string fitting SLogo format");
@@ -113,12 +114,17 @@ public class GUIScene {
 				input.clear();      
 			}
 		});
+		
+		ScrollPane statusBox = new ScrollPane();
+		statusBox.setContent(statusBar);
+		statusBox.setPrefSize(200, SCENE_HEIGHT/3);
+		statusBox.setHbarPolicy(ScrollBarPolicy.NEVER);
 		userInput.add(input, 0,0);
 		userInput.add(enter, 1,0);
 
 		rightSide.setPrefSize(input.getMaxWidth(), SCENE_HEIGHT/2.5);
 		rightSide.add(userInput, 0, 0);
-		rightSide.add(statusBar, 0, 1);
+		rightSide.add(statusBox, 0, 1);
 		rightSide.setStyle("-fx-background-color: AQUA");   
 		return rightSide;
 	}
@@ -199,32 +205,31 @@ public class GUIScene {
 			}
 		});
 
-//		slogo.setOnKeyPressed(new EventHandler<KeyEvent>(){
-//			public void handle(KeyEvent event){
-//				try{
-//					switch (event.getCode()) {
-//					case UP: controller.passInput("fd 20"); break;
-//					case RIGHT:	controller.passInput("rt 20"); break;
-//					case DOWN: controller.passInput("bk 20"); break;		
-//					case LEFT: controller.passInput("lt 20"); break;
-//					default: break;
-//					}
-//				} catch (ParsingException e) {
-//					statusText.setText("Parsing error");
-//				}	
-//				System.out.println(turtle.getX());
-//				update();
-//				System.out.println(turtle.getX());
-//
-//			}
-//		});
-//		slogo.setOnKeyReleased(new EventHandler<KeyEvent>(){
-//			public void handle(KeyEvent event){
-//				switch (event.getCode()) {
-//				default: break;
-//				}
-//			}
-//		});
+		slogo.setOnKeyPressed(new EventHandler<KeyEvent>(){
+			public void handle(KeyEvent event){
+				try{
+					switch (event.getCode()) {
+					case UP: controller.passInput("fd 20"); break;
+					case RIGHT:	controller.passInput("rt 20"); break;
+					case DOWN: controller.passInput("bk 20"); break;		
+					case LEFT: controller.passInput("lt 20"); break;
+					default: break;
+					}
+				} catch (ParsingException e) {
+					statusText.setText("Parsing error");
+				}	
+				System.out.println(turtle.getX());
+				update();
+				System.out.println(turtle.getX());
+			}
+		});
+		slogo.setOnKeyReleased(new EventHandler<KeyEvent>(){
+			public void handle(KeyEvent event){
+				switch (event.getCode()) {
+				default: break;
+				}
+			}
+		});
 
 		Button language= new Button("Choose SLogo language");
 		language.setOnAction(new EventHandler<ActionEvent>() {

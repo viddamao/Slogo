@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 
 import simulationObjects.Turtle;
 
@@ -33,7 +34,7 @@ public class Buttons {
 
 	}
 
-	private Button makeButton(String property, EventHandler<ActionEvent> handler) {
+	private static Button makeButton(String property, EventHandler<ActionEvent> handler) {
 		Button result = new Button();
 		// result.setText(myResources.getString(property));
 		result.setOnAction(handler);
@@ -42,6 +43,7 @@ public class Buttons {
 
 	public static void changeColor(Pane playground, FlowPane flow) {
 		ColorPicker color = new ColorPicker(Color.GREY);
+		playground.getStyle();
 		flow.getChildren().add(color);
 		color.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
@@ -87,7 +89,15 @@ public class Buttons {
 		}
 
 	}
-
+	
+	public static String status(List<String> status){
+		String fullHistory = "";
+		for(int i = status.size(); i > 0; i--){
+			fullHistory = fullHistory + status.get(i-1) + "\n";
+		}
+		return fullHistory;
+		
+	}
 	public static void changeLang() {
 		// TODO Auto-generated method stub
 
