@@ -10,6 +10,7 @@ public class Pen {
 	
 	public Pen(){
 		super();
+		myColor = Color.BLACK;
 	}
 	
 	public void setColor(Color color) {

@@ -234,6 +234,7 @@ public class GUIScene {
 		flow.getChildren().add(turtleToggle);
 		flow.getChildren().add(turtim);
 		flow.getChildren().add(language);
+		flow.getChildren().add(penProp);
 
 		return flow;
 	}
