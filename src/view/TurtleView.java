@@ -17,9 +17,9 @@ public class TurtleView extends ImageView {
     }
 
     public void setData(Turtle turtleModel) {
-	this.setX(turtleModel.getPosition().x);
-	this.setY(turtleModel.getPosition().y);
-	this.setRotate(turtleModel.getRotation());
+	this.setX(turtleModel.getPosition().x-20);
+	this.setY(turtleModel.getPosition().y-25);
+	this.setRotate(turtleModel.getRotation()-90);
     }
 
     /**

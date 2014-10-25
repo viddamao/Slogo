@@ -10,7 +10,7 @@ public class Pen {
 	private Color myColor;
 	private double penWidth;
 	private boolean active;
-	protected ArrayList<Line> listOfLines;
+	protected ArrayList<SLogoLine> listOfLines;
 	
 	public Pen(){
 		super();
@@ -42,12 +42,12 @@ public class Pen {
 
 	public boolean drawLine(Point a, Point b) {
 		if(active){
-			listOfLines.add(new Line(a,b,getColor(),penWidth));
+			listOfLines.add(new SLogoLine(a,b,getColor(),penWidth));
 		}
 		return active;
 	}
 
-	public ArrayList<Line> getLines() {
+	public ArrayList<SLogoLine> getLines() {
 		return listOfLines;
 	}
 

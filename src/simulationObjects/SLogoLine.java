@@ -1,8 +1,9 @@
 package simulationObjects;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 
-public class Line {
+public class SLogoLine extends Line{
 
     private Point a;
     private Point b;
@@ -17,7 +18,7 @@ public class Line {
      * @param color
      * @param width
      */
-    public Line(Point a, Point b, Color color, double width) {
+    public SLogoLine(Point a, Point b, Color color, double width) {
 	this.a = a;
 	this.b = b;
 	this.color = color;
@@ -58,6 +59,11 @@ public class Line {
      */
     public Point getPointB() {
 	return b;
+    }
+    
+    public Line makeLine(){
+    	Line myLine = new Line(a.x, a.y, b.x, b.y);
+    	return myLine;
     }
 
 }
