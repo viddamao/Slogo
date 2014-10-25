@@ -233,12 +233,12 @@ public class Compiler {
 
     }
 
-/*    public static void main(String[] args) throws Exception {
-	String inputString = "SETXY 10 20";
+    public static void main(String[] args) throws Exception {
+	String inputString = "IF equalp 1 1 [ FD 20 ]";
 	Compiler myCompiler = new Compiler();
 	myCompiler.compile(inputString);
     }
-*/
+
     /**
      * 
      * take the input passed from MainController and compile the input program

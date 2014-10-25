@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
 import controller.MainController;
 import exceptions.ParsingException;
 import simulationObjects.Pen;
@@ -17,6 +18,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -60,7 +62,7 @@ public class GUIScene {
 	private GridPane rightSide;
 	private FlowPane flow;
 	private ToolBar topToolBar;
-	private StackPane root;
+	private Group root;
 	private ResourceBundle guiText;
 	private Scene slogo;
 
@@ -72,7 +74,6 @@ public class GUIScene {
 		Locale currentLocale = supportedLocales[0];	
 		guiText = ResourceBundle.getBundle("properties.LanguagesBundle", currentLocale);	
 		createGUI();
-		turtle.setData(controller.getTurtle());
 	}
 	private void createGUI() throws FileNotFoundException{
 		layout.setTop(getTopToolBar());
@@ -135,8 +136,8 @@ public class GUIScene {
 		return topToolBar;
 	}
 
-	private StackPane addGrid() throws FileNotFoundException{
-		root = new StackPane();
+	private Group addGrid() throws FileNotFoundException{
+		root = new Group();
 		playground.setHgap(10);
 		for(int i=0; i<SCENE_WIDTH/15; i++){
 			for(int j=0; j<SCENE_HEIGHT/8; j++){
@@ -145,6 +146,7 @@ public class GUIScene {
 		}	
 		root.getChildren().add(playground);
 		root.getChildren().add(turtle);	
+		turtle.setData(controller.getTurtle());
 		update();
 		return root;
 	}
@@ -197,32 +199,32 @@ public class GUIScene {
 			}
 		});
 
-		slogo.setOnKeyPressed(new EventHandler<KeyEvent>(){
-			public void handle(KeyEvent event){
-				try{
-					switch (event.getCode()) {
-					case UP: controller.passInput("fd 20"); break;
-					case RIGHT:	controller.passInput("rt 20"); break;
-					case DOWN: controller.passInput("bk 20"); break;		
-					case LEFT: controller.passInput("lt 20"); break;
-					default: break;
-					}
-				} catch (ParsingException e) {
-					statusText.setText("Parsing error");
-				}	
-				System.out.println(turtle.getX());
-				update();
-				System.out.println(turtle.getX());
-
-			}
-		});
-		slogo.setOnKeyReleased(new EventHandler<KeyEvent>(){
-			public void handle(KeyEvent event){
-				switch (event.getCode()) {
-				default: break;
-				}
-			}
-		});
+//		slogo.setOnKeyPressed(new EventHandler<KeyEvent>(){
+//			public void handle(KeyEvent event){
+//				try{
+//					switch (event.getCode()) {
+//					case UP: controller.passInput("fd 20"); break;
+//					case RIGHT:	controller.passInput("rt 20"); break;
+//					case DOWN: controller.passInput("bk 20"); break;		
+//					case LEFT: controller.passInput("lt 20"); break;
+//					default: break;
+//					}
+//				} catch (ParsingException e) {
+//					statusText.setText("Parsing error");
+//				}	
+//				System.out.println(turtle.getX());
+//				update();
+//				System.out.println(turtle.getX());
+//
+//			}
+//		});
+//		slogo.setOnKeyReleased(new EventHandler<KeyEvent>(){
+//			public void handle(KeyEvent event){
+//				switch (event.getCode()) {
+//				default: break;
+//				}
+//			}
+//		});
 
 		Button language= new Button("Choose SLogo language");
 		language.setOnAction(new EventHandler<ActionEvent>() {

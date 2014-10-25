@@ -3,22 +3,24 @@ package simulationObjects;
 import simulationObjects.Point;
 
 public class Turtle extends UpdateLocation{
-	private Point position = new Point();
-	private double rotation = 0;
-	private boolean visible=true;
-	private Pen myPen;
-	private int idNum;
 
-	/**
-	 * Constructor
-	 */
-	public Turtle() {
-		idNum = 0;
-		myPen = new Pen();
-		position=new Point(0,0);
-		rotation = 90;
-		visible = true;
-	}
+    private Point position = new Point(400,300);
+    private double rotation = 90;
+    private boolean visible=true;
+    private Pen myPen;
+    private int idNum;
+
+    /**
+     * Constructor
+     */
+    public Turtle() {
+	idNum = 0;
+	myPen = new Pen();
+	position=new Point(400,300);
+	rotation = 90;
+	visible = true;
+    }
+
 
 	/**
 	 * Copy-constructor
@@ -99,10 +101,12 @@ public class Turtle extends UpdateLocation{
 		}
 	}
 
+
 	public Turtle getTurtle() {
 		// TODO Auto-generated method stub
 		return this;
 	}
+
 
 	public void setVisible(boolean b) {
 		this.visible=b;

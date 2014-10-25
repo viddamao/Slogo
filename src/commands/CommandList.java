@@ -17,7 +17,7 @@ public class CommandList {
 
 				double new_x = x_pos - Math.cos(radians)*copyVal;
 				double new_y = y_pos - Math.sin(radians)*copyVal;
-				params.setPosition(new_x, new_y);
+				params.setPosition(new Point(new_x, new_y));
 				return String.valueOf(forwardBy);
 
 			}
@@ -82,7 +82,7 @@ public class CommandList {
 
 			double distance = Math.sqrt(Math.pow(curX, 2)+Math.pow(curY, 2));
 
-			params.setPosition((double)0, (double)0);
+			params.setPosition(new Point(370.0, 300.0));
 			params.setRotation(90);
 			
 			return String.valueOf(distance);
