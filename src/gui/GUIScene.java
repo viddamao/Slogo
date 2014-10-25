@@ -81,7 +81,7 @@ public class GUIScene {
 		layout.setTop(getTopToolBar());
 		layout.setRight(getRightBox());
 		layout.setLeft(addButtons());
-		layout.setCenter(addGrid(root));
+		layout.setCenter(addGrid());
 	}
 
 	private void draw() {
@@ -123,7 +123,7 @@ public class GUIScene {
 		workspace.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {
-				saver.write(layout.getStyle());
+				//saver.write(layout.getStyle());
 			}
 		});
 		
@@ -171,7 +171,7 @@ public class GUIScene {
 		return rightSide;
 	}
 
-	private Group addGrid(Group root) throws FileNotFoundException {
+	private Group addGrid() throws FileNotFoundException {
 		root = new Group();
 		
 		playground.setHgap(10);
