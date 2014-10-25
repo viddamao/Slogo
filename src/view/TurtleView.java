@@ -3,7 +3,6 @@ package view;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +21,7 @@ public class TurtleView extends ImageView {
 		this.setRotate(turtleModel.getRotation());
 	}
 
+
 	/**
 	 * Copy-constructor
 	 * 
@@ -34,13 +34,5 @@ public class TurtleView extends ImageView {
 		this.setX(turtle.getX());
 		this.setY(turtle.getY());
 		this.setRotate(turtle.getRotate());
-	}
-	
-	public void updateLocation(Scene scene){
-		location.updatemovement(scene);
-		location.regressmovement(scene);
-		int[] coordinates = location.updateLocation((int)this.getX(), (int)this.getY());
-		this.setX(coordinates[0]);
-		this.setY(coordinates[1]);
 	}
 }
