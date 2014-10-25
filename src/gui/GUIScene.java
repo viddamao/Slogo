@@ -37,6 +37,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class GUIScene {
@@ -53,10 +54,12 @@ public class GUIScene {
 	protected String userCommand = new String();
 	private GridPane playground = new GridPane();
 	private MainController controller = new MainController();
-	public static double SCENE_WIDTH = 1280;
-	public static double SCENE_HEIGHT = 720;
-	public static double WRAP_LENGTH = 150;
-	public static double WRAP_HEIGHT = 720 / 4;
+	private static double SCENE_WIDTH = 1280;
+	private static double SCENE_HEIGHT = 720;
+	private static double WRAP_LENGTH = 150;
+	private static double WRAP_HEIGHT = 720 / 4;
+	private static double HELP_WIDTH = 800;
+	private static double HELP_HEIGHT = 500;
 	private BorderPane layout = new BorderPane();
 	private GridPane rightSide;
 	private FlowPane flow;
@@ -158,7 +161,20 @@ public class GUIScene {
 		load.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {
+				help();
+			}
 
+			private void help() {
+				Stage s = new Stage();
+				s.setTitle("Basic SLogo Commands");
+				Group g = new Group();
+				Scene slogoHelp = new Scene(g, HELP_WIDTH, HELP_HEIGHT);
+				WebView view = new WebView();
+				view.getEngine().load("http://www.cs.duke.edu/courses/compsci308/current/assign/03_slogo/commands.php");
+				g.getChildren().add(view);
+				s.setScene(slogoHelp);
+				s.show();
+				
 			}
 		});
 		topToolBar = new ToolBar(load);
