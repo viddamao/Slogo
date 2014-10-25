@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ReadAndWrite {
 
-	public void write(String[] args, String path) {
+	public void write(String... args) {
 		try {
 			File newTextFile = new File("src/images/thetextfile.txt");
 			FileWriter fw = new FileWriter(newTextFile);
@@ -22,7 +22,7 @@ public class ReadAndWrite {
 		}
 	}
 
-	public List<String> read(String source) throws IOException{
+	public List<String> read() throws IOException{
 		Path path = Paths.get("src/images/thetextfile.txt");
 		return Files.readAllLines(path );
 	}

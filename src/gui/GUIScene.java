@@ -3,6 +3,7 @@ package gui;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -23,6 +24,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextArea;
@@ -60,10 +64,11 @@ public class GUIScene {
 	public static double WRAP_HEIGHT = 720 / 4;
 	private boolean penDown = true;
 	private Pen myPen = controller.getTurtle().getPen();
+	private ReadAndWrite saver = new ReadAndWrite();
 	private BorderPane layout = new BorderPane();
 	private GridPane rightSide;
 	private FlowPane flow;
-	private ToolBar topToolBar;
+	private MenuBar topToolBar = new MenuBar();
 	private Group root;
 	private ResourceBundle guiText;
 	private Scene slogo;
@@ -114,7 +119,7 @@ public class GUIScene {
 				input.clear();      
 			}
 		});
-		
+
 		ScrollPane statusBox = new ScrollPane();
 		statusBox.setContent(statusBar);
 		statusBox.setPrefSize(200, SCENE_HEIGHT/3);
@@ -128,16 +133,31 @@ public class GUIScene {
 		rightSide.setStyle("-fx-background-color: AQUA");   
 		return rightSide;
 	}
-	private ToolBar getTopToolBar(){
-		Button load = new Button("For future use");
+
+	private MenuBar getTopToolBar(){
+		Menu file = new Menu("For future use");
+		MenuItem save = new MenuItem("save");
+		MenuItem load = new MenuItem("load");
+
+		save.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle (ActionEvent event) {
+				saver.write(layout.getStyle());
+			}
+		});
+
 		load.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {
-
+				try {
+					layout.setStyle(saver.read().get(0));
+				} catch (IOException e) {
+				}
 			}
 		});
-		topToolBar = new ToolBar(load);
-		topToolBar.setOrientation(Orientation.HORIZONTAL); 
+
+		file.getItems().addAll(save, load);
+		topToolBar.getMenus().add(file);		
 		topToolBar.setStyle("-fx-background-color: Black");
 		return topToolBar;
 	}
