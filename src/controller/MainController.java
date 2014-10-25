@@ -23,7 +23,7 @@ public class MainController {
     private Map<String, ArrayList<Command<Turtle, Void>>> cache = new HashMap<String, ArrayList<Command<Turtle, Void>>>();
 
     public void MainController() {
-    	turtle.setPosition(new Point(SCENE_WIDTH/2, SCENE_HEIGHT/2));
+    	turtle.setPosition(new Point(0, 0));
     }
     
     public void passInput(String input) throws ParsingException,

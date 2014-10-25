@@ -5,9 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import controller.MainController;
 import exceptions.ParsingException;
+import simulationObjects.Pen;
+import simulationObjects.Point;
 import view.TurtleView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +17,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -25,11 +25,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -51,47 +54,51 @@ public class GUIScene {
 	public static double SCENE_HEIGHT = 720;
 	public static double WRAP_LENGTH = 150;
 	public static double WRAP_HEIGHT = 720 / 4;
-	public static double GRID_TO_SCENE_RATIO = 0.8;
+	private boolean penDown = true;
+	private Pen myPen = controller.getTurtle().getPen();
 	private BorderPane layout = new BorderPane();
 	private GridPane rightSide;
 	private FlowPane flow;
 	private ToolBar topToolBar;
-	private Group root;
+	private StackPane root;
 	private ResourceBundle guiText;
+	private Scene slogo;
 
-	public void createScene(Stage s) throws FileNotFoundException{
-		Scene slogo = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT, Color.AQUA);
+	void createScene(Stage s) throws FileNotFoundException{
+		slogo = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT, Color.AQUA);
 		s.setTitle("SLogo Team 05");
 		s.setScene(slogo);
 		s.show();
-		Locale currentLocale = supportedLocales[0];
-		guiText = ResourceBundle.getBundle("properties.LanguagesBundle", currentLocale);
-		turtle.setData(controller.getTurtle());
-		turtle.updateLocation(slogo);
-		
+		Locale currentLocale = supportedLocales[0];	
+		guiText = ResourceBundle.getBundle("properties.LanguagesBundle", currentLocale);	
 		createGUI();
+		turtle.setData(controller.getTurtle());
 	}
-	public void createGUI() throws FileNotFoundException{
-		layout.setStyle("-fx-background-color: GREY");
+	private void createGUI() throws FileNotFoundException{
 		layout.setTop(getTopToolBar());
 		layout.setRight(getRightBox());
 		layout.setLeft(addButtons());
 		layout.setCenter(addGrid());
 	}
-	public GridPane getRightBox(){
+	private void draw(){
+		if(penDown){
+			Point position = controller.getTurtle().getPosition();
+			Line line = new Line(turtle.getX(), turtle.getY(), position.x, position.y);
+			root.getChildren().add(line);
+		}
+	}
+	private GridPane getRightBox(){
 		rightSide = new GridPane();
 		HBox statusBar = new HBox();
 		statusBar.setAlignment(Pos.TOP_LEFT);     
 		statusBar.getChildren().addAll( new Label("Status:"), statusText);
-		statusBar.setStyle("-fx-background-color: AQUA");
 
 		final TextArea input = new TextArea();
 		input.setWrapText(true);
 		input.setPrefWidth(200);
 		input.setPrefHeight((int)SCENE_HEIGHT/2);
-		input.setStyle("-fx-background-color: DarkBlue");
 		GridPane userInput = new GridPane();
-		
+
 		Button enter = new Button("Enter", input);
 		enter.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent e){
@@ -101,9 +108,8 @@ public class GUIScene {
 					input.clear();
 					statusText.setText("Pass in a string fitting SLogo format");
 				}
-				turtle.setData(controller.getTurtle());
+				update();
 				input.clear();      
-
 			}
 		});
 		userInput.add(input, 0,0);
@@ -115,7 +121,7 @@ public class GUIScene {
 		rightSide.setStyle("-fx-background-color: AQUA");   
 		return rightSide;
 	}
-	public ToolBar getTopToolBar(){
+	private ToolBar getTopToolBar(){
 		Button load = new Button("For future use");
 		load.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -129,27 +135,25 @@ public class GUIScene {
 		return topToolBar;
 	}
 
-	public Group addGrid() throws FileNotFoundException{
-		root = new Group();
+	private StackPane addGrid() throws FileNotFoundException{
+		root = new StackPane();
 		playground.setHgap(10);
 		for(int i=0; i<SCENE_WIDTH/15; i++){
-			for(int j=0; j<SCENE_HEIGHT/10; j++){
-				Text gridCreate = new Text("");
-				playground.add(gridCreate, i, j);
+			for(int j=0; j<SCENE_HEIGHT/8; j++){
+				playground.add(new Text(""), i, j);
 			}
 		}	
-		 root.getChildren().add(playground);
+		root.getChildren().add(playground);
 		root.getChildren().add(turtle);	
 		update();
 		return root;
 	}
 
-	public FlowPane addButtons() throws FileNotFoundException{
+	private FlowPane addButtons() throws FileNotFoundException{
 		flow = new FlowPane();
 		flow.setPadding(new Insets(5, 0, 5, 0));
 		flow.setVgap(4);
 		flow.setHgap(4);
-		flow.setPrefWrapLength(WRAP_LENGTH);
 		flow.setPrefWidth(WRAP_LENGTH);
 		flow.setStyle("-fx-background-color: DarkBlue");
 
@@ -193,6 +197,33 @@ public class GUIScene {
 			}
 		});
 
+		slogo.setOnKeyPressed(new EventHandler<KeyEvent>(){
+			public void handle(KeyEvent event){
+				try{
+					switch (event.getCode()) {
+					case UP: controller.passInput("fd 20"); break;
+					case RIGHT:	controller.passInput("rt 20"); break;
+					case DOWN: controller.passInput("bk 20"); break;		
+					case LEFT: controller.passInput("lt 20"); break;
+					default: break;
+					}
+				} catch (ParsingException e) {
+					statusText.setText("Parsing error");
+				}	
+				System.out.println(turtle.getX());
+				update();
+				System.out.println(turtle.getX());
+
+			}
+		});
+		slogo.setOnKeyReleased(new EventHandler<KeyEvent>(){
+			public void handle(KeyEvent event){
+				switch (event.getCode()) {
+				default: break;
+				}
+			}
+		});
+
 		Button language= new Button("Choose SLogo language");
 		language.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -225,10 +256,12 @@ public class GUIScene {
 
 		return flow;
 	}
-	public Image setImage(FileInputStream input){	
+
+	private Image setImage(FileInputStream input){	
 		return new Image(input, WRAP_LENGTH/3, WRAP_HEIGHT/3, true, true);
 	}
-	public void update() throws FileNotFoundException{
+	private void update(){
+		draw();
 		turtle.setData(controller.getTurtle());
 	}
 }
