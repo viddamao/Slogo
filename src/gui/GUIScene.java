@@ -88,7 +88,7 @@ public class GUIScene {
 		if(myPen.getActive()){
 			Point position = controller.getTurtle().getPosition();
 			Line line = new Line(turtle.getX(), turtle.getY(), position.x, position.y);
-			line.setFill(myPen.getColor());
+			line.setStroke(myPen.getColor());
 			line.getStrokeDashArray().addAll(10.0, 5.0);
 			root.getChildren().add(line);
 		}
@@ -206,32 +206,23 @@ public class GUIScene {
 			}
 		});
 
-//		slogo.setOnKeyPressed(new EventHandler<KeyEvent>(){
-//			public void handle(KeyEvent event){
-//				try{
-//					switch (event.getCode()) {
-//					case UP: controller.passInput("fd 20"); break;
-//					case RIGHT:	controller.passInput("rt 20"); break;
-//					case DOWN: controller.passInput("bk 20"); break;		
-//					case LEFT: controller.passInput("lt 20"); break;
-//					default: break;
-//					}
-//				} catch (ParsingException e) {
-//					statusText.setText("Parsing error");
-//				}	
-//				System.out.println(turtle.getX());
-//				update();
-//				System.out.println(turtle.getX());
-//
-//			}
-//		});
-//		slogo.setOnKeyReleased(new EventHandler<KeyEvent>(){
-//			public void handle(KeyEvent event){
-//				switch (event.getCode()) {
-//				default: break;
-//				}
-//			}
-//		});
+		slogo.setOnKeyPressed(new EventHandler<KeyEvent>(){
+			public void handle(KeyEvent event){
+				try{
+					switch (event.getCode()) {
+					case UP: controller.passInput("fd 20"); break;
+					case RIGHT:	controller.passInput("rt 20"); break;
+					case DOWN: controller.passInput("bk 20"); break;		
+					case LEFT: controller.passInput("lt 20"); break;
+					default: break;
+					}
+				} catch (ParsingException e) {
+					statusText.setText("Parsing error");
+				}	
+				getRightBox();
+				update();
+			}
+		});
 
 		Button language= new Button("Choose SLogo language");
 		language.setOnAction(new EventHandler<ActionEvent>() {
