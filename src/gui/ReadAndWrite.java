@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -37,5 +36,4 @@ public class ReadAndWrite {
 		Path path = Paths.get(dataText.getPath());
 		return Files.readAllLines(path );
 	}
-
 }

@@ -37,7 +37,7 @@ public class AST {
 	    case 3: // <List>--><List><Statement>
 	    case 4: // <List>-->REPEAT<Type>[ <List> ]
 	    case 5: // <List>-->DOTIMES [ Variable <Type> ] [ <List> ]
-
+	    
 	    case 7: // <List>-->IF <Type> [ <List> ]
 	    case 11: // <Parameters>--><Parameters><Type>
 	    case 14: // <Command>-->SET Variable<Type>
@@ -84,11 +84,13 @@ public class AST {
 		break;
 	    case 6: // <List>-->FOR [ Variable <Type><Type><Type> ] [ List ]
 		tempRight = syntaxTree.pop();
-		double end = syntaxTree.pop().data_1,
-		incre = syntaxTree.pop().data_1,
-		start = syntaxTree.pop().data_1;
-
-		tempLeft = new Node(start, incre, end, currentRule, null, null);
+		double end=syntaxTree.pop().data_1,
+		incre=syntaxTree.pop().data_1,
+		start=syntaxTree.pop().data_1;
+		
+		
+		tempLeft = new Node(start,incre,end, currentRule, null,
+			null);
 		tempParent = new Node(0, 0, 0, currentRule, tempLeft, tempRight);
 		syntaxTree.push(tempParent);
 
@@ -179,35 +181,30 @@ public class AST {
 		// TODO implement loops
 	    break;
 	case 5: // <List>-->DOTIMES [ Variable <Type> ] [ <List> ]
-	    double repeatTimes = currentNode.left.data_1;
-	    for (int i = 0; i < repeatTimes; i++) {
-		ret.addAll(traverse(currentNode.right,
-			new ArrayList<Command<Turtle, Void>>()));
+	    double repeatTimes=currentNode.left.data_1;
+	    for (int i=0;i<repeatTimes;i++){
+		ret.addAll(traverse(currentNode.right, new ArrayList<Command<Turtle, Void>>()));
 	    }
 	    break;
 	case 6: // <List>-->FOR [ Variable <Type><Type><Type> ] [ List ]
-	    double start = currentNode.left.data_1,
-	    increment = currentNode.left.data_2,
-	    end = currentNode.left.data_3;
-	    while (start < end) {
-		ret.addAll(traverse(currentNode.right,
-			new ArrayList<Command<Turtle, Void>>()));
-		start = start + increment;
+	    double start=currentNode.left.data_1,
+	    increment=currentNode.left.data_2,
+	    end=currentNode.left.data_3;
+	    while (start<end){
+		ret.addAll(traverse(currentNode.right, new ArrayList<Command<Turtle, Void>>()));
+		start=start+increment;
 	    }
 	    break;
 	case 7: // <List>-->IF <Type> [ <List> ]
-	    if (currentNode.left.data_1 != 0)
-		ret.addAll(traverse(currentNode.right,
-			new ArrayList<Command<Turtle, Void>>()));
+	    if (currentNode.left.data_1!=0) 
+		ret.addAll(traverse(currentNode.right, new ArrayList<Command<Turtle, Void>>()));
 	    break;
 	case 8: // <List>-->IFELSE <Type>[ <List> ][ <List>]
-	    if (currentNode.left.data_1 != 0)
-		ret.addAll(traverse(currentNode.right.left,
-			new ArrayList<Command<Turtle, Void>>()));
+	    if (currentNode.left.data_1!=0) 
+		ret.addAll(traverse(currentNode.right.left, new ArrayList<Command<Turtle, Void>>()));
 	    else
-		ret.addAll(traverse(currentNode.right.right,
-			new ArrayList<Command<Turtle, Void>>()));
-
+		ret.addAll(traverse(currentNode.right.right, new ArrayList<Command<Turtle, Void>>()));
+	    
 	    break;
 	case 9: // <List>-->TO Variable [ <Parameters> ] [ <List> ]
 
@@ -222,23 +219,23 @@ public class AST {
 
 	    switch (currentNode.left.type) {
 	    case 27:
-
+		
 		Command<Turtle, Void> current = CommandList.forwardCommand(val);
 		ret.add(current);
 		return ret;
 	    case 28:
-
+		
 		current = CommandList.forwardCommand(-val);
 		ret.add(current);
 		return ret;
 
 	    case 29:
-
+		
 		current = CommandList.turnCommand(val);
 		ret.add(current);
 		return ret;
 	    case 30:
-
+		
 		current = CommandList.turnCommand(-val);
 		ret.add(current);
 		return ret;
@@ -258,7 +255,7 @@ public class AST {
 	    current = CommandList.towards(val1, val2);
 	    ret.add(current);
 	    return ret;
-
+	
 	case 20: // <Command>-->HOME
 	    current = CommandList.SetXY(370, 300);
 	    ret.add(current);
