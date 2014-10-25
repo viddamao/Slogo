@@ -1,5 +1,6 @@
 package simulationObjects;
 
+import java.util.ArrayList;
 import javafx.scene.paint.Color;
 
 public class Pen {
@@ -8,6 +9,7 @@ public class Pen {
 	private double myWidth;
 	private boolean active;
 	private String myStyle;
+	protected ArrayList<SLogoLine> listOfLines;
 	
 	public Pen(){
 		super();
@@ -49,4 +51,18 @@ public class Pen {
 		return myStyle;
 	}
 
+	public boolean drawLine(Point a, Point b) {
+		if(active){
+			listOfLines.add(new SLogoLine(a,b,getColor(),myWidth));
+		}
+		return active;
+	}
+
+	public ArrayList<SLogoLine> getLines() {
+		return listOfLines;
+	}
+
+	public void clearLines() {
+		listOfLines.clear();
+	}
 }

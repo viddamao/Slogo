@@ -3,6 +3,7 @@ package gui;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -16,7 +17,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -25,8 +25,12 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -41,7 +45,6 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class GUIScene {
-
 	/**
 	 * Application scene is managed in this class
 	 * @author Steven Pierre
@@ -60,16 +63,18 @@ public class GUIScene {
 	private static double WRAP_HEIGHT = 720 / 4;
 	private static double HELP_WIDTH = 800;
 	private static double HELP_HEIGHT = 500;
+	private ReadAndWrite saver = new ReadAndWrite();
 	private BorderPane layout = new BorderPane();
 	private GridPane rightSide;
 	private FlowPane flow;
-	private ToolBar topToolBar;
+	private MenuBar topToolBar = new MenuBar();
 	private Group root;
 	private ResourceBundle guiText;
 	private Pen myPen;
 	private Scene slogo;
 
-	public void createScene(Stage s) throws FileNotFoundException{
+
+	public void createScene(Stage s) throws FileNotFoundException {
 		slogo = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT, Color.AQUA);
 		s.setTitle("SLogo Team 05");
 		s.setScene(slogo);
@@ -81,7 +86,7 @@ public class GUIScene {
 		createGUI();
 	}
 
-	private void createGUI() throws FileNotFoundException{
+	private void createGUI() throws FileNotFoundException {
 		layout.setTop(getTopToolBar());
 		layout.setRight(getRightBox());
 		layout.setLeft(addButtons());
@@ -119,46 +124,39 @@ public class GUIScene {
 			root.getChildren().remove(turtle);
 			root.getChildren().add(line);
 			root.getChildren().add(turtle);
+			//			ArrayList<SLogoLine> lineList = (controller.getTurtle()).getPen().getLines();
+			//			for(SLogoLine lne:lineList){
+			//				root.getChildren().addAll(lne.makeLine());
+			//			}
 		}
 	}
 
-	private GridPane getRightBox(){
-		rightSide = new GridPane();
-		HBox statusBar = new HBox();
-		statusBar.setAlignment(Pos.TOP_LEFT);     
-		statusBar.getChildren().addAll( new Label("Status:"), statusText);
 
-		final TextArea input = new TextArea();
-		input.setWrapText(true);
-		input.setPrefWidth(200);
-		input.setPrefHeight((int)SCENE_HEIGHT/2);
-		GridPane userInput = new GridPane();
+	private MenuBar getTopToolBar(){
+		Menu file = new Menu("For future use");
+		file.setStyle("-fx-background-color: LightGray");
+		MenuItem save = new MenuItem("save");
+		MenuItem load = new MenuItem("load");
+		MenuItem help = new MenuItem("help");
 
-		Button enter = new Button("Enter", input);
-		enter.setOnAction(new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent e){
-				try {
-					controller.passInput(input.getText());
-				} catch (ParsingException e1) {
-					input.clear();
-					statusText.setText("Pass in a string fitting SLogo format");
-				}
-				update();
-				input.clear();      
+		save.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle (ActionEvent event) {
+				saver.write(layout.getStyle());
 			}
 		});
-		userInput.add(input, 0,0);
-		userInput.add(enter, 1,0);
 
-		rightSide.setPrefSize(input.getMaxWidth(), SCENE_HEIGHT/2.5);
-		rightSide.add(userInput, 0, 0);
-		rightSide.add(statusBar, 0, 1);
-		rightSide.setStyle("-fx-background-color: AQUA");   
-		return rightSide;
-	}
-	private ToolBar getTopToolBar(){
-		Button load = new Button("Help!");
 		load.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle (ActionEvent event) {
+				try {
+					layout.setStyle(saver.read().get(0));
+				} catch (IOException e) {
+				}
+			}
+		});
+
+		help.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {
 				help();
@@ -174,32 +172,71 @@ public class GUIScene {
 				g.getChildren().add(view);
 				s.setScene(slogoHelp);
 				s.show();
-				
+
 			}
 		});
-		topToolBar = new ToolBar(load);
-		topToolBar.setOrientation(Orientation.HORIZONTAL); 
+
+		file.getItems().addAll(save, load, help);
+		topToolBar.getMenus().add(file);		
 		topToolBar.setStyle("-fx-background-color: Black");
 		return topToolBar;
+	}
+
+	private GridPane getRightBox() {
+		rightSide = new GridPane();
+		HBox statusBar = new HBox();
+		statusBar.setAlignment(Pos.TOP_LEFT);
+		statusBar.getChildren().addAll(new Label("Status:"), statusText);
+		final TextArea input = new TextArea();
+		input.setWrapText(true);
+		input.setPrefSize(200, (int) SCENE_HEIGHT / 2.5);
+		GridPane userInput = new GridPane();
+		Button enter = new Button("Enter", input);
+		enter.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e) {
+				try {
+					controller.passInput(input.getText());
+					statusText.setText(Buttons.status(controller.getHistory()));
+				} catch (ParsingException e1) {
+					input.clear();
+					statusText.setText("Pass in a string fitting SLogo format");
+				}
+				update();
+				input.clear();
+			}
+		});
+
+		ScrollPane statusBox = new ScrollPane();
+		statusBox.setContent(statusBar);
+		statusBox.setPrefSize(200, SCENE_HEIGHT / 3);
+		statusBox.setHbarPolicy(ScrollBarPolicy.NEVER);
+		userInput.add(input, 0, 0);
+		userInput.add(enter, 1, 0);
+
+		rightSide.setPrefSize(input.getMaxWidth(), SCENE_HEIGHT / 2.5);
+		rightSide.add(userInput, 0, 0);
+		rightSide.add(statusBox, 0, 1);
+		rightSide.setStyle("-fx-background-color: AQUA");
+		return rightSide;
 	}
 
 	private Group addGrid() throws FileNotFoundException{
 		root = new Group();
 		layout.setStyle("-fx-background-color: WHITE");
 		playground.setHgap(10);
-		for(int i=0; i<SCENE_WIDTH/15; i++){
-			for(int j=0; j<SCENE_HEIGHT/8; j++){
+		for (int i = 0; i < SCENE_WIDTH/15; i++) {
+			for (int j = 0; j < SCENE_HEIGHT/8; j++) {
 				playground.add(new Text(""), i, j);
 			}
-		}	
+		}
 		root.getChildren().add(playground);
-		root.getChildren().add(turtle);	
+		root.getChildren().add(turtle);
 		turtle.setData(controller.getTurtle());
 		update();
 		return root;
 	}
 
-	private FlowPane addButtons() throws FileNotFoundException{
+	private FlowPane addButtons() throws FileNotFoundException {
 		flow = new FlowPane();
 		flow.setPadding(new Insets(5, 0, 5, 0));
 		flow.setVgap(4);
@@ -216,58 +253,64 @@ public class GUIScene {
 				playground.setStyle("-fx-background-color: "+ toRGBString(bgColor.getValue()));
 			}
 		});
-		
+
 		ImageView gdt= new ImageView(setImage(new FileInputStream(new File("src/images/Grid.png"))));
 		Button gridT = new Button(guiText.getString("Grid Toggle"), gdt);
 		gridT.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle (ActionEvent event) {
-				statusText.setText(guiText.getString("Toggling grid in simulation"));
+			public void handle(ActionEvent event) {
+				statusText.setText(guiText
+						.getString("Toggling grid in simulation"));
 				playground.setGridLinesVisible(!playground.isGridLinesVisible());
 			}
 		});
 
-		ImageView ttle= new ImageView(setImage(new FileInputStream(new File("src/images/Leonardo.png"))));
-		Button turtleToggle= new Button(guiText.getString("Turtle Toggle"), ttle);
+		ImageView ttle = new ImageView(setImage(new FileInputStream(new File(
+				"src/images/Leonardo.png"))));
+		Button turtleToggle = new Button(guiText.getString("Turtle Toggle"),
+				ttle);
 		turtleToggle.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle (ActionEvent event) {
-				statusText.setText(guiText.getString("Toggling turtle in simulation"));
+			public void handle(ActionEvent event) {
+				statusText.setText(guiText
+						.getString("Toggling turtle in simulation"));
 				turtle.setVisible(!turtle.isVisible());
 			}
 		});
 
-		ImageView ttm= new ImageView(setImage(new FileInputStream(new File("src/images/Raphael.png"))));
-		Button turtim= new Button(guiText.getString("Turtle Image"), ttm);
+		ImageView ttm = new ImageView(setImage(new FileInputStream(new File(
+				"src/images/Raphael.png"))));
+		Button turtim = new Button(guiText.getString("Turtle Image"), ttm);
 		turtim.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle (ActionEvent event) {
+			public void handle(ActionEvent event) {
 				statusText.setText("Changing turtle image");
 				Buttons.changeImage(turtle);
 			}
 		});
 
-		Button language= new Button("Choose SLogo language");
+		Button language = new Button("Choose SLogo language");
 		language.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle (ActionEvent event) {
+			public void handle(ActionEvent event) {
 				Buttons.changeLang();
 				ObservableList<String> options = FXCollections.observableArrayList("English", "French");
 				final ComboBox<String> comboBox = new ComboBox<String>(options);
 				flow.getChildren().add(comboBox);
-				comboBox.setOnAction(new EventHandler<ActionEvent> (){
+				comboBox.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
-					public void handle (ActionEvent event){
-						System.out.println(comboBox.getValue());
-						Locale currentLocale = supportedLocales[Buttons.factory(comboBox.getValue())];
-						guiText = ResourceBundle.getBundle("properties.LanguagesBundle", currentLocale);
+					public void handle(ActionEvent event) {
+						Locale currentLocale = supportedLocales[Buttons
+						                                        .factory(comboBox.getValue())];
+						guiText = ResourceBundle.getBundle(
+								"properties.LanguagesBundle", currentLocale);
 						try {
 							createGUI();
 						} catch (FileNotFoundException e) {
 						}
 						flow.getChildren().remove(comboBox);
 					}
-				});			
+				});
 			}
 		});
 
@@ -276,7 +319,7 @@ public class GUIScene {
 
 		Text penActive = new Text("Active:");
 		penActive.setFill(Color.WHITE);
-		
+
 		final CheckBox penState = new CheckBox();
 		penState.setStyle("-fx-font-color: WHITE");
 		penState.setSelected(true);
@@ -286,7 +329,7 @@ public class GUIScene {
 				myPen.setActive(penState.isSelected());
 			}
 		});	
-		
+
 		final ColorPicker penColor = new ColorPicker(myPen.getColor());
 		penColor.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
@@ -294,7 +337,7 @@ public class GUIScene {
 				myPen.setColor(penColor.getValue());
 			}
 		});
-		
+
 		ObservableList<Double> widthOptions = FXCollections.observableArrayList(1.0, 2.0, 3.0, 4.0, 6.0, 8.0, 12.0, 20.0);
 		final ComboBox<Double> penWidth = new ComboBox<Double>(widthOptions);
 		penWidth.setOnAction(new EventHandler<ActionEvent> (){
@@ -303,8 +346,8 @@ public class GUIScene {
 				myPen.setWidth(penWidth.getValue());
 			}
 		});	
-		
-		
+
+
 		ObservableList<String> styleOptions = FXCollections.observableArrayList("Solid", "Dashed", "Dotted");
 		final ComboBox<String> penStyle = new ComboBox<String>(styleOptions);
 		penStyle.setOnAction(new EventHandler<ActionEvent> (){
@@ -341,6 +384,7 @@ public class GUIScene {
 	private Image setImage(FileInputStream input){	
 		return new Image(input, WRAP_LENGTH/3, WRAP_HEIGHT/3, true, true);
 	}
+
 	private void update(){
 		draw();
 		turtle.setData(controller.getTurtle());

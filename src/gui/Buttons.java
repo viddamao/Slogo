@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 
 import simulationObjects.Pen;
 import simulationObjects.Turtle;
@@ -50,13 +51,17 @@ public class Buttons {
 		}
 
 	}
-
+	
+	public static String status(List<String> status){
+		String fullHistory = "";
+		for(int i = status.size(); i > 0; i--){
+			fullHistory = fullHistory + status.get(i-1) + "\n";
+		}
+		return fullHistory;
+		
+	}
 	public static void changeLang() {
 		// TODO Auto-generated method stub
-
-	}
-
-	public static void changePen(BorderPane layout, FlowPane flow, Pen myPen) {
 
 	}
 
