@@ -5,16 +5,18 @@ import javafx.scene.paint.Color;
 public class Pen {
 	
 	private Color myColor;
-	private double penWidth;
+	private double myWidth;
 	private boolean active;
+	private boolean myStyle;
 	
 	public Pen(){
 		super();
+		active=true;
 		myColor = Color.BLACK;
 	}
 	
 	public void setColor(Color color) {
-		this.myColor = color;
+		myColor = color;
 	}
 
 	public Color getColor() {
@@ -22,11 +24,11 @@ public class Pen {
 	}
 
 	public void setWidth(double width) {
-		this.penWidth = width;
+		this.myWidth = width;
 	}
 
 	public double getWidth() {
-		return penWidth;
+		return myWidth;
 	}
 
 	public void setActive(boolean active) {
@@ -36,6 +38,13 @@ public class Pen {
 	public boolean getActive() {
 		return active;
 	}
+	
+	public void setStyle(boolean sty){
+		this.myStyle = sty;
+	}
 
+	public boolean getOffset(){
+		return myStyle;
+	}
 
 }

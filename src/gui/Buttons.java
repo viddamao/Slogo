@@ -75,14 +75,6 @@ public class Buttons {
 		return 0;
 	}
 
-	public static void changeImage(Turtle turtle) {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG", "*.jpg", "PNG", ".png"));
-		fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
-		File file = fileChooser.showOpenDialog(new Stage());
-
-	}
-
 	public static void changeImage(TurtleView turtle) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG", "*.jpg", "PNG", "*.png"));

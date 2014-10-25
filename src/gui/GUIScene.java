@@ -83,14 +83,17 @@ public class GUIScene {
 		layout.setLeft(addButtons());
 		layout.setCenter(addGrid());
 	}
+	
 	private void draw(){
 		if(myPen.getActive()){
 			Point position = controller.getTurtle().getPosition();
 			Line line = new Line(turtle.getX(), turtle.getY(), position.x, position.y);
 			line.setFill(myPen.getColor());
+			line.getStrokeDashArray().addAll(10.0, 5.0);
 			root.getChildren().add(line);
 		}
 	}
+	
 	private GridPane getRightBox(){
 		rightSide = new GridPane();
 		HBox statusBar = new HBox();
