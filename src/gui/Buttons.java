@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import simulationObjects.Pen;
 import simulationObjects.Turtle;
 
 import javax.imageio.ImageIO;
@@ -24,30 +25,38 @@ import javafx.scene.layout.Pane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class Buttons {
 
-	public void makeButtons(PaintArea grid) {
-
-	}
-
-	private Button makeButton(String property, EventHandler<ActionEvent> handler) {
-		Button result = new Button();
-		// result.setText(myResources.getString(property));
-		result.setOnAction(handler);
-		return result;
-	}
-
-	public static void changeColor(final Pane playground, final FlowPane flow) {
-		final ColorPicker color = new ColorPicker(Color.GREY);
-		flow.getChildren().add(color);
-		color.setOnAction(new EventHandler<ActionEvent>(){
+	public static void changeColor(final Pane playground, final FlowPane flow, final Pen pen) {
+		final ColorPicker bgColor = new ColorPicker(Color.WHITE);
+		final Text bgLabel = new Text("Background"); 
+		bgLabel.setFill(Color.WHITE);
+		flow.getChildren().add(bgLabel);
+		flow.getChildren().add(bgColor);
+		bgColor.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent e){
-				playground.setStyle("-fx-background-color: "+ toRGBString(color.getValue()));
-				flow.getChildren().remove(color);
+				playground.setStyle("-fx-background-color: "+ toRGBString(bgColor.getValue()));
+				flow.getChildren().remove(bgColor);
+				flow.getChildren().remove(bgLabel);
+			}
+		});
+		
+		final ColorPicker penColor = new ColorPicker(pen.getColor());
+		final Text penLabel = new Text("Pen"); 
+		penLabel.setFill(Color.WHITE);
+		flow.getChildren().add(penLabel);
+		flow.getChildren().add(penColor);
+		penColor.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent e){
+				pen.setColor(penColor.getValue());
+				flow.getChildren().remove(penColor);
+				flow.getChildren().remove(penLabel);
 			}
 		});
 	}
@@ -91,6 +100,22 @@ public class Buttons {
 	public static void changeLang() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public static void changePen(BorderPane layout, FlowPane flow, Pen myPen) {
+//		final ColorPicker bgColor = new ColorPicker(Color.WHITE);
+//		final Text bgLabel = new Text("Background"); 
+//		bgLabel.setFill(Color.WHITE);
+//		flow.getChildren().add(bgLabel);
+//		flow.getChildren().add(bgColor);
+//		bgColor.setOnAction(new EventHandler<ActionEvent>(){
+//			@Override
+//			public void handle(ActionEvent e){
+//				playground.setStyle("-fx-background-color: "+ toRGBString(bgColor.getValue()));
+//				flow.getChildren().remove(bgColor);
+//				flow.getChildren().remove(bgLabel);
+//			}
+//		});
 	}
 
 }

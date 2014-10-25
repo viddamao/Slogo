@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import controller.MainController;
 import exceptions.ParsingException;
+import simulationObjects.Pen;
 import view.TurtleView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -58,6 +59,7 @@ public class GUIScene {
 	private ToolBar topToolBar;
 	private Group root;
 	private ResourceBundle guiText;
+	private Pen myPen;
 
 	public void createScene(Stage s) throws FileNotFoundException{
 		Scene slogo = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT, Color.AQUA);
@@ -68,11 +70,11 @@ public class GUIScene {
 		guiText = ResourceBundle.getBundle("properties.LanguagesBundle", currentLocale);
 		turtle.setData(controller.getTurtle());
 		turtle.updateLocation(slogo);
-		
+		myPen = controller.getTurtle().getPen();
 		createGUI();
 	}
 	public void createGUI() throws FileNotFoundException{
-		layout.setStyle("-fx-background-color: GREY");
+		layout.setStyle("-fx-background-color: WHITE");
 		layout.setTop(getTopToolBar());
 		layout.setRight(getRightBox());
 		layout.setLeft(addButtons());
@@ -154,12 +156,12 @@ public class GUIScene {
 		flow.setStyle("-fx-background-color: DarkBlue");
 
 		ImageView col= new ImageView(setImage(new FileInputStream(new File("src/images/BackgroundColor.png"))));
-		Button color = new Button(guiText.getString("Color"), col);
+		Button color = new Button(guiText.getString("Colors"), col);
 		color.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {
 				statusText.setText(guiText.getString("Changing background color"));
-				Buttons.changeColor(layout, flow);
+				Buttons.changeColor(layout, flow, myPen);
 			}
 		});
 
@@ -214,6 +216,16 @@ public class GUIScene {
 						flow.getChildren().remove(comboBox);
 					}
 				});			
+			}
+		});
+		
+		ImageView penImg= new ImageView(setImage(new FileInputStream(new File("src/images/pen.jpg"))));
+		Button penProp= new Button(guiText.getString("Pen Properties"), penImg);
+		penProp.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle (ActionEvent event) {
+				statusText.setText("Changing pen properties");
+				Buttons.changePen(layout, flow, myPen);
 			}
 		});
 
