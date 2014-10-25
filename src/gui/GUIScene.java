@@ -3,7 +3,6 @@ package gui;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -82,7 +81,7 @@ public class GUIScene {
 		layout.setTop(getTopToolBar());
 		layout.setRight(getRightBox());
 		layout.setLeft(addButtons());
-		layout.setCenter(addGrid());
+		layout.setCenter(addGrid(root));
 	}
 
 	private void draw() {
@@ -91,17 +90,18 @@ public class GUIScene {
 			Line line = new Line(turtle.getX()+20, turtle.getY()+25, position.x , position.y );
 			root.getChildren().add(line);		
 			//TODO you guys know how to add arrayList to group?
-//			ArrayList<SLogoLine> lineList = (controller.getTurtle()).getPen().getLines();
-//			for(SLogoLine lne:lineList){
-//				root.getChildren().addAll(lne.makeLine());
-//			}
+			//			ArrayList<SLogoLine> lineList = (controller.getTurtle()).getPen().getLines();
+			//			for(SLogoLine lne:lineList){
+			//				root.getChildren().addAll(lne.makeLine());
+			//			}
 		}
 	}
 	private MenuBar getTopToolBar(){
-		Menu file = new Menu("For future use");
+		Menu file = new Menu("File");
 		file.setStyle("-fx-background-color: LightGray");
 		MenuItem save = new MenuItem("save");
 		MenuItem load = new MenuItem("load");
+		MenuItem workspace = new MenuItem("New Workspace");
 
 		save.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -120,7 +120,14 @@ public class GUIScene {
 			}
 		});
 
-		file.getItems().addAll(save, load);
+		workspace.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle (ActionEvent event) {
+				saver.write(layout.getStyle());
+			}
+		});
+		
+		file.getItems().addAll(save, load, workspace);
 		topToolBar.getMenus().add(file);		
 		topToolBar.setStyle("-fx-background-color: Black");
 		return topToolBar;
@@ -164,8 +171,9 @@ public class GUIScene {
 		return rightSide;
 	}
 
-	private Group addGrid() throws FileNotFoundException {
+	private Group addGrid(Group root) throws FileNotFoundException {
 		root = new Group();
+		
 		playground.setHgap(10);
 		for (int i = 0; i < SCENE_WIDTH/15; i++) {
 			for (int j = 0; j < SCENE_HEIGHT/8; j++) {
@@ -267,7 +275,7 @@ public class GUIScene {
 			public void handle(ActionEvent event) {
 				Buttons.changeLang();
 				ObservableList<String> options = FXCollections
-						.observableArrayList("English", "French");
+						.observableArrayList("English", "French", "Italian", "Portuguese", "Russian", "Chinese");
 				ComboBox<String> comboBox = new ComboBox<String>(options);
 				flow.getChildren().add(comboBox);
 				comboBox.setOnAction(new EventHandler<ActionEvent>() {

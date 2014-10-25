@@ -2,7 +2,7 @@ package simulationObjects;
 
 import simulationObjects.Point;
 
-public class Turtle extends UpdateLocation{
+public class Turtle{
 
     private Point position = new Point(400,300);
     private double rotation = 90;

@@ -3,10 +3,8 @@ package view;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import simulationObjects.Turtle;
-import simulationObjects.UpdateLocation;
 
 public class TurtleView extends ImageView {
-	public UpdateLocation location = new UpdateLocation();
 	public TurtleView(Image image) {
 		super(image);
 	}

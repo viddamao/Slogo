@@ -5,14 +5,15 @@ import javafx.stage.Stage;
 
 public class GUIStart extends Application {
 
-    public static void main(String[] args) {
-	launch(args);
-    }
+	public static void main(String[] args) {
+		launch(args);
+	}
 
-    @Override
-    public void start(Stage stage) throws Exception {
-	GUIScene turtle = new GUIScene();
-	turtle.createScene(stage);
-    }
+	@Override
+	public void start(Stage stage) throws Exception {
+		GUIScene turtle = new GUIScene();
+		turtle.createScene(stage);
+
+	}
 
 }
