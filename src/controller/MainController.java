@@ -14,40 +14,40 @@ import exceptions.ParsingException;
 import exceptions.UnbalancedBracketsException;
 
 public class MainController {
-	private int SCENE_WIDTH = 1280;
-	private int SCENE_HEIGHT = 720;
-	private Compiler compiler = new Compiler();
-	private Turtle turtle = new Turtle();
-	private List<String> history = new ArrayList<String>();
+    private int SCENE_WIDTH = 1280;
+    private int SCENE_HEIGHT = 720;
+    private Compiler compiler = new Compiler();
+    private Turtle turtle = new Turtle();
+    private List<String> history = new ArrayList<String>();
 
     private Map<String, ArrayList<Command<Turtle, Void>>> cache = new HashMap<String, ArrayList<Command<Turtle, Void>>>();
 
     public void MainController() {
-    	turtle.setPosition(new Point(0, 0));
+	turtle.setPosition(new Point(0, 0));
     }
-    
+
     public void passInput(String input) throws ParsingException,
 	    UnbalancedBracketsException {
-		history.add(input);
-		ArrayList<Command<Turtle, Void>> commands;
-	
-		if (false) {
-		    commands = cache.get(input);
-		} else {
-		    commands = new ArrayList<Command<Turtle, Void>>();
-		    commands=compiler.compile(input);
-		    cache.put(input, commands);
-		}
-		for (Command<Turtle, Void> c : commands) {
-		    c.run(turtle);
-		}
+	history.add(input);
+	ArrayList<Command<Turtle, Void>> commands;
+
+	if (false) {
+	    commands = cache.get(input);
+	} else {
+	    commands = new ArrayList<Command<Turtle, Void>>();
+	    commands = compiler.compile(input);
+	    cache.put(input, commands);
+	}
+	for (Command<Turtle, Void> c : commands) {
+	    c.run(turtle);
+	}
     }
 
     public Turtle getTurtle() {
-    	return new Turtle(turtle);
+	return new Turtle(turtle);
     }
-    
+
     public List<String> getHistory() {
-    	return new ArrayList<String>(history);
+	return new ArrayList<String>(history);
     }
 }

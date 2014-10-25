@@ -199,8 +199,7 @@ public class Compiler {
 
     private void initGrammar() {
 	try {
-	    
-	    
+
 	    String language = "English", currentLine = "", key = "", value = "";
 	    grammar.clear();
 
@@ -255,7 +254,7 @@ public class Compiler {
 	Stack<Integer> sequence = interpreter(scanner(input));
 
 	// System.out.println(input);
-	
+
 	// for (int i=0;i<symbolTable.size();i++){
 	// System.out.println(symbolTable.get(i).getValue());}
 

@@ -24,12 +24,15 @@ public class CommandList {
 		};
 	}
 	
-	public static Command<Turtle, Void> turnCommand(final double clockwiseDegrees) {
+	public static Command<Turtle, Void> turnCommand(final double rot) {
 		return new Command<Turtle, Void>() {
 			@Override
 			public String run(Turtle params) {
-				params.setRotation(params.getRotation() + clockwiseDegrees);
-				return String.valueOf(params.getRotation() + clockwiseDegrees);
+			    	System.out.println(params.getRotation());
+			    	System.out.println(rot);
+			    	
+				params.setRotation(params.getRotation() + rot);
+				return String.valueOf(params.getRotation() + rot);
 			}
 		};
 	}
@@ -81,7 +84,7 @@ public class CommandList {
 			double curY = params.getPosition().y;
 
 			double distance = Math.sqrt(Math.pow(curX, 2)+Math.pow(curY, 2));
-
+			params.getPen().clearLines();
 			params.setPosition(new Point(370.0, 300.0));
 			params.setRotation(90);
 			
