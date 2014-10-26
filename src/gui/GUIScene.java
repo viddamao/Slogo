@@ -148,8 +148,8 @@ public class GUIScene {
     }
 
     private MenuBar getTopToolBar() {
-	Menu file = new Menu("For future use");
-	file.setStyle("-fx-background-color: LightGray");
+	Menu file = new Menu("");
+	file.setStyle("-fx-background-color: black");
 	MenuItem save = new MenuItem("save");
 	MenuItem load = new MenuItem("load");
 	MenuItem help = new MenuItem("help");
