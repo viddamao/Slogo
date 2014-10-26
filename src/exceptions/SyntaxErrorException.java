@@ -2,6 +2,11 @@ package exceptions;
 
 public class SyntaxErrorException extends ParsingException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7690511650251959808L;
+
     public SyntaxErrorException() {
 	super();
     }

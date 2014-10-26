@@ -2,6 +2,11 @@ package exceptions;
 
 public class UnbalancedBracketsException extends ParsingException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 9014505179313621363L;
+
     public UnbalancedBracketsException() {
 	super();
     }

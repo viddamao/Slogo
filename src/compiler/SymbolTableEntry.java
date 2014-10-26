@@ -1,7 +1,5 @@
 package compiler;
 
-import java.util.Stack;
-
 import compiler.TokenFinder.Type;
 
 class SymbolTableEntry {
@@ -9,28 +7,28 @@ class SymbolTableEntry {
     private String myName;
     private double myValue;
 
-    void setType(Type type) {
-	this.myType = type;
-    }
-
-    public void setName(String name) {
-	this.myName = name;
-    }
-
-    public void setValue(double value) {
-	this.myValue = value;
+    public String getName() {
+	return myName;
     }
 
     public Type getType() {
-	return this.myType;
-    }
-
-    public String getName() {
-	return this.myName;
+	return myType;
     }
 
     public double getValue() {
-	return this.myValue;
+	return myValue;
+    }
+
+    public void setName(String name) {
+	myName = name;
+    }
+
+    void setType(Type type) {
+	myType = type;
+    }
+
+    public void setValue(double value) {
+	myValue = value;
     }
 
 }

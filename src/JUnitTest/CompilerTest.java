@@ -1,17 +1,11 @@
 package JUnitTest;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import simulationObjects.Turtle;
-import commands.Command;
 import compiler.Compiler;
-import compiler.TokenFinder.Type;
+
 import exceptions.ParsingException;
 
 public class CompilerTest {

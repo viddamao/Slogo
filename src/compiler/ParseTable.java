@@ -14,23 +14,71 @@ public class ParseTable {
     private static String[] myLHS = new String[78];
     private static int[] myRHS = new int[78];
 
+    /**
+     *
+     * left hand side of rules
+     * 
+     * @return
+     */
+    public String[] getLHS() {
+	return myLHS;
+    }
+
+    /**
+     *
+     * getter for next state
+     * 
+     * @return list of next state
+     */
+    public ArrayList<HashMap<String, Integer>> getNextState() {
+	return nextState;
+    }
+
+    /**
+     *
+     * getter for next operation
+     * 
+     * @return list of next ops
+     */
+    public ArrayList<HashMap<String, String>> getOperation() {
+	return myOperation;
+    }
+
+    /**
+     *
+     *
+     * right hand side of rules
+     * 
+     * @return
+     */
+    public int[] getRHS() {
+	return myRHS;
+    }
+
+    /**
+     *
+     * create parse table for parsing
+     */
     @SuppressWarnings({ "resource" })
     public void initializeTable() {
 	try {
 	    BufferedReader in = new BufferedReader(new FileReader(
 		    ".\\src\\properties\\parse_table_keys.txt"));
-	    for (int i = 0; i < 81; i++)
+	    for (int i = 0; i < 81; i++) {
 		key[i] = in.readLine();
+	    }
 
 	    in = new BufferedReader(new FileReader(
 		    ".\\src\\properties\\LHS.txt"));
-	    for (int i = 0; i < 78; i++)
+	    for (int i = 0; i < 78; i++) {
 		myLHS[i] = in.readLine();
+	    }
 
 	    in = new BufferedReader(new FileReader(
 		    ".\\src\\properties\\RHS.txt"));
-	    for (int i = 0; i < 78; i++)
+	    for (int i = 0; i < 78; i++) {
 		myRHS[i] = Integer.parseInt(in.readLine());
+	    }
 
 	    in = new BufferedReader(new FileReader(
 		    ".\\src\\properties\\parse_table.txt"));
@@ -81,22 +129,6 @@ public class ParseTable {
 	    System.out.println("Parse Table error");
 	}
 
-    }
-
-    public ArrayList<HashMap<String, String>> getOperation() {
-	return myOperation;
-    }
-
-    public ArrayList<HashMap<String, Integer>> getNextState() {
-	return nextState;
-    }
-
-    public String[] getLHS() {
-	return myLHS;
-    }
-
-    public int[] getRHS() {
-	return myRHS;
     }
 
 }

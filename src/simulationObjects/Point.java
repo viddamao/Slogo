@@ -6,7 +6,7 @@ public class Point {
 
     /**
      * Constructor
-     * 
+     *
      * @param x
      *            a double representing the x-coordinate of the turtle
      * @param y

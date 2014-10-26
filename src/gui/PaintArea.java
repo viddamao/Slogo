@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 
 /**
  * This class creates the grid
- * 
+ *
  * @author Steven Pierre
  *
  */
@@ -13,7 +13,7 @@ public class PaintArea extends Pane {
 
     /**
      * Constructor
-     * 
+     *
      * @param xCount
      *            is width
      * @param yCount

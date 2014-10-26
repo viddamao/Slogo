@@ -4,10 +4,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class TokenFinder {
-    private static ResourceBundle regExProperties;
-
     /**
-     * 
+     *
      * Defines the different type of user inputs retrieved from the command line
      *
      */
@@ -15,9 +13,11 @@ public class TokenFinder {
 	CONSTANT, VARIABLE, COMMAND, LIST_START, LIST_END, PARENS_START, PARENS_END, NOT_RECOGNIZED
     }
 
+    private static ResourceBundle regExProperties;
+
     /**
      * defines the type of the string
-     * 
+     *
      * @param s
      * @return the type of the string
      */
@@ -45,7 +45,7 @@ public class TokenFinder {
     /**
      * create the tokenize array of arguments where each argument is defined
      * with a type
-     * 
+     *
      * @param args
      * @return an array of argument that has been defined with a type
      */
