@@ -4,7 +4,7 @@ import simulationObjects.Point;
 import simulationObjects.Turtle;
 
 public class CommandList {
-
+ 
     /**
      * 
      * the FD and BK command

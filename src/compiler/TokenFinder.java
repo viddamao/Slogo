@@ -12,7 +12,6 @@ public class TokenFinder {
     public enum Type {
 	CONSTANT, VARIABLE, COMMAND, LIST_START, LIST_END, PARENS_START, PARENS_END, NOT_RECOGNIZED
     }
-
     private static ResourceBundle regExProperties;
 
     /**
@@ -24,7 +23,11 @@ public class TokenFinder {
     public static Type stringType(String s) {
 	regExProperties = ResourceBundle.getBundle("properties\\commandRegEx",
 		Locale.US);
-	if (s.matches(regExProperties.getString("CONSTANT")))
+	for (Type currentType:Type.values()){
+	   if (s.matches(regExProperties.getString(currentType.toString())))
+	    return currentType;
+	}
+/*	if (s.matches(regExProperties.getString("CONSTANT")))
 	    return Type.CONSTANT;
 	if (s.matches(regExProperties.getString("VARIABLE")))
 	    return Type.VARIABLE;
@@ -37,7 +40,7 @@ public class TokenFinder {
 	if (s.matches(regExProperties.getString("PARENS_START")))
 	    return Type.PARENS_START;
 	if (s.matches(regExProperties.getString("PARENS_END")))
-	    return Type.PARENS_END;
+	    return Type.PARENS_END;*/
 
 	return Type.NOT_RECOGNIZED;
     }
