@@ -1,82 +1,52 @@
 package gui;
-
-import java.awt.image.BufferedImage;
+//This entire file is part of my masterpiece.
+//Steven Pierre
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
-import simulationObjects.Turtle;
-
-import javax.imageio.ImageIO;
-
-import javafx.scene.control.ColorPicker;
-import simulationObjects.Turtle;
 import view.TurtleView;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class Buttons {
-
-	public void makeButtons(PaintArea grid) {
-
-	}
-
-	private static Button makeButton(String property, EventHandler<ActionEvent> handler) {
-		Button result = new Button();
-		// result.setText(myResources.getString(property));
-		result.setOnAction(handler);
-		return result;
-	}
-
-	public static void changeColor(Pane playground, FlowPane flow) {
-		ColorPicker color = new ColorPicker(Color.GREY);
-		playground.getStyle();
-		flow.getChildren().add(color);
-		color.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent e){
-				playground.setStyle("-fx-background-color: "+ toRGBString(color.getValue()));
-				flow.getChildren().remove(color);
-			}
-		});
-	}
+	private static double HELP_WIDTH = 800;
+	private static double HELP_HEIGHT = 500;
 	
-	public static String toRGBString(Color c){
-		 return "rgb("
-                 + (int)(c.getRed()*255)
-           + "," + (int)(c.getGreen()*255)
-           + "," + (int)(c.getBlue()*255)
-    + ")";
-	}
-
-	public static int factory(String value){
+	protected static int factory(String value){
 		if(value.equals("English")) return 0;
 		if(value.equals("French")) return 1;
 		return 0;
 	}
 
-	public static void changeImage(Turtle turtle) {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG", "*.jpg", "PNG", ".png"));
-		fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
-		File file = fileChooser.showOpenDialog(new Stage());
+	protected static void help() {
+		Stage s = new Stage();
+		s.setTitle("Basic SLogo Commands");
+		Group g = new Group();
+		Scene slogoHelp = new Scene(g, HELP_WIDTH, HELP_HEIGHT);
+		WebView view = new WebView();
+		view.getEngine().load("http://www.cs.duke.edu/courses/compsci308/current/assign/03_slogo/commands.php");
+		g.getChildren().add(view);
+		s.setScene(slogoHelp);
+		s.show();
 
 	}
-
-	public static void changeImage(TurtleView turtle) {
+	protected static String updateMovement(KeyEvent e){
+		switch (e.getCode()) {
+		case UP: return "fd 20"; 
+		case RIGHT:	return "rt 20";
+		case DOWN: return "bk 20"; 		
+		case LEFT: return "lt 20"; 
+		default: return "";
+		}
+	}
+	protected static void changeImage(TurtleView turtle) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG", "*.jpg", "PNG", "*.png"));
 		fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
@@ -89,16 +59,16 @@ public class Buttons {
 		}
 
 	}
-	
-	public static String status(List<String> status){
+
+	protected static String status(List<String> status){
 		String fullHistory = "";
 		for(int i = status.size(); i > 0; i--){
 			fullHistory = fullHistory + status.get(i-1) + "\n";
 		}
 		return fullHistory;
-		
+
 	}
-	public static void changeLang() {
+	protected static void changeLang() {
 		// TODO Auto-generated method stub
 
 	}

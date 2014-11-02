@@ -6,17 +6,21 @@ import javafx.scene.paint.Color;
 public class Pen {
 	
 	private Color myColor;
-	private double penWidth;
+	private double myWidth;
 	private boolean active;
+	private String myStyle;
 	protected ArrayList<SLogoLine> listOfLines;
-
 	
 	public Pen(){
 		super();
+		active=true;
+		myColor = Color.BLACK;
+		myStyle="Solid";
+		myWidth = 1.0;
 	}
 	
 	public void setColor(Color color) {
-		this.myColor = color;
+		myColor = color;
 	}
 
 	public Color getColor() {
@@ -24,11 +28,11 @@ public class Pen {
 	}
 
 	public void setWidth(double width) {
-		this.penWidth = width;
+		this.myWidth = width;
 	}
 
 	public double getWidth() {
-		return penWidth;
+		return myWidth;
 	}
 
 	public void setActive(boolean active) {
@@ -38,10 +42,18 @@ public class Pen {
 	public boolean getActive() {
 		return active;
 	}
+	
+	public void setStyle(String sty){
+		this.myStyle = sty;
+	}
+
+	public String getStyle(){
+		return myStyle;
+	}
 
 	public boolean drawLine(Point a, Point b) {
 		if(active){
-			listOfLines.add(new SLogoLine(a,b,getColor(),penWidth));
+			listOfLines.add(new SLogoLine(a,b,getColor(),myWidth));
 		}
 		return active;
 	}

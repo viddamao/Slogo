@@ -9,11 +9,12 @@ public class TurtleView extends ImageView {
 		super(image);
 	}
 
-    public void setData(Turtle turtleModel) {
-	this.setX(turtleModel.getPosition().x-20);
-	this.setY(turtleModel.getPosition().y-25);
-	this.setRotate(turtleModel.getRotation()-90);
-    }
+	public void setData(Turtle turtleModel) {
+		this.setX(turtleModel.getPosition().x-20);
+		this.setY(turtleModel.getPosition().y-25);
+		this.setRotate(turtleModel.getRotation()-90);
+	}
+
 
 	/**
 	 * Copy-constructor

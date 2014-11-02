@@ -6,7 +6,7 @@ import simulationObjects.Turtle;
 
 public class CommandList {
 	
-	public static Command<Turtle, Void> forwardCommand(double forwardBy) {
+	public static Command<Turtle, Void> forwardCommand(final double forwardBy) {
 	    	final double copyVal = forwardBy;
 		return new Command<Turtle, Void>() {
 			@Override
@@ -34,7 +34,7 @@ public class CommandList {
 		};
 	}
 
-	public static Command<Turtle, Void> SetXY(double val1, double val2) {
+	public static Command<Turtle, Void> SetXY(final double val1, final double val2) {
 	    return new Command<Turtle, Void>() {
 		@Override
 		public String run(Turtle params) {
@@ -52,7 +52,7 @@ public class CommandList {
 	};
 	}
 
-	public static Command<Turtle, Void> towards(double val1, double val2) {
+	public static Command<Turtle, Void> towards(final double val1, final double val2) {
 	    return new Command<Turtle, Void>() {
 		@Override
 		public String run(Turtle params) {
@@ -186,7 +186,7 @@ public class CommandList {
 	}
 	
 	
-	public static Command<Turtle, Void> setPenWidth(double val) {
+	public static Command<Turtle, Void> setPenWidth(final double val) {
 	    return new Command<Turtle, Void>() {
   		@Override
   		public String run(Turtle params) {

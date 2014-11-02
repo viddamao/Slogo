@@ -1,5 +1,6 @@
 package gui;
-
+//This entire file is part of my masterpiece.
+//Steven Pierre
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
