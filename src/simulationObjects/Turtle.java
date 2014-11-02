@@ -1,7 +1,11 @@
 package simulationObjects;
 
 
+<<<<<<< HEAD
 public class Turtle extends UpdateLocation {
+=======
+public class Turtle{
+>>>>>>> Steven
 
     private Point position = new Point(400, 300);
     private double rotation = 90;

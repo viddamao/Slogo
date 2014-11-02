@@ -1,8 +1,7 @@
 package gui;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+//This entire file is part of my masterpiece.
+//Steven Pierre
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
