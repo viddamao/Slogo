@@ -37,7 +37,7 @@ public class Buttons {
 		s.show();
 
 	}
-	protected static String updateMovement(KeyEvent e){
+	public static String updateMovement(KeyEvent e){
 		switch (e.getCode()) {
 		case UP: return "fd 20"; 
 		case RIGHT:	return "rt 20";
