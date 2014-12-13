@@ -1,0 +1,9 @@
+<map id="compiler.Compiler.scanner" name="compiler.Compiler.scanner">
+<area shape="rect" id="node2" href="$db/d93/classcompiler_1_1_compiler.html#ae6504512c09bb3ab9064f3b12f0a51ff" title="compiler.Compiler.symbol\lTableGeneration" alt="" coords="257,63,444,105"/>
+<area shape="rect" id="node6" href="$de/d03/classcompiler_1_1_token_finder.html#a8f4fdc09f838a5cee92938ae555a93dc" title="compiler.TokenFinder.tokenize" alt="" coords="245,144,456,171"/>
+<area shape="rect" id="node8" href="$db/d93/classcompiler_1_1_compiler.html#a490860dbdd9c5c56fe3c578a8bd55c5a" title="compiler.Compiler.translate\lToEnglish" alt="" coords="252,195,449,237"/>
+<area shape="rect" id="node3" href="$dd/d18/classcompiler_1_1_symbol_table_entry.html#a77ced9095e334cd236a57ba558a03e73" title="compiler.SymbolTableEntry.setType" alt="" coords="511,5,753,32"/>
+<area shape="rect" id="node4" href="$dd/d18/classcompiler_1_1_symbol_table_entry.html#a12657cfb875265be8e008315d81f65bf" title="compiler.SymbolTableEntry.setName" alt="" coords="505,56,759,83"/>
+<area shape="rect" id="node5" href="$dd/d18/classcompiler_1_1_symbol_table_entry.html#a9c52435da30816b629f211c707ebbafe" title="compiler.SymbolTableEntry.set\lValue" alt="" coords="525,107,739,149"/>
+<area shape="rect" id="node7" href="$de/d03/classcompiler_1_1_token_finder.html#a17a5eca5ffc7312f5eb38cf1504f7b86" title="compiler.TokenFinder.stringType" alt="" coords="521,173,743,200"/>
+</map>

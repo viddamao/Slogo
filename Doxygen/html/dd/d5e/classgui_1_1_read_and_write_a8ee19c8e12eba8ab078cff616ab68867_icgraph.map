@@ -1,0 +1,8 @@
+<map id="gui.ReadAndWrite.read" name="gui.ReadAndWrite.read">
+<area shape="rect" id="node2" href="$dd/dea/classgui_1_1_g_u_i_scene.html#abd1f4039aa90fe7b555f850b2686d913" title="gui.GUIScene.getTopToolBar" alt="" coords="219,5,419,32"/>
+<area shape="rect" id="node3" href="$dd/dea/classgui_1_1_g_u_i_scene.html#a7cb2b00ed820aecde169a5e14cf0d468" title="gui.GUIScene.createGUI" alt="" coords="467,5,643,32"/>
+<area shape="rect" id="node4" href="$dd/dea/classgui_1_1_g_u_i_scene.html#a16324ddc026310495f84e77bbb311b2c" title="gui.GUIScene.addButtons" alt="" coords="695,5,881,32"/>
+<area shape="rect" id="node5" href="$dd/dea/classgui_1_1_g_u_i_scene.html#a74967ac937baee81b9eec1b2bc38167c" title="gui.GUIScene.createScene" alt="" coords="691,56,885,83"/>
+<area shape="rect" id="node6" href="$dd/d48/classgui_1_1_g_u_i_start.html#a82d08814fef5331d82c4763a2426ffce" title="gui.GUIStart.start" alt="" coords="961,31,1095,57"/>
+<area shape="rect" id="node7" href="$d6/d0e/classcontroller_1_1_s_logo_main.html#ab5379c32fef791f21ad51abde7d268c0" title="controller.SLogoMain.start" alt="" coords="933,81,1123,108"/>
+</map>

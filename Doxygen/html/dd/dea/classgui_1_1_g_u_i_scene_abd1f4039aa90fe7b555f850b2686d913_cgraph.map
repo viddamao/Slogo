@@ -1,0 +1,4 @@
+<map id="gui.GUIScene.getTopToolBar" name="gui.GUIScene.getTopToolBar">
+<area shape="rect" id="node2" href="$dd/d5e/classgui_1_1_read_and_write.html#a8ee19c8e12eba8ab078cff616ab68867" title="gui.ReadAndWrite.read" alt="" coords="255,5,420,32"/>
+<area shape="rect" id="node3" href="$dd/d5e/classgui_1_1_read_and_write.html#aee8fdd8c07c5f90bc6a134c8040eee70" title="gui.ReadAndWrite.write" alt="" coords="254,56,421,83"/>
+</map>

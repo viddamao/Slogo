@@ -1,0 +1,8 @@
+<map id="gui.GUIScene" name="gui.GUIScene">
+<area shape="rect" id="node2" href="$dd/dd2/classsimulation_objects_1_1_pen.html" title="simulationObjects.Pen" alt="" coords="1007,44,1171,71"/>
+<area shape="rect" id="node4" href="$dd/d5e/classgui_1_1_read_and_write.html" title="gui.ReadAndWrite" alt="" coords="1023,107,1155,133"/>
+<area shape="rect" id="node6" href="$db/d32/classcontroller_1_1_main_controller.html" title="controller.MainController" alt="" coords="1001,183,1178,209"/>
+<area shape="rect" id="node8" href="$db/d93/classcompiler_1_1_compiler.html" title="compiler.Compiler" alt="" coords="689,183,826,209"/>
+<area shape="rect" id="node12" href="$dd/db3/classcompiler_1_1_parse_table.html" title="compiler.ParseTable" alt="" coords="327,244,473,271"/>
+<area shape="rect" id="node19" href="$d8/df7/classview_1_1_turtle_view.html" title="view.TurtleView" alt="" coords="1032,284,1147,311"/>
+</map>

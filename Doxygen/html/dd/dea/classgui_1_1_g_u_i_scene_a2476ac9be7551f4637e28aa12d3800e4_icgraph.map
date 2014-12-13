@@ -1,0 +1,10 @@
+<map id="gui.GUIScene.draw" name="gui.GUIScene.draw">
+<area shape="rect" id="node2" href="$dd/dea/classgui_1_1_g_u_i_scene.html#a21fe0ea8ff67b7c2da45e6ad786eab56" title="gui.GUIScene.update" alt="" coords="197,23,355,50"/>
+<area shape="rect" id="node3" href="$dd/dea/classgui_1_1_g_u_i_scene.html#a7cb2b00ed820aecde169a5e14cf0d468" title="gui.GUIScene.createGUI" alt="" coords="640,23,816,50"/>
+<area shape="rect" id="node8" href="$dd/dea/classgui_1_1_g_u_i_scene.html#a47e424a495817f5806f45064f77a632b" title="gui.GUIScene.getRightBox" alt="" coords="403,23,592,50"/>
+<area shape="rect" id="node9" href="$dd/dea/classgui_1_1_g_u_i_scene.html#aec9d26a4fa0613c7c5834bad2392eea1" title="gui.GUIScene.addGrid" alt="" coords="416,74,579,101"/>
+<area shape="rect" id="node4" href="$dd/dea/classgui_1_1_g_u_i_scene.html#a16324ddc026310495f84e77bbb311b2c" title="gui.GUIScene.addButtons" alt="" coords="868,23,1055,50"/>
+<area shape="rect" id="node5" href="$dd/dea/classgui_1_1_g_u_i_scene.html#a74967ac937baee81b9eec1b2bc38167c" title="gui.GUIScene.createScene" alt="" coords="865,74,1058,101"/>
+<area shape="rect" id="node6" href="$dd/d48/classgui_1_1_g_u_i_start.html#a82d08814fef5331d82c4763a2426ffce" title="gui.GUIStart.start" alt="" coords="1134,49,1269,75"/>
+<area shape="rect" id="node7" href="$d6/d0e/classcontroller_1_1_s_logo_main.html#ab5379c32fef791f21ad51abde7d268c0" title="controller.SLogoMain.start" alt="" coords="1107,99,1296,126"/>
+</map>
